@@ -1,7 +1,7 @@
 import { Link } from 'react-router'
 import { siGithub } from 'simple-icons'
 import BrandIcon from '../components/BrandIcon.jsx'
-import { ArrowDown, ArrowRight, ArrowUpRight, Chain, Glyph, Globe, LinkedIn, MapPin, Rocket, Trophy } from '../components/Icons.jsx'
+import { ArrowDown, ArrowRight, ArrowUpRight, Chain, FileText, Glyph, Globe, LinkedIn, MapPin, Rocket, Trophy } from '../components/Icons.jsx'
 import ProfileBlurb from '../components/ProfileBlurb.jsx'
 import { site } from '../config.js'
 import { marquee, stack } from '../data/skills.js'
@@ -49,8 +49,6 @@ const activities = [
   },
 ]
 
-const gradientText = 'bg-clip-text text-transparent [-webkit-box-decoration-break:clone] [box-decoration-break:clone]'
-
 function Hero() {
   return (
     <section className="grid items-center gap-10 lg:min-h-[calc(100dvh-15rem)] lg:grid-cols-12 lg:gap-12">
@@ -63,9 +61,9 @@ function Hero() {
           style={{ '--i': 1 }}
         >
           <span className="text-steel">I build where</span>{' '}
-          <span className={`bg-gradient-to-r from-sky-300 to-indigo-400 ${gradientText}`}>software</span>{' '}
+          <span className="text-gradient bg-gradient-to-r from-sky-300 to-indigo-400">software</span>{' '}
           <span className="text-steel">meets</span>{' '}
-          <span className={`bg-gradient-to-r from-amber-200 to-orange-400 ${gradientText}`}>hardware.</span>
+          <span className="text-gradient bg-gradient-to-r from-amber-200 to-orange-400">hardware.</span>
         </h1>
         <p className="rise-blur mt-6 max-w-xl text-[17px] leading-relaxed text-fog" style={{ '--i': 2 }}>
           I study Computer Engineering at Boston University. I lead engineering at GradientV, design rocket
@@ -76,7 +74,7 @@ function Hero() {
         <p className="rise mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-steel" style={{ '--i': 5 }}>
           <span className="inline-flex items-center gap-1.5">
             <MapPin size={15} />
-            Boston, MA
+            Boston, MA · New York City, NY
           </span>
           <span className="inline-flex items-center gap-2">
             <span className="size-1.5 rounded-full bg-emerald-400" />
@@ -114,23 +112,22 @@ function SectionLinks() {
           </Link>
         )
       })}
+      <AboutButton />
     </div>
   )
 }
 
-// Sits at the bottom of the first screen on desktop so About isn't missed.
-function AboutCue() {
+// Sits beside Experience and Projects and scrolls down to the About section.
+function AboutButton() {
   const go = () => {
     const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches
     document.getElementById('about')?.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto' })
   }
   return (
-    <div className="rise mt-6 hidden justify-center lg:flex" style={{ '--i': 8 }}>
-      <button type="button" onClick={go} className="btn btn-glass group h-10 text-sm">
-        About me
-        <ArrowDown size={15} className="transition-transform duration-300 group-hover:translate-y-0.5" />
-      </button>
-    </div>
+    <button type="button" onClick={go} className="btn btn-glass rise group" style={{ '--i': 5 }}>
+      About me
+      <ArrowDown size={16} className="transition-transform duration-300 group-hover:translate-y-0.5" />
+    </button>
   )
 }
 
@@ -151,7 +148,16 @@ function Elsewhere() {
       icon: <BrandIcon icon={siGithub} size={17} />,
       tint: 'bg-snow text-void',
     },
-  ]
+    // Full-width card under the other two, shown once config.js has a résumé.
+    site.resume && {
+      href: site.resume,
+      label: 'Résumé',
+      handle: 'PDF · opens in a new tab',
+      icon: <FileText size={17} />,
+      tint: 'bg-emerald-500 text-white',
+      wide: true,
+    },
+  ].filter(Boolean)
   return (
     <div className="grid grid-cols-2 gap-4">
       {links.map((l, k) => (
@@ -160,7 +166,9 @@ function Elsewhere() {
           href={l.href}
           target="_blank"
           rel="noreferrer"
-          className="glass rise group flex items-center gap-3 rounded-3xl p-4 transition-transform duration-300 ease-out-expo hover:scale-[1.02] active:scale-[0.99]"
+          className={`glass rise group flex items-center gap-3 rounded-3xl p-4 transition-transform duration-300 ease-out-expo hover:scale-[1.02] active:scale-[0.99] ${
+            l.wide ? 'col-span-2' : ''
+          }`}
           style={{ '--i': 3 + k }}
         >
           <span className={`grid size-9 shrink-0 place-items-center rounded-full ${l.tint}`}>{l.icon}</span>
@@ -287,7 +295,6 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <AboutCue />
       <About />
       <Marquee />
     </>

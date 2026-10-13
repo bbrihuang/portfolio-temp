@@ -70,10 +70,17 @@ export default function Nav() {
             <a href={site.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" className={`${iconBtn} hidden sm:grid`}>
               <LinkedIn size={17} />
             </a>
+            {/* Résumé: an icon on mid-size screens, a labeled button once there's room. */}
             {site.resume && (
-              <a href={site.resume} target="_blank" rel="noreferrer" aria-label="Résumé" className={`${iconBtn} hidden sm:grid`}>
-                <FileText size={18} />
-              </a>
+              <>
+                <a href={site.resume} target="_blank" rel="noreferrer" aria-label="Résumé" className={`${iconBtn} hidden sm:grid lg:hidden`}>
+                  <FileText size={18} />
+                </a>
+                <a href={site.resume} target="_blank" rel="noreferrer" className="btn btn-glass ml-1 hidden h-10 px-4 text-sm lg:inline-flex">
+                  <FileText size={16} />
+                  Résumé
+                </a>
+              </>
             )}
             <a href={`mailto:${site.email}`} className="btn btn-light ml-1 hidden h-10 px-4 text-sm md:inline-flex">
               <Mail size={16} />

@@ -15,5 +15,5 @@ export const site = {
   // Drop a square photo at public/avatar.jpg. Initials show until it exists.
   avatar: '/avatar.jpg',
   // Set to a path in public/ (e.g. '/Brian_Huang_Resume.pdf') to show a Résumé button.
-  resume: null,
+  resume: '/Brian_Huang_Resume.pdf',
 }
