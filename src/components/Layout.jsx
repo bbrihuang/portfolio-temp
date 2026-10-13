@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react'
 import { computeRoute, SpeedInsights } from '@vercel/speed-insights/react'
 import { Outlet, ScrollRestoration, useLocation, useMatches } from 'react-router'
 import Background from './Background.jsx'
@@ -6,8 +7,8 @@ import Nav from './Nav.jsx'
 
 export default function Layout() {
   const { pathname } = useLocation()
-  // Vercel Speed Insights groups pages by route pattern, so every project page
-  // reports as /projects/[slug] instead of one entry per project.
+  // Vercel Web Analytics and Speed Insights group pages by route pattern, so
+  // every project page reports as /projects/[slug] instead of one entry each.
   const matches = useMatches()
   const route = computeRoute(pathname, matches.at(-1)?.params ?? null)
 
@@ -30,6 +31,7 @@ export default function Layout() {
       {/* New pages start at the top; Back returns to where you were. Filter
           and role changes pass preventScrollReset so they stay put. */}
       <ScrollRestoration />
+      <Analytics route={route} path={pathname} />
       <SpeedInsights route={route} />
     </div>
   )
