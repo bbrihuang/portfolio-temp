@@ -1,5 +1,6 @@
 import {
   siArduino,
+  siBlender,
   siAndroid,
   siApple,
   siC,
@@ -110,10 +111,13 @@ export const stack = [
     group: 'Hardware & CAD',
     items: [
       { name: 'SOLIDWORKS', glyph: 'cad', color: '#da291c' },
+      { name: 'Onshape', glyph: 'cad', color: '#00a6de' },
+      { name: 'Blender', icon: siBlender },
       { name: 'MATLAB', glyph: 'wave', color: '#e16737' },
       { name: 'Arduino IDE', icon: siArduino },
       { name: 'PC assembly & overclocking', glyph: 'chip', color: '#a3e635' },
       { name: '3D printing', glyph: 'layers', color: '#f472b6' },
+      { name: 'UltiMaker Cura', glyph: 'slicer', color: '#196ef0' },
       { name: 'AV systems', glyph: 'av', color: '#38bdf8' },
     ],
   },

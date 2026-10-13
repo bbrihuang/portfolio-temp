@@ -385,6 +385,13 @@ const glyphs = {
       <path d="M14 3v4.5h4.5M8.5 12h7M8.5 15.5h7M8.5 9h3" />
     </>
   ),
+  // A print nozzle over layers (UltiMaker Cura).
+  slicer: (
+    <>
+      <path d="M9 3h6v4l-2 3h-2L9 7V3z" />
+      <path d="M4 15h16M6 18h12M8 21h8" />
+    </>
+  ),
   // A phone (iOS).
   mobile: (
     <>
