@@ -36,14 +36,14 @@ const activities = [
   {
     org: 'BU Chinese Students Association',
     role: 'Member',
-    href: null, // TODO: add the CSA's website or Instagram
+    href: 'https://www.instagram.com/teamcsa/',
     icon: <Globe size={15} />,
     tint: 'bg-red-400/15 text-red-300',
   },
   {
     org: 'BU Japanese Student Association',
     role: 'Member',
-    href: null, // TODO: add the JSA's website or Instagram
+    href: 'https://www.instagram.com/thebujsa/',
     icon: <Globe size={15} />,
     tint: 'bg-pink-400/15 text-pink-300',
   },
@@ -90,14 +90,15 @@ function Hero() {
   )
 }
 
-// Experience (blue) and Projects (purple): same size and weight, so neither outranks the other.
+// Experience (blue), Projects (purple) and About me: equal-width buttons. A row of
+// three on wider screens, stacked full width on phones where three would not fit.
 function SectionLinks() {
   const buttons = [
     { to: '/experience', label: 'Experience' },
     { to: '/projects', label: 'Projects' },
   ]
   return (
-    <div className="mt-8 flex flex-wrap gap-3">
+    <div className="mt-8 grid gap-3 sm:w-fit sm:grid-cols-3">
       {buttons.map((b, i) => {
         const c = sectionColors[b.to]
         return (
@@ -124,7 +125,7 @@ function AboutButton() {
     document.getElementById('about')?.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto' })
   }
   return (
-    <button type="button" onClick={go} className="btn btn-glass rise group" style={{ '--i': 5 }}>
+    <button type="button" onClick={go} className="btn btn-glass rise group min-w-40" style={{ '--i': 5 }}>
       About me
       <ArrowDown size={16} className="transition-transform duration-300 group-hover:translate-y-0.5" />
     </button>
