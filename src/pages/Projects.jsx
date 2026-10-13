@@ -93,32 +93,22 @@ export default function Projects() {
 
   return (
     <>
-      <PageHeader
-        index="03"
-        title="Projects"
-        color={purple}
-        aside={
-          <span className="inline-flex items-center gap-2 rounded-full border border-emerald-400/35 bg-emerald-400/10 px-3.5 py-1.5 font-mono text-xs uppercase tracking-[0.14em] text-emerald-300">
-            <span className="relative grid size-2 place-items-center">
-              <span className="pulse-ring absolute inset-0 rounded-full bg-emerald-400/60" />
-              <span className="size-2 rounded-full bg-emerald-400" />
+      <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
+        <div className="lg:col-span-7">
+          <PageHeader index="03" title="Projects" color={purple}>
+            From full-stack applications and local AI experiments to robotics and hardware design, these are projects
+            where I’ve turned my random ideas into actual working systems.
+          </PageHeader>
+          <p className="rise mt-4 inline-flex items-center gap-2 text-sm text-fog" style={{ '--i': 3 }}>
+            <span className="grid size-6 place-items-center rounded-full border border-white/15 text-snow">
+              <Plus size={13} />
             </span>
-            Open to internships
-          </span>
-        }
-      >
-        From full-stack applications and local AI experiments to robotics and hardware design, these are projects
-        where I’ve turned my random ideas into actual working systems.
-      </PageHeader>
-      <p className="rise mt-4 inline-flex items-center gap-2 text-sm text-fog" style={{ '--i': 3 }}>
-        <span className="grid size-6 place-items-center rounded-full border border-white/15 text-snow">
-          <Plus size={13} />
-        </span>
-        Tip: Hit + for a quick peek at what each project does!
-      </p>
-
-      <div className="mt-8">
-        <ContactCTA index={3} />
+            Tip: Hit + for a quick peek at what each project does!
+          </p>
+        </div>
+        <div className="lg:col-span-5">
+          <ContactCTA index={3} />
+        </div>
       </div>
 
       <section className="mt-14" aria-labelledby="featured-title">

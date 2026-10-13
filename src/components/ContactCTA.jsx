@@ -2,21 +2,24 @@ import { site } from '../config.js'
 import { useCopyEmail } from '../lib/hooks.js'
 import { Check, FileText, LinkedIn, MailPlus } from './Icons.jsx'
 
-// A slim "get in touch" strip near the top of the Projects page: one line
-// of text and the three ways to reach me.
+// A compact "get in touch" card that sits to the right of the Projects page
+// header: availability badge, one line, and the three ways to reach me.
 export default function ContactCTA({ index = 3 }) {
   const { copied, copy } = useCopyEmail()
   return (
-    <aside
-      className="glass rise flex flex-col gap-4 rounded-3xl px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
-      style={{ '--i': index }}
-      aria-label="Get in touch"
-    >
-      <p className="max-w-xl text-[15px] leading-relaxed text-mist">
-        Always up for a new problem. If you’re building something interesting, I’d love to help, and learn a lot along
-        the way.
+    <aside className="glass rise rounded-3xl p-5 sm:p-6" style={{ '--i': index }} aria-label="Get in touch">
+      <span className="inline-flex items-center gap-2 rounded-full border border-emerald-400/35 bg-emerald-400/10 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-emerald-300">
+        <span className="relative grid size-2 place-items-center">
+          <span className="pulse-ring absolute inset-0 rounded-full bg-emerald-400/60" />
+          <span className="size-2 rounded-full bg-emerald-400" />
+        </span>
+        Open to internships
+      </span>
+      <p className="mt-4 text-[15px] leading-relaxed text-mist">
+        Always up for a new problem. If you’re building something interesting, I’d love to help, and learn a lot along the
+        way.
       </p>
-      <div className="flex flex-wrap gap-2">
+      <div className="mt-5 flex flex-wrap gap-2">
         <button type="button" onClick={copy} className="btn btn-light h-10 px-4 text-sm" aria-live="polite">
           {copied ? <Check size={15} /> : <MailPlus size={15} />}
           {copied ? 'Copied!' : site.email}
