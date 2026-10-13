@@ -1,8 +1,6 @@
 import { Analytics } from '@vercel/analytics/react'
 import { computeRoute, SpeedInsights } from '@vercel/speed-insights/react'
-import { useEffect, useRef } from 'react'
 import { Outlet, ScrollRestoration, useLocation, useMatches } from 'react-router'
-import { play } from '../lib/sound.js'
 import Background from './Background.jsx'
 import Footer from './Footer.jsx'
 import Nav from './Nav.jsx'
@@ -13,13 +11,6 @@ export default function Layout() {
   // every project page reports as /projects/[slug] instead of one entry each.
   const matches = useMatches()
   const route = computeRoute(pathname, matches.at(-1)?.params ?? null)
-
-  // A soft swell as each new page slides in (not on the first load).
-  const first = useRef(true)
-  useEffect(() => {
-    if (first.current) first.current = false
-    else play('page')
-  }, [pathname])
 
   return (
     <div className="flex min-h-dvh flex-col">

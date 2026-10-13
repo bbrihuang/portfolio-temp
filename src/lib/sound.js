@@ -94,13 +94,6 @@ const sounds = {
     tone({ freq: 440, gain: 0.08, attack: 0.012, decay: 0.12 })
     tone({ freq: 587, gain: 0.07, attack: 0.012, decay: 0.15, delay: 0.07 })
   },
-  // Page change: a gentle three-note rising chime that plays out as the new
-  // page slides in (the slide is a 0.9s ease-out, so most of it is early).
-  page() {
-    tone({ freq: 523, gain: 0.06, attack: 0.02, decay: 0.3 })
-    tone({ freq: 659, gain: 0.055, attack: 0.02, decay: 0.32, delay: 0.07 })
-    tone({ freq: 784, gain: 0.05, attack: 0.02, decay: 0.42, delay: 0.14 })
-  },
   // Panels opening and closing (quick look, gallery): two notes up, two down.
   open() {
     tone({ freq: 440, gain: 0.08, attack: 0.012, decay: 0.12 })
