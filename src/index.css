@@ -50,6 +50,10 @@
   button {
     cursor: pointer;
   }
+  /* Keep the page still behind an open lightbox. */
+  html:has(dialog[open]) {
+    overflow: hidden;
+  }
 }
 
 /* Frosted glass, tuned from pippipi.com for a dark ground: a faint white

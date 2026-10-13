@@ -22,7 +22,8 @@ import {
   siVite,
 } from 'simple-icons'
 
-// Each item has either a simple-icons `icon` or a `glyph` from Icons.jsx.
+// Each item has either a simple-icons `icon` (shown in its brand color) or a
+// `glyph` from Icons.jsx with a `color`. lib/color.js lightens any that are too dark.
 export const stack = [
   {
     group: 'Languages',
@@ -32,8 +33,8 @@ export const stack = [
       { name: 'C', icon: siC },
       { name: 'TypeScript', icon: siTypescript },
       { name: 'JavaScript', icon: siJavascript },
-      { name: 'Java', glyph: 'java' },
-      { name: 'SQL', glyph: 'db' },
+      { name: 'Java', glyph: 'java', color: '#f89820' },
+      { name: 'SQL', glyph: 'db', color: '#336791' },
       { name: 'HTML/CSS', icon: siHtml5 },
       { name: 'R', icon: siR },
     ],
@@ -49,7 +50,7 @@ export const stack = [
       { name: 'GitHub', icon: siGithub },
       { name: 'Vercel', icon: siVercel },
       { name: 'ROS 2', icon: siRos },
-      { name: 'Gazebo', glyph: 'gazebo' },
+      { name: 'Gazebo', glyph: 'gazebo', color: '#f58113' },
       { name: 'Docker', icon: siDocker },
     ],
   },
@@ -59,18 +60,18 @@ export const stack = [
       { name: 'Claude Code & API', icon: siClaude },
       { name: 'MCP', icon: siModelcontextprotocol },
       { name: 'Ollama / llama.cpp', icon: siOllama },
-      { name: 'Agents & tool calling', glyph: 'agent' },
-      { name: 'Embeddings & RAG', glyph: 'vector' },
+      { name: 'Agents & tool calling', glyph: 'agent', color: '#a78bfa' },
+      { name: 'Embeddings & RAG', glyph: 'vector', color: '#34d399' },
     ],
   },
   {
     group: 'Hardware & CAD',
     items: [
-      { name: 'SOLIDWORKS', glyph: 'cad' },
-      { name: 'MATLAB', glyph: 'wave' },
-      { name: 'PC assembly & overclocking', glyph: 'chip' },
-      { name: '3D printing', glyph: 'layers' },
-      { name: 'AV systems', glyph: 'av' },
+      { name: 'SOLIDWORKS', glyph: 'cad', color: '#da291c' },
+      { name: 'MATLAB', glyph: 'wave', color: '#e16737' },
+      { name: 'PC assembly & overclocking', glyph: 'chip', color: '#a3e635' },
+      { name: '3D printing', glyph: 'layers', color: '#f472b6' },
+      { name: 'AV systems', glyph: 'av', color: '#38bdf8' },
     ],
   },
 ]

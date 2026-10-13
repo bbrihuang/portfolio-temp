@@ -3,11 +3,14 @@ import { useSearchParams } from 'react-router'
 import PageHeader from '../components/PageHeader.jsx'
 import ProjectCard from '../components/ProjectCard.jsx'
 import ContactCTA from '../components/ContactCTA.jsx'
-import { arrange, categories, projects } from '../data/projects.js'
+import { arrange, filterGroups, inFilter, projects } from '../data/projects.js'
 import { usePageMeta, useSlidingPill } from '../lib/hooks.js'
+import { glow, sectionColors } from '../lib/theme.js'
+
+const purple = sectionColors['/projects']
 
 const EASE = 'cubic-bezier(0.16, 1, 0.3, 1)'
-const filters = ['All', ...categories]
+const filters = ['All', ...Object.keys(filterGroups)]
 
 function FilterBar({ active, onChange }) {
   const ref = useRef(null)
@@ -17,26 +20,22 @@ function FilterBar({ active, onChange }) {
       <div ref={ref} role="group" aria-label="Filter projects" className="relative flex w-max">
         <span
           aria-hidden
-          className={`absolute inset-y-0 left-0 rounded-full bg-snow ${
+          className={`absolute inset-y-0 left-0 rounded-full ${
             pill.animate ? 'transition-[transform,width] duration-500 ease-out-expo' : ''
           }`}
-          style={pill.style}
+          style={{ ...pill.style, background: purple.base, boxShadow: glow(purple.base) }}
         />
-        {filters.map((f) => {
-          const count = f === 'All' ? projects.length : projects.filter((p) => p.categories.includes(f)).length
-          return (
-            <button
-              key={f}
-              type="button"
-              aria-pressed={active === f}
-              onClick={() => onChange(f)}
-              className="relative inline-flex h-9 items-center gap-1.5 rounded-full px-3.5 text-sm font-medium text-fog transition-colors duration-300 hover:text-snow aria-pressed:text-void"
-            >
-              {f}
-              <span className="font-mono text-[10px] opacity-60">{count}</span>
-            </button>
-          )
-        })}
+        {filters.map((f) => (
+          <button
+            key={f}
+            type="button"
+            aria-pressed={active === f}
+            onClick={() => onChange(f)}
+            className="relative inline-flex h-9 items-center rounded-full px-4 text-sm font-medium text-fog transition-colors duration-300 hover:text-snow aria-pressed:text-white"
+          >
+            {f}
+          </button>
+        ))}
       </div>
     </div>
   )
@@ -47,7 +46,7 @@ export default function Projects() {
   const [params, setParams] = useSearchParams()
   const active = filters.includes(params.get('filter')) ? params.get('filter') : 'All'
   const list = useMemo(
-    () => arrange(active === 'All' ? projects : projects.filter((p) => p.categories.includes(active))),
+    () => arrange(projects.filter((p) => inFilter(p, active))),
     [active],
   )
 
@@ -89,7 +88,7 @@ export default function Projects() {
 
   return (
     <>
-      <PageHeader index="03" title="Projects" count={projects.length}>
+      <PageHeader index="03" title="Projects" count={projects.length} color={purple}>
         Things I’ve built and am building, from web apps and robot simulations to a rocket engine nozzle.
         Open one for the full write-up, or hit + for a quick look.
       </PageHeader>

@@ -4,9 +4,10 @@ import { useId } from 'react'
 // a 400x260 canvas and cropped to fill its box, so keep motifs inside
 // x 60-340 / y 45-215. Parts tagged art-spin, art-flow and art-cell
 // animate while the card is hovered (or always, under .art-live).
+// Everything draws in currentColor, which is the project's `accent`.
 
-const S = { fill: 'none', stroke: '#fff', strokeLinecap: 'round', strokeLinejoin: 'round' }
-const mono = { fontFamily: 'JetBrains Mono Variable, monospace', fontSize: 8, fill: '#fff', fillOpacity: 0.38, letterSpacing: 1 }
+const S = { fill: 'none', stroke: 'currentColor', strokeLinecap: 'round', strokeLinejoin: 'round' }
+const mono = { fontFamily: 'JetBrains Mono Variable, monospace', fontSize: 8, fill: 'currentColor', fillOpacity: 0.38, letterSpacing: 1 }
 
 function Meals() {
   const C = 2 * Math.PI * 44
@@ -43,7 +44,7 @@ function Meals() {
           })}
         </g>
       </g>
-      <circle cx="200" cy="130" r="3" fill="#fff" fillOpacity="0.6" />
+      <circle cx="200" cy="130" r="3" fill="currentColor" fillOpacity="0.6" />
       {/* fork */}
       <path d="M92 72v26a6 6 0 0 0 12 0V72M98 72v26M98 104v86" {...S} strokeOpacity="0.55" strokeWidth="2" />
       {/* knife */}
@@ -81,9 +82,9 @@ function Nozzle() {
         <polygon
           key={x}
           points={`${x - w / 2},130 ${x},${130 - h} ${x + w / 2},130 ${x},${130 + h}`}
-          fill="#fff"
+          fill="currentColor"
           fillOpacity="0.08"
-          stroke="#fff"
+          stroke="currentColor"
           strokeOpacity="0.45"
           className="art-cell"
           style={{ '--o': 0.5, '--d': i * 4 }}
@@ -108,7 +109,7 @@ function Hexapod() {
       <circle cx={cx} cy={cy} r="112" {...S} strokeOpacity="0.12" strokeDasharray="2 6" />
       <circle cx={cx} cy={cy} r="80" {...S} strokeOpacity="0.08" />
       <g className="art-spin" style={{ '--turn': '300deg' }}>
-        <path d={`M${cx} ${cy}L${pt(112, -40).join(' ')}A112 112 0 0 1 ${pt(112, -8).join(' ')}Z`} fill="#fff" fillOpacity="0.07" />
+        <path d={`M${cx} ${cy}L${pt(112, -40).join(' ')}A112 112 0 0 1 ${pt(112, -8).join(' ')}Z`} fill="currentColor" fillOpacity="0.07" />
         <path d={`M${cx} ${cy}L${pt(112, -8).join(' ')}`} {...S} strokeOpacity="0.4" />
       </g>
       {[-30, 30, 90, 150, 210, 270].map((a) => {
@@ -118,14 +119,14 @@ function Hexapod() {
         return (
           <g key={a}>
             <path d={`M${hip.join(' ')}L${knee.join(' ')}L${foot.join(' ')}`} {...S} strokeOpacity="0.75" strokeWidth="2" />
-            <circle cx={knee[0]} cy={knee[1]} r="3.2" fill="#141416" stroke="#fff" strokeOpacity="0.75" />
-            <circle cx={foot[0]} cy={foot[1]} r="2.6" fill="#fff" fillOpacity="0.8" />
+            <circle cx={knee[0]} cy={knee[1]} r="3.2" fill="#141416" stroke="currentColor" strokeOpacity="0.75" />
+            <circle cx={foot[0]} cy={foot[1]} r="2.6" fill="currentColor" fillOpacity="0.8" />
           </g>
         )
       })}
-      <polygon points={body} fill="#fff" fillOpacity="0.12" stroke="#fff" strokeOpacity="0.9" strokeWidth="2" />
+      <polygon points={body} fill="currentColor" fillOpacity="0.12" stroke="currentColor" strokeOpacity="0.9" strokeWidth="2" />
       <polygon points={angles.map((a) => pt(18, a).join(',')).join(' ')} {...S} strokeOpacity="0.35" />
-      <rect x={cx + 26} y={cy - 6} width="10" height="12" rx="2" fill="#fff" fillOpacity="0.85" />
+      <rect x={cx + 26} y={cy - 6} width="10" height="12" rx="2" fill="currentColor" fillOpacity="0.85" />
       <text x="60" y="56" {...mono}>18 DOF · LIDAR · IMU</text>
     </>
   )
@@ -156,7 +157,7 @@ function Attention() {
             width={cell}
             height={cell}
             rx="2"
-            fill="#fff"
+            fill="currentColor"
             fillOpacity={o}
             className="art-cell"
             style={{ '--o': o, '--d': i + j }}
@@ -208,9 +209,9 @@ function Cube() {
         strokeDasharray="3 6"
       />
       <g className="art-spin" style={{ '--turn': '120deg' }}>
-        <polygon points={p(top, right, mid, left)} fill="#fff" fillOpacity="0.24" />
-        <polygon points={p(left, mid, bottom, bl)} fill="#fff" fillOpacity="0.1" />
-        <polygon points={p(mid, right, br, bottom)} fill="#fff" fillOpacity="0.04" />
+        <polygon points={p(top, right, mid, left)} fill="currentColor" fillOpacity="0.24" />
+        <polygon points={p(left, mid, bottom, bl)} fill="currentColor" fillOpacity="0.1" />
+        <polygon points={p(mid, right, br, bottom)} fill="currentColor" fillOpacity="0.04" />
         {[...grid(left, top, mid), ...grid(mid, left, bottom), ...grid(mid, right, bottom)].map((d) => (
           <path key={d} d={d} {...S} strokeOpacity="0.28" />
         ))}
@@ -258,22 +259,47 @@ function Board() {
         [262, 46],
         [300, 202],
       ].map(([x, y]) => (
-        <circle key={`${x}${y}`} cx={x} cy={y} r="3.5" fill="#141416" stroke="#fff" strokeOpacity="0.6" />
+        <circle key={`${x}${y}`} cx={x} cy={y} r="3.5" fill="#141416" stroke="currentColor" strokeOpacity="0.6" />
       ))}
-      <rect x="164" y="94" width="72" height="72" rx="3" fill="#fff" fillOpacity="0.06" stroke="#fff" strokeOpacity="0.8" strokeWidth="2" />
+      <rect x="164" y="94" width="72" height="72" rx="3" fill="currentColor" fillOpacity="0.06" stroke="currentColor" strokeOpacity="0.8" strokeWidth="2" />
       {pins.map(([x, y]) => (
-        <circle key={`${x}-${y}`} cx={x + 3} cy={y + 3} r="1.4" fill="#fff" fillOpacity="0.4" />
+        <circle key={`${x}-${y}`} cx={x + 3} cy={y + 3} r="1.4" fill="currentColor" fillOpacity="0.4" />
       ))}
       {[272, 286, 300, 314].map((x, i) => (
-        <rect key={x} x={x} y="62" width="8" height="140" rx="1.5" fill="#fff" fillOpacity={i % 2 ? 0.04 : 0.1} stroke="#fff" strokeOpacity="0.45" />
+        <rect key={x} x={x} y="62" width="8" height="140" rx="1.5" fill="currentColor" fillOpacity={i % 2 ? 0.04 : 0.1} stroke="currentColor" strokeOpacity="0.45" />
       ))}
-      <rect x="84" y="212" width="170" height="8" rx="1.5" fill="#fff" fillOpacity="0.08" stroke="#fff" strokeOpacity="0.4" />
+      <rect x="84" y="212" width="170" height="8" rx="1.5" fill="currentColor" fillOpacity="0.08" stroke="currentColor" strokeOpacity="0.4" />
       <text x="174" y="182" {...mono}>CPU</text>
     </>
   )
 }
 
-const motifs = { meals: Meals, nozzle: Nozzle, hexapod: Hexapod, attention: Attention, cube: Cube, board: Board }
+// Three overlapping browser windows, one per client site; the front one lifts on hover.
+function Sites() {
+  const windows = [
+    [92, 58, 0.12, 'CAFE'],
+    [146, 82, 0.2, 'TAX'],
+    [200, 106, 0.32, 'TRUCK'],
+  ]
+  return (
+    <>
+      {windows.map(([x, y, o, label], i) => (
+        <g key={label} className={i === 2 ? 'art-spin' : undefined} style={i === 2 ? { '--turn': '-4deg' } : undefined}>
+          <rect x={x} y={y} width="128" height="92" rx="6" fill="#141416" stroke="currentColor" strokeOpacity={o + 0.4} strokeWidth="1.6" />
+          <path d={`M${x} ${y + 16}H${x + 128}`} {...S} strokeOpacity={o + 0.2} />
+          {[8, 16, 24].map((d) => (
+            <circle key={d} cx={x + d} cy={y + 8} r="2" fill="currentColor" fillOpacity={o + 0.3} />
+          ))}
+          <rect x={x + 12} y={y + 28} width="58" height="8" rx="2" fill="currentColor" fillOpacity={o + 0.2} />
+          <path d={`M${x + 12} ${y + 46}H${x + 104}M${x + 12} ${y + 56}H${x + 88}`} {...S} strokeOpacity={o + 0.1} className="art-flow" />
+          <rect x={x + 12} y={y + 68} width="34" height="12" rx="6" {...S} strokeOpacity={o + 0.4} />
+        </g>
+      ))}
+    </>
+  )
+}
+
+const motifs = { meals: Meals, nozzle: Nozzle, hexapod: Hexapod, attention: Attention, cube: Cube, board: Board, sites: Sites }
 
 export default function ProjectArt({ project, live = false, className = '' }) {
   const id = useId().replace(/:/g, '')
@@ -286,15 +312,16 @@ export default function ProjectArt({ project, live = false, className = '' }) {
       viewBox="0 0 400 260"
       preserveAspectRatio="xMidYMid slice"
       className={`size-full ${live ? 'art-live' : ''} ${className}`}
+      style={{ color: project.accent ?? '#fff' }}
       aria-hidden
     >
       <defs>
         <pattern id={`${id}g`} width="20" height="20" patternUnits="userSpaceOnUse" x="10" y="10">
-          <path d="M20 0H0V20" fill="none" stroke="#fff" strokeOpacity="0.045" />
+          <path d="M20 0H0V20" fill="none" stroke="currentColor" strokeOpacity="0.045" />
         </pattern>
         <radialGradient id={`${id}r`} cx="50%" cy="50%" r="65%">
-          <stop offset="0" stopColor="#fff" stopOpacity="0.08" />
-          <stop offset="1" stopColor="#fff" stopOpacity="0" />
+          <stop offset="0" stopColor="currentColor" stopOpacity="0.08" />
+          <stop offset="1" stopColor="currentColor" stopOpacity="0" />
         </radialGradient>
       </defs>
       <rect width="400" height="260" fill="#141416" />

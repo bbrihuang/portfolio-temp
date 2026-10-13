@@ -3,6 +3,7 @@ import { siGithub } from 'simple-icons'
 import { Link, NavLink, useLocation } from 'react-router'
 import { site } from '../config.js'
 import { useSlidingPill } from '../lib/hooks.js'
+import { glow, sectionColor } from '../lib/theme.js'
 import BrandIcon from './BrandIcon.jsx'
 import { FileText, LinkedIn, Mail } from './Icons.jsx'
 import Mark from './Mark.jsx'
@@ -21,6 +22,8 @@ export default function Nav() {
   const listRef = useRef(null)
   // White pill that slides under whichever link is current.
   const pill = useSlidingPill(listRef, '[aria-current="page"]', pathname)
+  // The pill takes the section's color (blue Experience, purple Projects); Home stays white.
+  const accent = sectionColor(pathname)
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 pt-3 sm:pt-4">
@@ -37,17 +40,23 @@ export default function Nav() {
           <div ref={listRef} className="relative flex items-center">
             <span
               aria-hidden
-              className={`absolute inset-y-0 left-0 rounded-full bg-snow shadow-[0_6px_20px_-6px_rgb(255_255_255/0.5)] ${
-                pill.animate ? 'transition-[transform,width,opacity] duration-500 ease-out-expo' : ''
+              className={`absolute inset-y-0 left-0 rounded-full ${
+                pill.animate ? 'transition-[transform,width,opacity,background-color] duration-500 ease-out-expo' : ''
               }`}
-              style={pill.style}
+              style={{
+                ...pill.style,
+                background: accent?.base ?? 'var(--color-snow)',
+                boxShadow: accent ? glow(accent.base) : '0 6px 20px -6px rgb(255 255 255 / 0.5)',
+              }}
             />
             {sections.map((s) => (
               <NavLink
                 key={s.to}
                 to={s.to}
                 end={s.end}
-                className="relative inline-flex h-10 items-center rounded-full px-3 text-[13px] font-medium text-fog transition-colors duration-300 hover:text-snow aria-[current=page]:text-void sm:px-4 sm:text-sm"
+                className={`relative inline-flex h-10 items-center rounded-full px-3 text-[13px] font-medium text-fog transition-colors duration-300 hover:text-snow sm:px-4 sm:text-sm ${
+                  accent ? 'aria-[current=page]:text-white' : 'aria-[current=page]:text-void'
+                }`}
               >
                 {s.label}
               </NavLink>
