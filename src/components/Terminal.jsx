@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import { site } from '../config.js'
 import { projects } from '../data/projects.js'
 import { stack } from '../data/skills.js'
+import { play } from '../lib/sound.js'
 import { Code, Cpu, Glyph, Prompt } from './Icons.jsx'
 
 // The homepage terminal. Everything important is printed up front; the prompt
@@ -100,6 +101,7 @@ export default function Terminal({ startIndex = 0 }) {
   const submit = (e) => {
     e.preventDefault()
     const typed = value
+    play('enter')
     setValue('')
     setRecall(-1)
     if (typed.trim().toLowerCase() === 'clear') return setHistory([])
@@ -108,6 +110,7 @@ export default function Terminal({ startIndex = 0 }) {
 
   // Up/Down walk back through what was typed, like a real shell.
   const onKeyDown = (e) => {
+    if (e.key.length === 1 || e.key === 'Backspace') play('key')
     const past = history.map((h) => h.cmd).filter((c) => c.trim())
     if (!past.length || (e.key !== 'ArrowUp' && e.key !== 'ArrowDown')) return
     e.preventDefault()

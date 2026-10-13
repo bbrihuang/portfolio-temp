@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { site } from '../config.js'
+import { play } from './sound.js'
 
 // Position an indicator over the child of `ref` that matches `selector`
 // (e.g. the current nav link). Re-measures when `dep` changes, when the
@@ -53,6 +54,7 @@ export function useCopyEmail() {
   const copy = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(site.email)
+      play('done')
       setCopied(true)
       clearTimeout(timer.current)
       timer.current = setTimeout(() => setCopied(false), 2000)

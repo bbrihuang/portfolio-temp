@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { play } from '../lib/sound.js'
 import { ArrowLeft, ArrowRight, Close, Play } from './Icons.jsx'
 
 // Photos and videos for a project, from its `gallery` in data/projects.js.
@@ -23,7 +24,10 @@ export default function Gallery({ items }) {
 
   if (!n) return null
 
-  const close = () => setOpen(-1)
+  const close = () => {
+    if (open >= 0) play('close')
+    setOpen(-1)
+  }
   const step = (dir) => setOpen((i) => (i + dir + n) % n)
   const current = items[open]
 
@@ -49,6 +53,7 @@ export default function Gallery({ items }) {
             <button
               type="button"
               onClick={() => setOpen(k)}
+              data-sound="open"
               aria-label={`View ${g.alt || `item ${k + 1}`}`}
               className="glass group block w-full rounded-3xl p-1.5 text-left transition-transform duration-500 ease-out-expo hover:-translate-y-1"
             >
@@ -94,6 +99,7 @@ export default function Gallery({ items }) {
             <button
               type="button"
               onClick={close}
+              data-sound="off"
               autoFocus
               aria-label="Close"
               className="btn btn-glass absolute right-4 top-4 size-11 px-0"
@@ -139,6 +145,7 @@ export default function Gallery({ items }) {
                   key={label}
                   type="button"
                   onClick={() => step(dir)}
+                  data-sound="slide"
                   aria-label={label}
                   className={`btn btn-glass absolute bottom-4 size-11 px-0 sm:bottom-auto sm:top-1/2 sm:-translate-y-1/2 ${side}`}
                 >
