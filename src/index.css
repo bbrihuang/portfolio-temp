@@ -1,0 +1,362 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Design tokens
+   A graphite ground, white type, frosted-glass surfaces. Greys do the
+   work; pure white is saved for emphasis and the active state.
+   ------------------------------------------------------------------ */
+@theme {
+  --font-sans: "Outfit Variable", "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-serif: "Times New Roman", Times, serif;
+
+  --color-void: #0b0b0c;
+  --color-coal: #111113;
+  --color-ash: #19191c;
+  --color-graphite: #232327;
+  --color-slate: #3a3a40;
+  --color-steel: #6f6f78;
+  --color-fog: #a1a1aa;
+  --color-mist: #d4d4d8;
+  --color-snow: #f4f4f5;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    color-scheme: dark;
+    scrollbar-color: #3a3a40 transparent;
+  }
+  body {
+    background: var(--color-void);
+    color: var(--color-snow);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
+  ::selection {
+    background: var(--color-snow);
+    color: var(--color-void);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-snow);
+    outline-offset: 3px;
+  }
+  button {
+    cursor: pointer;
+  }
+}
+
+/* Frosted glass, tuned from pippipi.com for a dark ground: a faint white
+   wash, heavy blur, a hairline rim, and a lit top edge. */
+@utility glass {
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.075), rgb(255 255 255 / 0.03));
+  -webkit-backdrop-filter: blur(28px) saturate(140%);
+  backdrop-filter: blur(28px) saturate(140%);
+  border: 1px solid rgb(255 255 255 / 0.085);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.07),
+    0 18px 40px -18px rgb(0 0 0 / 0.7);
+}
+
+@utility glass-strong {
+  background: linear-gradient(180deg, rgb(28 28 31 / 0.72), rgb(20 20 22 / 0.62));
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgb(255 255 255 / 0.09);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.06),
+    0 12px 32px -12px rgb(0 0 0 / 0.75);
+}
+
+@utility shell {
+  width: 100%;
+  max-width: 76rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  @media (width >= 40rem) {
+    padding-inline: 1.5rem;
+  }
+}
+
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-fog);
+}
+
+@layer components {
+  /* Pill chip for skills and tags. Matches the pippipi tech-stack chip. */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2.125rem;
+    padding-inline: 0.75rem 0.875rem;
+    border-radius: 9999px;
+    background: rgb(255 255 255 / 0.055);
+    border: 1px solid rgb(255 255 255 / 0.08);
+    box-shadow: 0 4px 12px -6px rgb(0 0 0 / 0.6);
+    font-size: 0.8125rem;
+    font-weight: 450;
+    color: var(--color-mist);
+    white-space: nowrap;
+    transition:
+      transform 0.25s var(--ease-out-expo),
+      background-color 0.2s,
+      border-color 0.2s,
+      color 0.2s;
+  }
+  .chip:hover {
+    transform: translateY(-1px) scale(1.04);
+    background: rgb(255 255 255 / 0.1);
+    border-color: rgb(255 255 255 / 0.16);
+    color: var(--color-snow);
+  }
+  .chip-sm {
+    height: 1.75rem;
+    padding-inline: 0.625rem;
+    font-size: 0.75rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 2.75rem;
+    padding-inline: 1.25rem;
+    border-radius: 9999px;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition:
+      transform 0.3s var(--ease-out-expo),
+      background-color 0.2s,
+      border-color 0.2s,
+      color 0.2s,
+      box-shadow 0.3s;
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+  .btn-light {
+    background: var(--color-snow);
+    color: var(--color-void);
+    box-shadow: 0 8px 24px -10px rgb(255 255 255 / 0.45);
+  }
+  .btn-light:hover {
+    background: #fff;
+    box-shadow: 0 10px 30px -8px rgb(255 255 255 / 0.55);
+  }
+  .btn-glass {
+    background: rgb(255 255 255 / 0.06);
+    border: 1px solid rgb(255 255 255 / 0.1);
+    color: var(--color-snow);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+  }
+  .btn-glass:hover {
+    background: rgb(255 255 255 / 0.11);
+    border-color: rgb(255 255 255 / 0.18);
+  }
+
+  /* Underline that draws in from the left. */
+  .link-line {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.35s var(--ease-out-expo), color 0.2s;
+  }
+  .link-line:hover {
+    background-size: 100% 1px;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Motion
+   ------------------------------------------------------------------ */
+
+/* Page entrance.
+   Opacity, filter and mask on an ancestor cut a glass panel off from the
+   background it is meant to blur, so the page container only slides. The
+   fade happens on each .rise element itself, staggered by its --i index.
+   Never put .rise on a wrapper that contains glass; put it on the glass.
+   .rise-blur adds a focus pull and is only for text. */
+@keyframes page-shift {
+  from {
+    transform: translateY(18px);
+  }
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.99);
+  }
+}
+@keyframes rise-blur {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(8px);
+  }
+}
+/* `backwards` (not `both`) so nothing lingers after the entrance and the
+   element's own transforms, like the card tilt, take over cleanly. */
+.page {
+  animation: page-shift 0.9s var(--ease-out-expo) backwards;
+}
+.rise {
+  animation: rise 0.8s var(--ease-out-expo) backwards;
+  animation-delay: calc(var(--i, 0) * 70ms + 40ms);
+}
+.rise-blur {
+  animation: rise-blur 0.9s var(--ease-out-expo) backwards;
+  animation-delay: calc(var(--i, 0) * 70ms + 40ms);
+}
+
+@keyframes fade-swap {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.swap-in {
+  animation: fade-swap 0.5s var(--ease-out-expo) both;
+}
+
+/* Logo marquee */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: marquee 48s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+.fade-edges {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+
+/* Terminal typing and caret */
+@keyframes type {
+  from {
+    width: 0;
+  }
+}
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+.typed {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: bottom;
+  animation: type 1.4s steps(var(--chars)) 0.5s both;
+}
+.caret {
+  animation: caret 1.1s steps(1) infinite;
+}
+@media (width < 40rem) {
+  /* Too narrow to type on one line, so let it wrap. */
+  .typed {
+    width: auto !important;
+    white-space: normal;
+    animation: none;
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+.pulse-ring {
+  animation: pulse-ring 2.2s var(--ease-out-expo) infinite;
+}
+
+/* Project art reacts when its card is hovered. */
+.art-spin {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 1.2s var(--ease-out-expo);
+}
+.group:hover .art-spin {
+  transform: rotate(var(--turn, 30deg));
+}
+@keyframes dash {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+.art-flow {
+  stroke-dasharray: 6 14;
+  animation: dash 2.4s linear infinite;
+  animation-play-state: paused;
+}
+.group:hover .art-flow,
+.art-live .art-flow {
+  animation-play-state: running;
+}
+@keyframes blink-cell {
+  0%,
+  100% {
+    opacity: var(--o, 0.3);
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.group:hover .art-cell,
+.art-live .art-cell {
+  animation: blink-cell 1.6s ease-in-out infinite;
+  animation-delay: calc(var(--d, 0) * 40ms);
+}
+
+/* Card to detail morph, for browsers that support view transitions. */
+::view-transition-group(*) {
+  animation-duration: 0.55s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+::view-transition-old(*.art),
+::view-transition-new(*.art) {
+  height: 100%;
+  object-fit: cover;
+  overflow: clip;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .marquee-track {
+    animation: none;
+  }
+}
