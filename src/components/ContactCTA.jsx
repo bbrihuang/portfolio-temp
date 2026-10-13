@@ -1,28 +1,40 @@
 import { site } from '../config.js'
 import { useCopyEmail } from '../lib/hooks.js'
-import { Check, LinkedIn, MailPlus } from './Icons.jsx'
+import { Check, FileText, LinkedIn, MailPlus } from './Icons.jsx'
 
-export default function ContactCTA() {
+// A slim "get in touch" reminder for recruiters, near the top of the Projects
+// page: one line of text and the three ways to reach me.
+export default function ContactCTA({ index = 3 }) {
   const { copied, copy } = useCopyEmail()
   return (
-    <section className="glass rise relative mt-20 overflow-hidden rounded-3xl px-6 py-10 sm:px-10 sm:py-12" style={{ '--i': 8 }}>
-      <div aria-hidden className="pointer-events-none absolute -right-16 -top-24 size-72 rounded-full border border-white/10" />
-      <div aria-hidden className="pointer-events-none absolute -right-4 -top-12 size-44 rounded-full border border-white/[0.07]" />
-      <p className="eyebrow">Get in touch</p>
-      <h2 className="mt-3 max-w-xl text-3xl font-semibold tracking-tight sm:text-4xl">
-        Looking for internships and interesting problems.
-      </h2>
-      <p className="mt-3 max-w-lg text-fog">Email is the fastest way to reach me.</p>
-      <div className="mt-7 flex flex-wrap gap-3">
-        <button type="button" onClick={copy} className="btn btn-light" aria-live="polite">
-          {copied ? <Check size={16} /> : <MailPlus size={16} />}
+    <aside
+      className="glass rise flex flex-col gap-4 rounded-3xl px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
+      style={{ '--i': index }}
+      aria-label="Get in touch"
+    >
+      <p className="text-[15px] text-mist">
+        <span className="mr-2 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-emerald-300">
+          <span className="size-1.5 rounded-full bg-emerald-400" />
+          Open to internships
+        </span>
+        Recruiting? Email is the fastest way to reach me.
+      </p>
+      <div className="flex flex-wrap gap-2">
+        <button type="button" onClick={copy} className="btn btn-light h-10 px-4 text-sm" aria-live="polite">
+          {copied ? <Check size={15} /> : <MailPlus size={15} />}
           {copied ? 'Copied!' : site.email}
         </button>
-        <a href={site.linkedin} target="_blank" rel="noreferrer" className="btn btn-glass">
-          <LinkedIn size={16} />
+        <a href={site.linkedin} target="_blank" rel="noreferrer" className="btn btn-glass h-10 px-4 text-sm">
+          <LinkedIn size={15} />
           LinkedIn
         </a>
+        {site.resume && (
+          <a href={site.resume} target="_blank" rel="noreferrer" className="btn btn-glass h-10 px-4 text-sm">
+            <FileText size={15} />
+            Resume
+          </a>
+        )}
       </div>
-    </section>
+    </aside>
   )
 }

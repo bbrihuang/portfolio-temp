@@ -299,7 +299,46 @@ function Sites() {
   )
 }
 
-const motifs = { meals: Meals, nozzle: Nozzle, hexapod: Hexapod, attention: Attention, cube: Cube, board: Board, sites: Sites }
+// The PC in the middle running a stack of containers, linked out to a laptop
+// and a phone. Containers blink and the links flow on hover.
+function Homelab() {
+  return (
+    <>
+      {/* PC tower */}
+      <rect x="168" y="62" width="64" height="136" rx="6" {...S} strokeOpacity="0.85" strokeWidth="2" />
+      {[0, 1, 2, 3, 4].map((i) => (
+        <rect
+          key={i}
+          x="178"
+          y={76 + i * 22}
+          width="44"
+          height="14"
+          rx="2.5"
+          fill="currentColor"
+          fillOpacity="0.18"
+          {...S}
+          strokeOpacity="0.5"
+          className="art-cell"
+          style={{ '--d': i * 6, '--o': 0.35 }}
+        />
+      ))}
+      {/* Links to the devices */}
+      <path d="M168 110H128L112 96H98" {...S} strokeOpacity="0.25" />
+      <path d="M232 130h40l16 16h14" {...S} strokeOpacity="0.25" />
+      <path d="M168 110H128L112 96H98" {...S} strokeOpacity="0.75" className="art-flow" />
+      <path d="M232 130h40l16 16h14" {...S} strokeOpacity="0.75" className="art-flow" />
+      {/* Laptop */}
+      <rect x="50" y="78" width="48" height="32" rx="3" {...S} strokeOpacity="0.8" />
+      <path d="M42 118h64l-6-8H48z" {...S} strokeOpacity="0.8" />
+      {/* Phone */}
+      <rect x="302" y="122" width="26" height="48" rx="5" {...S} strokeOpacity="0.8" />
+      <path d="M312 128h6" {...S} strokeOpacity="0.6" />
+      <text x="170" y="216" {...mono}>DOCKER · WSL2</text>
+    </>
+  )
+}
+
+const motifs = { meals: Meals, nozzle: Nozzle, hexapod: Hexapod, attention: Attention, cube: Cube, board: Board, sites: Sites, homelab: Homelab }
 
 export default function ProjectArt({ project, live = false, className = '' }) {
   const id = useId().replace(/:/g, '')

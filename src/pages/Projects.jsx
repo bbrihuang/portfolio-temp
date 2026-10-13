@@ -1,13 +1,18 @@
 import { useLayoutEffect, useMemo, useRef } from 'react'
 import { useSearchParams } from 'react-router'
+import ContactCTA from '../components/ContactCTA.jsx'
+import { Plus } from '../components/Icons.jsx'
 import PageHeader from '../components/PageHeader.jsx'
 import ProjectCard from '../components/ProjectCard.jsx'
-import ContactCTA from '../components/ContactCTA.jsx'
-import { arrange, filterGroups, inFilter, projects } from '../data/projects.js'
+import { featuredOrder, filterGroups, inFilter, projects } from '../data/projects.js'
 import { usePageMeta, useSlidingPill } from '../lib/hooks.js'
 import { glow, sectionColors } from '../lib/theme.js'
 
 const purple = sectionColors['/projects']
+
+// Featured projects lead the page in a set order; everything else is filterable below.
+const featured = featuredOrder.map((slug) => projects.find((p) => p.slug === slug)).filter(Boolean)
+const others = projects.filter((p) => !featuredOrder.includes(p.slug))
 
 const EASE = 'cubic-bezier(0.16, 1, 0.3, 1)'
 const filters = ['All', ...Object.keys(filterGroups)]
@@ -46,7 +51,7 @@ export default function Projects() {
   const [params, setParams] = useSearchParams()
   const active = filters.includes(params.get('filter')) ? params.get('filter') : 'All'
   const list = useMemo(
-    () => arrange(projects.filter((p) => inFilter(p, active))),
+    () => others.filter((p) => inFilter(p, active)),
     [active],
   )
 
@@ -88,34 +93,61 @@ export default function Projects() {
 
   return (
     <>
-      <PageHeader index="03" title="Projects" count={projects.length} color={purple}>
-        Things I’ve built and am building, from web apps and robot simulations to a rocket engine nozzle.
-        Open one for the full write-up, or hit + for a quick look.
+      <PageHeader index="03" title="Projects" color={purple}>
+        From full-stack applications and local AI experiments to robotics and hardware design, these are projects
+        where I’ve turned my random ideas into actual working systems.
       </PageHeader>
+      <p className="rise mt-4 inline-flex items-center gap-2 text-sm text-fog" style={{ '--i': 3 }}>
+        <span className="grid size-6 place-items-center rounded-full border border-white/15 text-snow">
+          <Plus size={13} />
+        </span>
+        Tip: Hit + for a quick peek at what each project does!
+      </p>
 
-      <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
-        <FilterBar active={active} onChange={choose} />
-        <p className="rise font-mono text-xs text-steel" style={{ '--i': 3 }} aria-live="polite">
-          Showing {list.length} of {projects.length}
-        </p>
+      <div className="mt-8">
+        <ContactCTA index={3} />
       </div>
 
-      <ul className="mt-6 grid grid-flow-dense gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {list.map((p, i) => (
-          <li
-            key={p.slug}
-            ref={(el) => {
-              if (el) nodes.current.set(p.slug, el)
-              else nodes.current.delete(p.slug)
-            }}
-            className={p.featured ? 'sm:col-span-2' : ''}
-          >
-            <ProjectCard project={p} index={i} />
-          </li>
-        ))}
-      </ul>
+      <section className="mt-14" aria-labelledby="featured-title">
+        <h2 id="featured-title" className="text-2xl font-semibold tracking-tight sm:text-3xl">
+          Featured
+        </h2>
+        <ul className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {featured.map((p, i) => (
+            <li key={p.slug}>
+              <ProjectCard project={p} index={i + 1} />
+            </li>
+          ))}
+        </ul>
+      </section>
 
-      <ContactCTA />
+      <section className="mt-16" aria-labelledby="more-title">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <h2 id="more-title" className="text-2xl font-semibold tracking-tight sm:text-3xl">
+            More projects
+          </h2>
+          <p className="rise font-mono text-xs text-steel" style={{ '--i': 3 }} aria-live="polite">
+            Showing {list.length} of {others.length}
+          </p>
+        </div>
+        <div className="mt-4 flex">
+          <FilterBar active={active} onChange={choose} />
+        </div>
+
+        <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {list.map((p, i) => (
+            <li
+              key={p.slug}
+              ref={(el) => {
+                if (el) nodes.current.set(p.slug, el)
+                else nodes.current.delete(p.slug)
+              }}
+            >
+              <ProjectCard project={p} index={i} />
+            </li>
+          ))}
+        </ul>
+      </section>
     </>
   )
 }

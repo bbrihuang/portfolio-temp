@@ -45,7 +45,7 @@ export default function ProjectDetail() {
       <div className="mt-10 grid gap-10 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-8">
           <p className="eyebrow rise-blur" style={{ '--i': 2, color: p.accent }}>
-            {p.categories.join(' · ')}
+            {p.label}
           </p>
           <h1
             className="rise-blur mt-3 text-[clamp(2.5rem,5.5vw,4.25rem)] font-bold leading-[1] tracking-[-0.04em]"
@@ -101,18 +101,21 @@ export default function ProjectDetail() {
             </dl>
             {p.links.length > 0 && (
               <div className="mt-6 flex flex-col gap-2 border-t border-white/[0.07] pt-5">
-                {p.links.map((l, k) => (
-                  <a
-                    key={l.href}
-                    href={l.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={`btn group justify-between ${k === 0 ? 'btn-light' : 'btn-glass'}`}
-                  >
-                    {l.label}
-                    <ArrowUpRight size={16} className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                  </a>
-                ))}
+                {p.links.map((l, k) => {
+                  const className = `btn group justify-between ${k === 0 ? 'btn-light' : 'btn-glass'}`
+                  // Links starting with "/" stay on this site; others open in a new tab.
+                  return l.href.startsWith('/') ? (
+                    <Link key={l.href} to={l.href} className={className}>
+                      {l.label}
+                      <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-0.5" />
+                    </Link>
+                  ) : (
+                    <a key={l.href} href={l.href} target="_blank" rel="noreferrer" className={className}>
+                      {l.label}
+                      <ArrowUpRight size={16} className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                    </a>
+                  )
+                })}
               </div>
             )}
           </div>

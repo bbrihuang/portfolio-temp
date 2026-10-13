@@ -6,7 +6,7 @@ import ProjectArt from './ProjectArt.jsx'
 
 // A project tile in the style of nikp.xyz: cover art, a short rule, title,
 // date and stack. The whole card links to the project page; the + button
-// slides up a quick-look panel instead. Featured cards span two columns.
+// slides up a quick-look panel instead. The label at the top right is `label`.
 export default function ProjectCard({ project: p, index = 0 }) {
   const [open, setOpen] = useState(false)
   const tilt = useTilt(4)
@@ -18,11 +18,7 @@ export default function ProjectCard({ project: p, index = 0 }) {
       className="glass rise group relative flex h-full flex-col overflow-hidden rounded-3xl transition-[transform,border-color] duration-500 ease-out-expo [transform:perspective(1100px)_rotateX(var(--rx,0deg))_rotateY(var(--ry,0deg))] hover:border-white/20"
       style={{ '--i': index + 3 }}
     >
-      <div
-        className={`relative overflow-hidden ${
-          p.featured ? 'aspect-[16/8] lg:aspect-auto lg:min-h-[220px] lg:flex-1' : 'aspect-[16/10]'
-        }`}
-      >
+      <div className="relative aspect-[16/10] overflow-hidden">
         <div className="absolute inset-0" style={{ viewTransitionName: `art-${p.slug}`, viewTransitionClass: 'art' }}>
           <ProjectArt
             project={p}
@@ -31,13 +27,8 @@ export default function ProjectCard({ project: p, index = 0 }) {
         </div>
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#141416] to-transparent" />
 
-        {p.featured && (
-          <span className="absolute left-4 top-4 rounded-full bg-snow px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-void shadow-lg">
-            ★ Featured
-          </span>
-        )}
         <span className="absolute right-4 top-4 font-mono text-[10px] uppercase tracking-[0.14em]" style={{ color: p.accent }}>
-          {p.categories[0]}
+          {p.label}
         </span>
 
         {/* Quick look */}

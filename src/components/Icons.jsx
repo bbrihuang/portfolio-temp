@@ -350,6 +350,88 @@ const glyphs = {
       <path d="M8 20.5h8M12 16.5v4M10 8.5v4l3.5-2-3.5-2z" />
     </>
   ),
+  // Editor window with angle brackets (VS Code).
+  editor: (
+    <>
+      <rect x="2.5" y="4" width="19" height="16" rx="2" />
+      <path d="M2.5 8h19M9.5 11.5 7 14l2.5 2.5M14.5 11.5 17 14l-2.5 2.5" />
+    </>
+  ),
+  // Model on a desk: a window with a chat bubble (LM Studio).
+  studio: (
+    <>
+      <rect x="3" y="3.5" width="18" height="13" rx="2" />
+      <path d="M8 20.5h8M12 16.5v4M8 8h8M8 11.5h5" />
+    </>
+  ),
+  // Connected nodes (ComfyUI's node graph).
+  nodes: (
+    <>
+      <rect x="2.5" y="4" width="7" height="5" rx="1.2" />
+      <rect x="14.5" y="4" width="7" height="5" rx="1.2" />
+      <rect x="8.5" y="15" width="7" height="5" rx="1.2" />
+      <path d="M9.5 6.5h5M6 9v3.5a2.5 2.5 0 0 0 2.5 2.5M18 9v3.5a2.5 2.5 0 0 1-2.5 2.5" />
+    </>
+  ),
+  cloud: (
+    <>
+      <path d="M7 18.5h10.5a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.6 9.6 4.5 4.5 0 0 0 7 18.5z" />
+    </>
+  ),
+  // A document (Microsoft Office).
+  office: (
+    <>
+      <path d="M14 3H6.5a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1V7.5L14 3z" />
+      <path d="M14 3v4.5h4.5M8.5 12h7M8.5 15.5h7M8.5 9h3" />
+    </>
+  ),
+  // A phone (iOS).
+  mobile: (
+    <>
+      <rect x="7" y="2.5" width="10" height="19" rx="2.2" />
+      <path d="M10.5 5h3" />
+    </>
+  ),
+  // Four panes (Windows).
+  windows: (
+    <>
+      <rect x="3.5" y="3.5" width="7.5" height="7.5" rx="0.8" />
+      <rect x="13" y="3.5" width="7.5" height="7.5" rx="0.8" />
+      <rect x="3.5" y="13" width="7.5" height="7.5" rx="0.8" />
+      <rect x="13" y="13" width="7.5" height="7.5" rx="0.8" />
+    </>
+  ),
+  // Adobe-style app tiles: a rounded square with the app's two letters.
+  pr: (
+    <>
+      <rect x="3" y="3.5" width="18" height="17" rx="4" />
+      <text x="12" y="15.6" textAnchor="middle" fontSize="8.5" fontWeight="700" fill="currentColor" stroke="none" fontFamily="system-ui, sans-serif">
+        Pr
+      </text>
+    </>
+  ),
+  ps: (
+    <>
+      <rect x="3" y="3.5" width="18" height="17" rx="4" />
+      <text x="12" y="15.6" textAnchor="middle" fontSize="8.5" fontWeight="700" fill="currentColor" stroke="none" fontFamily="system-ui, sans-serif">
+        Ps
+      </text>
+    </>
+  ),
+  // Film strip with a cut (CapCut).
+  cut: (
+    <>
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <path d="M3 9h18M3 15h18M7 5v4M12 5v4M17 5v4M7 15v4M12 15v4M17 15v4" />
+    </>
+  ),
+  // Brush stroke (Adobe Creative Cloud).
+  brush: (
+    <>
+      <path d="M14.5 4.5 19.5 9.5 11 18l-5-5 8.5-8.5z" />
+      <path d="M6 13c-2 0-3 1.5-3 3.5S2 20 2 20s3.5.5 5.5-.5S9 16.5 9 16" />
+    </>
+  ),
 }
 
 export const Glyph = ({ name, size = 16, className }) => (

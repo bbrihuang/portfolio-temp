@@ -1,4 +1,8 @@
-// Projects, newest first. `featured` projects get the wide cards.
+import { setup } from './setup.js'
+
+// Projects, newest first. `featured` projects show in the Featured section at the
+// top of the Projects page. `label` is the category tag on the card (e.g.
+// "Software (AI/ML)"); `categories` drive the Software / Hardware filters.
 // `accent` is the project's color (cover art, card rule and label).
 // `art` picks a geometric cover from ProjectArt.jsx. To use a photo instead,
 // put it in public/projects/ and set `image: '/projects/<file>'`.
@@ -27,6 +31,7 @@ export const projects = [
     date: 'Oct 2026 – Present',
     year: '2026',
     categories: ['Software'],
+    label: 'Software',
     art: 'sites',
     short: 'Three production websites for paying small-business clients: a Filipino cafe, a food truck and a tax advisory firm.',
     summary:
@@ -87,6 +92,7 @@ export const projects = [
     date: 'Sep 2026 – Present',
     year: '2026',
     categories: ['Software', 'AI/ML'],
+    label: 'Software (AI/ML)',
     featured: true,
     art: 'meals',
     short: 'Turns live menus from BU’s four dining halls into meal plans that hit your macros.',
@@ -151,6 +157,50 @@ export const projects = [
     gallery: [],
   },
   {
+    slug: 'homelab',
+    accent: '#f59e0b',
+    title: 'PC Homelab',
+    org: 'Personal project',
+    role: 'Builder & admin',
+    date: 'Ongoing',
+    year: '2026',
+    categories: ['Hardware', 'Software'],
+    label: 'Hardware · Software',
+    featured: true,
+    art: 'homelab',
+    short: 'My gaming PC doubles as a homelab: self-hosted services, local LLMs and remote access from anywhere.',
+    summary:
+      'One Mini-ITX PC that games, builds and serves. It runs self-hosted services in Docker on WSL2, local LLMs on the RTX 5070, and streams to my laptop and phone, all reachable from anywhere over Tailscale without exposing anything to the public internet.',
+    highlights: [
+      'Self-host n8n, Jellyfin, Uptime Kuma, Homarr and SnapOtter, each in its own Docker container on WSL2.',
+      'Run and profile local LLMs with Ollama and llama.cpp on the RTX 5070’s 12 GB of VRAM.',
+      'Reach every service from my laptop and phone over Tailscale, with nothing exposed to the public internet.',
+      'Stream the PC to my laptop and phone with Sunshine and Moonlight instead of carrying a gaming laptop.',
+    ],
+    stack: ['Docker', 'WSL2', 'Tailscale', 'Sunshine', 'Moonlight', 'Ollama', 'n8n', 'Jellyfin', 'Uptime Kuma', 'Homarr'],
+    links: [{ label: 'Full setup & parts list', href: '/setup?view=pc' }],
+    // Built from the Setup page's data, so the two never disagree.
+    caseStudy: [
+      { title: 'The problem', text: setup.architecture.intro },
+      {
+        title: 'How it works',
+        flow: [
+          { label: 'Laptop & phone', note: 'Moonlight · browser' },
+          { label: 'Tailscale', note: 'Private network' },
+          { label: 'Windows 11 Pro', note: 'Games · Sunshine · Ollama' },
+          { label: 'WSL2', note: 'Linux kernel in Windows' },
+          { label: 'Docker', note: 'One container per service' },
+        ],
+        text: 'Everything I reach from outside comes in over Tailscale. Windows runs the games and apps directly; WSL2 gives Docker a real Linux kernel, and each self-hosted service runs in its own container:',
+        points: setup.architecture.services.map((sv) => ({ title: sv.name, text: sv.why })),
+      },
+      { title: 'Design decisions', points: setup.architecture.decisions.map(({ title, text }) => ({ title, text })) },
+      { title: 'Trade-offs', points: setup.architecture.tradeoffs },
+      { title: setup.whyNot[0].question, text: setup.whyNot[0].text },
+    ],
+    gallery: [],
+  },
+  {
     slug: 'burpg-nozzle',
     accent: '#fb923c',
     title: 'Hybrid Rocket Nozzle',
@@ -159,7 +209,7 @@ export const projects = [
     date: 'Jan 2026 – Present',
     year: '2026',
     categories: ['Hardware', 'Aerospace'],
-    featured: true,
+    label: 'Hardware (Aerospace)',
     art: 'nozzle',
     short: 'Nozzle geometry for a student-built hybrid rocket engine, headed for a static fire.',
     summary:
@@ -206,6 +256,7 @@ export const projects = [
     date: 'Sep 2026 – Present',
     year: '2026',
     categories: ['Robotics', 'Software'],
+    label: 'Robotics · Software',
     art: 'hexapod',
     short: 'A ROS 2 and Gazebo simulation of an 18-DOF hexapod robot for training a walking gait.',
     summary:
@@ -268,7 +319,8 @@ export const projects = [
     role: 'LLM Inference Researcher',
     date: 'Sep 2026 – Present',
     year: '2026',
-    categories: ['AI/ML'],
+    categories: ['Software', 'AI/ML'],
+    label: 'Software (AI/ML)',
     art: 'attention',
     short: 'Measuring why LLM text generation is memory-bandwidth-bound.',
     summary:
@@ -322,6 +374,7 @@ export const projects = [
     date: 'Oct 2026',
     year: '2026',
     categories: ['Software'],
+    label: 'Software',
     art: 'cube',
     short: 'Storefront for my PC business, with a live part customizer and a 7-step configurator.',
     summary:
@@ -382,6 +435,8 @@ export const projects = [
     date: '2024 – Present',
     year: '2024',
     categories: ['Hardware'],
+    label: 'Hardware · Guide',
+    featured: true,
     art: 'board',
     short: 'A free beginner’s guide to choosing parts, assembling, and troubleshooting a PC.',
     summary:
@@ -396,6 +451,9 @@ export const projects = [
   },
 ]
 
+// The Featured section at the top of the Projects page, in this order.
+export const featuredOrder = ['bu-dining-meal-planner', 'pc-building-guide', 'homelab']
+
 // The filters on the Projects page, and which `categories` each one includes.
 // A project shows under every filter it matches (JetHexa is both).
 export const filterGroups = {
@@ -406,11 +464,3 @@ export const filterGroups = {
 export const inFilter = (p, filter) =>
   filter === 'All' || p.categories.some((c) => filterGroups[filter]?.includes(c))
 
-// Order cards so the two featured (wide) cards zig-zag in a 3-column grid:
-// [F, s] / [s, F] / [s, s, s]. Any other count still packs with grid-flow-dense.
-export function arrange(list) {
-  const featured = list.filter((p) => p.featured)
-  const rest = list.filter((p) => !p.featured)
-  if (featured.length !== 2 || rest.length < 2) return [...featured, ...rest]
-  return [featured[0], rest[0], rest[1], featured[1], ...rest.slice(2)]
-}

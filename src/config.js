@@ -14,6 +14,6 @@ export const site = {
   linkedinHandle: 'in/bbrihuang',
   // Drop a square photo at public/avatar.jpg. Initials show until it exists.
   avatar: '/avatar.jpg',
-  // Set to a path in public/ (e.g. '/Brian_Huang_Resume.pdf') to show a Résumé button.
+  // Set to a path in public/ (e.g. '/Brian_Huang_Resume.pdf') to show a Resume button.
   resume: '/Brian_Huang_Resume.pdf',
 }

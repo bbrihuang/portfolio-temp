@@ -133,8 +133,8 @@ export default function Experience() {
 
   return (
     <>
-      <PageHeader index="02" title="Experience" count={experience.length} color={sectionColors['/experience']}>
-        Where I’ve worked, current roles first. Pick one to see what I did there.
+      <PageHeader index="02" title="Experience" color={sectionColors['/experience']}>
+        Where I’ve worked, in chronological order.
       </PageHeader>
 
       <div className="mt-12 grid gap-4 lg:grid-cols-12 lg:gap-6">
@@ -183,12 +183,10 @@ export default function Experience() {
                         <span className="font-mono text-[11px] uppercase tracking-wider text-steel">
                           {formatRange(e.start, e.end)}
                         </span>
-                        {current && (
-                          <span
-                            className="rounded-full border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider"
-                            style={{ color: e.color, borderColor: `${e.color}55`, background: `${e.color}14` }}
-                          >
-                            Now
+                        {current && e.badge !== false && (
+                          <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/35 bg-emerald-400/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-emerald-300">
+                            <span className="size-1.5 rounded-full bg-emerald-400" />
+                            Current
                           </span>
                         )}
                       </span>

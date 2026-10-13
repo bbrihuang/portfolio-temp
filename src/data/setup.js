@@ -1,10 +1,10 @@
-// The Setup page, in five sections:
-//   daily     Daily Drivers: the devices I carry
-//   pc        The PC / Homelab: one photo, a PCPartPicker-style parts list,
-//             and what the machine does (uses)
-//   why       Why This Setup: the reasoning, then the trade-offs
-//   whyNot    Why Not: what I deliberately don't self-host, and why
-//   software  Software & Architecture: a layer diagram, then software by purpose
+// The Setup page has two views, picked with the buttons at the top:
+//   Daily Drivers     daily: the devices I carry
+//   The PC / Homelab  pc: one photo, a PCPartPicker-style parts list and what
+//                     the machine does (uses); architecture: the layer diagram,
+//                     each decision and the tools behind it, the services and
+//                     the trade-offs; whyNot: what I don't self-host, and why
+// The PC Homelab project page reuses this data, so edit it here.
 //
 // `icon` names map to icons in Setup.jsx. Leave any `why` empty to hide it.
 
@@ -73,36 +73,68 @@ export const setup = {
     ],
   },
 
-  // Why This Setup: the reasoning behind the build. DRAFT: written from how
-  // the setup is put together; the motives are yours to confirm or rewrite.
-  why: {
+  // How It's Built & Why: the architecture and the reasoning, together. The
+  // diagram shows the layers; each decision names the tools it's about.
+  architecture: {
     intro:
-      'I wanted one machine that could game, build and serve, instead of three that each do one thing. Every choice follows from that.',
-    reasons: [
+      'I wanted one machine that could game, build and serve, instead of three that each do one thing. Every choice below follows from that.',
+    // The diagram, top to bottom. `split` draws boxes side by side.
+    layers: [
+      { title: 'My laptop & phone', detail: 'Moonlight · browser', note: 'over Tailscale' },
+      { title: 'Windows 11 Pro', detail: 'Games · Sunshine · Ollama · VS Code' },
+      { title: 'WSL2', detail: 'A real Linux kernel running inside Windows' },
+      {
+        split: [
+          { title: 'Ubuntu', detail: 'ROS 2 · Gazebo (JetHexa)' },
+          { title: 'Docker', detail: 'n8n · Jellyfin · Uptime Kuma · Homarr · SnapOtter' },
+        ],
+      },
+      { title: 'Hardware', detail: 'Ryzen 7 3700X · RTX 5070 · 16 GB · 1.24 TB', hardware: true },
+    ],
+    decisions: [
       {
         title: 'One machine, three jobs',
-        text: 'Instead of a separate gaming PC, server and dev box, one PC does all three. That means one set of parts to buy, power and maintain, and everything I learn about it applies everywhere.',
+        tools: ['Windows 11 Pro'],
+        text: 'Instead of a separate gaming PC, server and dev box, one PC does all three. Windows runs games and everyday apps directly on the hardware, and everything else sits on top. That’s one set of parts to buy, power and maintain.',
       },
       {
-        title: 'The GPU earns its keep twice',
-        text: 'The RTX 5070’s 12 GB of VRAM runs games and local LLMs. The same card that plays at 144 Hz also runs the models I profile for my inference research.',
-      },
-      {
-        title: 'Small, but not compromised',
-        text: 'The NZXT H200 is Mini-ITX, so the whole build stays compact on a desk. It still fits a full-size RTX 5070, a dual-tower cooler and a 750 W power supply, so size didn’t cost performance.',
-      },
-      {
-        title: 'A light laptop, a heavy PC',
-        text: 'Rather than carry a gaming laptop, I carry a thin 2-in-1 and stream the PC to it with Sunshine and Moonlight. The heavy lifting stays at home; I get it anywhere.',
-      },
-      {
-        title: 'Private by default',
-        text: 'Everything is reached over Tailscale’s private network, so none of my services are exposed to the public internet, and I still get to them from anywhere.',
+        title: 'Linux without a second computer',
+        tools: ['WSL2', 'Docker'],
+        text: 'WSL2 runs a real Linux kernel inside Windows, so I never dual-boot. It hosts the Ubuntu environment for the JetHexa ROS 2 and Gazebo sim, and Docker uses it as its Linux backend, so Linux containers run here just like on a Linux server.',
       },
       {
         title: 'Isolated, so nothing breaks the rest',
-        text: 'Each homelab service runs in its own Docker container on top of WSL2, so updating one can’t take down another, and I get Linux on a Windows PC without ever dual-booting.',
+        tools: ['Docker'],
+        text: 'Each homelab service lives in its own container with everything it needs, so updating one can’t take down another, and any of them can be rebuilt or moved to another machine.',
       },
+      {
+        title: 'The GPU earns its keep twice',
+        tools: ['RTX 5070', 'Ollama', 'llama.cpp'],
+        text: 'The RTX 5070’s 12 GB of VRAM runs games and local LLMs. The same card that plays at 144 Hz runs and profiles the models for my inference research.',
+      },
+      {
+        title: 'A light laptop, a heavy PC',
+        tools: ['Sunshine', 'Moonlight'],
+        text: 'Rather than carry a gaming laptop, I carry a thin 2-in-1. Sunshine streams the PC and Moonlight plays it on my laptop and phone, so the heavy lifting stays at home and I get it anywhere.',
+      },
+      {
+        title: 'Private by default',
+        tools: ['Tailscale'],
+        text: 'Tailscale links the PC, laptop and phone in a private network, so I reach every service from anywhere without exposing any of them to the public internet.',
+      },
+      {
+        title: 'Small, but not compromised',
+        tools: ['NZXT H200', 'Mini-ITX'],
+        text: 'The whole build stays compact on a desk, but it still fits a full-size RTX 5070, a dual-tower cooler and a 750 W power supply, so size didn’t cost performance.',
+      },
+    ],
+    // The self-hosted services, each in its own Docker container.
+    services: [
+      { name: 'n8n', why: 'Workflow automation that connects apps and runs scheduled jobs.' },
+      { name: 'Jellyfin', why: 'Media server that streams my library to any device.' },
+      { name: 'Uptime Kuma', why: 'Watches every service and tells me when something goes down.' },
+      { name: 'Homarr', why: 'One dashboard with every service in one place.' },
+      { name: 'SnapOtter', why: 'A self-hosted file-processing toolkit, so files never leave my hardware.' },
     ],
     tradeoffs: [
       'Mini-ITX means two RAM slots and one PCIe slot, so there’s less room to expand than on a full-size board.',
@@ -124,62 +156,6 @@ export const setup = {
       ],
     },
   ],
-
-  software: {
-    // The diagram, top to bottom. `split` draws boxes side by side.
-    layers: [
-      { title: 'My laptop & phone', detail: 'Moonlight · browser', note: 'over Tailscale' },
-      { title: 'Windows 11 Pro', detail: 'Games · Sunshine · Ollama · VS Code' },
-      { title: 'WSL2', detail: 'A real Linux kernel running inside Windows' },
-      {
-        split: [
-          { title: 'Ubuntu', detail: 'ROS 2 · Gazebo (JetHexa)' },
-          { title: 'Docker', detail: 'n8n · Jellyfin · Uptime Kuma · Homarr · SnapOtter' },
-        ],
-      },
-      { title: 'Hardware', detail: 'Ryzen 7 3700X · RTX 5070 · 16 GB · 1.24 TB', hardware: true },
-    ],
-    groups: [
-      {
-        title: 'System',
-        items: [
-          { name: 'Windows 11 Pro', why: 'Runs games and everyday apps directly on the hardware.' },
-          {
-            name: 'WSL2',
-            why: 'Runs a real Linux kernel inside Windows, so I get Linux without dual-booting or a separate machine. It hosts the Ubuntu environment for the JetHexa ROS 2 and Gazebo sim, and it’s what Docker runs on.',
-          },
-        ],
-      },
-      {
-        title: 'Containers & AI',
-        items: [
-          {
-            name: 'Docker',
-            why: 'Uses WSL2 as its Linux backend, so Linux containers run on this Windows PC just like on a Linux server. Each homelab service lives in its own container with everything it needs, so it’s easy to update, rebuild or move to another machine.',
-          },
-          { name: 'Ollama & llama.cpp', why: 'Runs and profiles local LLMs on the RTX 5070 for my inference research.' },
-        ],
-      },
-      {
-        title: 'Homelab services',
-        note: 'in Docker',
-        items: [
-          { name: 'n8n', why: 'Workflow automation that connects apps and runs scheduled jobs.' },
-          { name: 'Jellyfin', why: 'Media server that streams my library to any device.' },
-          { name: 'Uptime Kuma', why: 'Watches every service and tells me when something goes down.' },
-          { name: 'Homarr', why: 'One dashboard with every service in one place.' },
-          { name: 'SnapOtter', why: 'A self-hosted file-processing toolkit, so files never leave my hardware.' },
-        ],
-      },
-      {
-        title: 'Remote access',
-        items: [
-          { name: 'Tailscale', why: 'A private network linking the PC, laptop and phone, so services are reachable anywhere without exposing them to the internet.' },
-          { name: 'Sunshine + Moonlight', why: 'Sunshine streams the PC; Moonlight plays it on my laptop and phone.' },
-        ],
-      },
-    ],
-  },
 
   // Photos of the build: same format as a project's gallery in projects.js.
   gallery: [],
