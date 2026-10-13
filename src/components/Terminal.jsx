@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Link } from 'react-router'
 import { site } from '../config.js'
 import { projects } from '../data/projects.js'
@@ -92,6 +92,25 @@ export default function Terminal({ startIndex = 0 }) {
   const [recall, setRecall] = useState(-1)
   const input = useRef(null)
   const body = useRef(null)
+  const introRef = useRef(null)
+  const form = useRef(null)
+  const [height, setHeight] = useState(null)
+
+  // The terminal keeps its starting height: the intro plus the prompt. New
+  // output scrolls inside it instead of growing the box and shifting the page.
+  // Re-measured when the intro reflows (window resize, fonts loading).
+  useLayoutEffect(() => {
+    const measure = () => {
+      if (!introRef.current || !form.current) return
+      const gap = 16 // space-y-4 between the intro and the prompt
+      const padding = 40 // py-5
+      setHeight(introRef.current.offsetHeight + form.current.offsetHeight + gap + padding)
+    }
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(introRef.current)
+    return () => ro.disconnect()
+  }, [])
 
   // Keep the newest output in view inside the terminal (never scrolls the page).
   useEffect(() => {
@@ -132,33 +151,37 @@ export default function Terminal({ startIndex = 0 }) {
 
       <div
         ref={body}
-        className="max-h-[30rem] space-y-4 overflow-y-auto px-5 py-5 font-mono text-[13px] leading-relaxed [scrollbar-width:thin]"
+        className="space-y-4 overflow-y-auto overscroll-contain px-5 py-5 font-mono text-[13px] leading-relaxed [scrollbar-width:thin]"
+        style={height ? { height } : undefined}
         onClick={(e) => {
           // Clicking empty space focuses the prompt (on devices with a mouse).
           if (e.target === e.currentTarget && matchMedia('(hover: hover)').matches) input.current?.focus()
         }}
       >
-        {intro.map((b, i) => (
-          <div key={b.cmd} className="rise" style={{ '--i': startIndex + 1 + i }}>
-            <Block {...b}>
-              {b.out.map((o) =>
-                o.typed ? (
-                  <p key={o.text} className="font-semibold text-snow">
-                    <span aria-label={o.text}>
-                      <span aria-hidden className="typed" style={{ '--chars': o.text.length, width: `${o.text.length}ch` }}>
-                        {o.text}
+        <div ref={introRef} className="space-y-4">
+          {intro.map((b, i) => (
+            <div key={b.cmd} className="rise" style={{ '--i': startIndex + 1 + i }}>
+              <Block {...b}>
+                {b.out.map((o) =>
+                  o.typed ? (
+                    <p key={o.text} className="font-semibold text-snow">
+                      <span aria-label={o.text}>
+                        <span aria-hidden className="typed" style={{ '--chars': o.text.length, width: `${o.text.length}ch` }}>
+                          {o.text}
+                        </span>
                       </span>
-                    </span>
-                  </p>
-                ) : (
-                  <p key={o.text} className={o.folders ? 'text-sky-300' : o.strong ? 'font-semibold text-snow' : 'text-mist'}>
-                    {o.text}
-                  </p>
-                ),
-              )}
-            </Block>
-          </div>
-        ))}
+                    </p>
+                  ) : (
+                    <p key={o.text} className={o.folders ? 'text-sky-300' : o.strong ? 'font-semibold text-snow' : 'text-mist'}>
+                      {o.text}
+                    </p>
+                  ),
+                )}
+              </Block>
+            </div>
+          ))}
+
+        </div>
 
         <div aria-live="polite" className="space-y-4 empty:hidden">
           {history.map((h, i) => (
@@ -176,7 +199,7 @@ export default function Terminal({ startIndex = 0 }) {
           ))}
         </div>
 
-        <form onSubmit={submit} className="flex items-center gap-2.5 text-emerald-400">
+        <form ref={form} onSubmit={submit} className="flex items-center gap-2.5 text-emerald-400">
           <Prompt size={16} />
           <span aria-hidden>$</span>
           <input
