@@ -2,8 +2,8 @@ import { site } from '../config.js'
 import { useCopyEmail } from '../lib/hooks.js'
 import { Check, FileText, LinkedIn, MailPlus } from './Icons.jsx'
 
-// A slim "get in touch" reminder for recruiters, near the top of the Projects
-// page: one line of text and the three ways to reach me.
+// A slim "get in touch" strip near the top of the Projects page: one line
+// of text and the three ways to reach me.
 export default function ContactCTA({ index = 3 }) {
   const { copied, copy } = useCopyEmail()
   return (
@@ -12,12 +12,9 @@ export default function ContactCTA({ index = 3 }) {
       style={{ '--i': index }}
       aria-label="Get in touch"
     >
-      <p className="text-[15px] text-mist">
-        <span className="mr-2 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-emerald-300">
-          <span className="size-1.5 rounded-full bg-emerald-400" />
-          Open to internships
-        </span>
-        Recruiting? Email is the fastest way to reach me.
+      <p className="max-w-xl text-[15px] leading-relaxed text-mist">
+        Always up for a new problem. If you’re building something interesting, I’d love to help, and learn a lot along
+        the way.
       </p>
       <div className="flex flex-wrap gap-2">
         <button type="button" onClick={copy} className="btn btn-light h-10 px-4 text-sm" aria-live="polite">

@@ -93,7 +93,20 @@ export default function Projects() {
 
   return (
     <>
-      <PageHeader index="03" title="Projects" color={purple}>
+      <PageHeader
+        index="03"
+        title="Projects"
+        color={purple}
+        aside={
+          <span className="inline-flex items-center gap-2 rounded-full border border-emerald-400/35 bg-emerald-400/10 px-3.5 py-1.5 font-mono text-xs uppercase tracking-[0.14em] text-emerald-300">
+            <span className="relative grid size-2 place-items-center">
+              <span className="pulse-ring absolute inset-0 rounded-full bg-emerald-400/60" />
+              <span className="size-2 rounded-full bg-emerald-400" />
+            </span>
+            Open to internships
+          </span>
+        }
+      >
         From full-stack applications and local AI experiments to robotics and hardware design, these are projects
         where I’ve turned my random ideas into actual working systems.
       </PageHeader>
