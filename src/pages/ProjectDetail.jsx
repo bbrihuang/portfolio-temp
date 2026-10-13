@@ -1,4 +1,6 @@
 import { Link, useParams } from 'react-router'
+import CaseStudy from '../components/CaseStudy.jsx'
+import Gallery from '../components/Gallery.jsx'
 import { ArrowLeft, ArrowRight, ArrowUpRight } from '../components/Icons.jsx'
 import ProjectArt from '../components/ProjectArt.jsx'
 import { projects } from '../data/projects.js'
@@ -42,7 +44,7 @@ export default function ProjectDetail() {
 
       <div className="mt-10 grid gap-10 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-8">
-          <p className="eyebrow rise-blur" style={{ '--i': 2 }}>
+          <p className="eyebrow rise-blur" style={{ '--i': 2, color: p.accent }}>
             {p.categories.join(' · ')}
           </p>
           <h1
@@ -64,11 +66,15 @@ export default function ProjectDetail() {
           <ol className="mt-4 space-y-3">
             {p.highlights.map((h, k) => (
               <li key={h} className="glass rise flex gap-4 rounded-2xl p-4 sm:p-5" style={{ '--i': 7 + k }}>
-                <span className="pt-0.5 font-mono text-xs text-steel">{String(k + 1).padStart(2, '0')}</span>
+                <span className="pt-0.5 font-mono text-xs" style={{ color: p.accent }}>
+                  {String(k + 1).padStart(2, '0')}
+                </span>
                 <span className="text-[15px] leading-relaxed text-mist">{h}</span>
               </li>
             ))}
           </ol>
+
+          <CaseStudy sections={p.caseStudy} />
         </div>
 
         <aside className="lg:col-span-4">
@@ -112,6 +118,8 @@ export default function ProjectDetail() {
           </div>
         </aside>
       </div>
+
+      <Gallery key={p.slug} items={p.gallery} />
 
       <nav aria-label="More projects" className="mt-16 grid gap-4 sm:grid-cols-2">
         {[

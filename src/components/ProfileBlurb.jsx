@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { site } from '../config.js'
-import { Code, Cpu, Prompt, Rocket, Wrench } from './Icons.jsx'
+import { useCopyEmail } from '../lib/hooks.js'
+import { Check, Code, Copy, Cpu, Prompt, Rocket, Wrench } from './Icons.jsx'
 
 const lines = [
-  { icon: Code, cmd: 'build --lead', out: 'GradientV · Lead Software Engineer' },
-  { icon: Rocket, cmd: 'propulsion --team', out: 'BURPG · Nozzle Design Engineer' },
-  { icon: Wrench, cmd: 'ventures --custom', out: 'Cubic Builds · $10K+ in custom PCs' },
-  { icon: Cpu, cmd: 'techops --role', out: 'BU COM TechOps · Student Assistant' },
+  { icon: Code, color: 'text-sky-400', cmd: 'build --lead', out: 'GradientV · Lead Software Engineer' },
+  { icon: Rocket, color: 'text-orange-400', cmd: 'propulsion --team', out: 'BURPG · Nozzle Design Engineer' },
+  { icon: Wrench, color: 'text-emerald-400', cmd: 'ventures --custom', out: 'Cubic Builds · $10K+ in custom PCs' },
+  { icon: Cpu, color: 'text-rose-400', cmd: 'techops --role', out: 'BU COM TechOps · Student Assistant' },
 ]
 
 const whoami = `Brian Huang · Computer Engineering ’${String(site.classOf).slice(2)}`
@@ -32,6 +33,29 @@ function Avatar() {
   )
 }
 
+// Email under the name. Click copies it; the icon confirms.
+function CopyEmail() {
+  const { copied, copy } = useCopyEmail()
+  return (
+    <button
+      type="button"
+      onClick={copy}
+      title="Copy email"
+      className="group inline-flex max-w-full items-center gap-1.5 font-mono text-sm text-mist transition-colors hover:text-snow"
+    >
+      <span className="link-line truncate">{site.email}</span>
+      {copied ? (
+        <Check size={14} className="shrink-0 text-emerald-400" />
+      ) : (
+        <Copy size={14} className="shrink-0 text-steel transition-colors group-hover:text-snow" />
+      )}
+      <span className="sr-only" aria-live="polite">
+        {copied ? 'Email copied' : ''}
+      </span>
+    </button>
+  )
+}
+
 // The profile card and terminal from the original portfolio, restyled to
 // sit on glass. `startIndex` continues the page's entrance stagger.
 export default function ProfileBlurb({ startIndex = 0 }) {
@@ -41,14 +65,7 @@ export default function ProfileBlurb({ startIndex = 0 }) {
         <Avatar />
         <div className="min-w-0">
           <p className="text-xl font-semibold tracking-tight">{site.name}</p>
-          <a
-            href={site.linkedin}
-            target="_blank"
-            rel="noreferrer"
-            className="link-line font-mono text-sm text-mist hover:text-snow"
-          >
-            {site.linkedinHandle}
-          </a>
+          <CopyEmail />
           <p className="mt-0.5 text-sm text-fog">
             {site.school} · Class of ’{String(site.classOf).slice(2)}
           </p>
@@ -80,7 +97,7 @@ export default function ProfileBlurb({ startIndex = 0 }) {
             </p>
             <p className="mt-1 pl-[26px] font-semibold text-snow">
               <span aria-label={whoami}>
-                <span aria-hidden className="typed" style={{ '--chars': whoami.length + 2, width: `${whoami.length + 2}ch` }}>
+                <span aria-hidden className="typed" style={{ '--chars': whoami.length + 3, width: `${whoami.length + 3}ch` }}>
                   &gt; {whoami}
                 </span>
               </span>
@@ -90,7 +107,7 @@ export default function ProfileBlurb({ startIndex = 0 }) {
           {lines.map((l, i) => (
             <div key={l.cmd} className="rise" style={{ '--i': startIndex + 3 + i }}>
               <p className="flex items-center gap-2.5 text-steel">
-                <l.icon size={16} className="text-fog" />
+                <l.icon size={16} className={l.color} />
                 {l.cmd}
               </p>
               <p className="mt-1 pl-[26px] font-medium text-mist">{l.out}</p>

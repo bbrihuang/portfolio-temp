@@ -4,6 +4,7 @@ import { ArrowRight, ArrowUpRight } from '../components/Icons.jsx'
 import PageHeader from '../components/PageHeader.jsx'
 import { duration, experience, formatRange } from '../data/experience.js'
 import { usePageMeta, useSlidingPill } from '../lib/hooks.js'
+import { glow, sectionColors } from '../lib/theme.js'
 
 // "Cubic Builds" -> "CB". A single-word name keeps its own capitals, so
 // "GradientV LLC" -> "GV".
@@ -16,11 +17,24 @@ const initials = (org) => {
     .join('')
 }
 
-function Monogram({ org }) {
+// The company's logo, or its initials when there's no logo yet.
+function OrgLogo({ role: r, size = 'size-14' }) {
+  if (r.logo) {
+    return (
+      <img
+        src={r.logo}
+        alt=""
+        className={`${size} shrink-0 rounded-2xl border border-white/12 object-cover`}
+        style={{ boxShadow: `0 8px 22px -10px ${r.color ?? '#000'}` }}
+      />
+    )
+  }
   return (
-    <div className="relative grid size-14 shrink-0 place-items-center overflow-hidden rounded-2xl border border-white/12 bg-gradient-to-br from-graphite to-coal">
+    <div
+      className={`relative grid ${size} shrink-0 place-items-center overflow-hidden rounded-2xl border border-white/12 bg-gradient-to-br from-graphite to-coal`}
+    >
       <span aria-hidden className="absolute -right-3 -top-3 size-8 rounded-full bg-white/10" />
-      <span className="relative text-lg font-semibold tracking-tight text-mist">{initials(org)}</span>
+      <span className="relative text-lg font-semibold tracking-tight text-mist">{initials(r.org)}</span>
     </div>
   )
 }
@@ -52,7 +66,7 @@ function RoleDetail({ role: r, compact = false }) {
         orgLine
       ) : (
         <div className="flex items-start gap-4">
-          <Monogram org={r.org} />
+          <OrgLogo role={r} />
           <div className="min-w-0">
             <h2 className="text-2xl font-semibold leading-tight tracking-tight sm:text-3xl">{r.role}</h2>
             {orgLine}
@@ -72,7 +86,7 @@ function RoleDetail({ role: r, compact = false }) {
       <ul className="mt-6 space-y-3">
         {r.points.map((pt) => (
           <li key={pt} className="flex gap-3 text-[15px] leading-relaxed text-mist">
-            <span aria-hidden className="mt-[9px] size-1.5 shrink-0 rotate-45 bg-fog" />
+            <span aria-hidden className="mt-[9px] size-1.5 shrink-0 rotate-45" style={{ background: r.color ?? '#a1a1aa' }} />
             {pt}
           </li>
         ))}
@@ -119,7 +133,7 @@ export default function Experience() {
 
   return (
     <>
-      <PageHeader index="02" title="Experience" count={experience.length}>
+      <PageHeader index="02" title="Experience" count={experience.length} color={sectionColors['/experience']}>
         Where I’ve worked, current roles first. Pick one to see what I did there.
       </PageHeader>
 
@@ -155,20 +169,25 @@ export default function Experience() {
                       <span
                         className={`relative size-2.5 rotate-45 border transition-colors duration-300 ${
                           selected
-                            ? 'border-snow bg-snow'
+                            ? ''
                             : current
                               ? 'border-mist bg-mist/40'
                               : 'border-steel bg-void group-hover:border-fog'
                         }`}
+                        style={selected ? { background: e.color, borderColor: e.color } : undefined}
                       />
                     </span>
+                    <OrgLogo role={e} size="size-11" />
                     <span className="min-w-0 flex-1">
                       <span className="flex items-center justify-between gap-3">
                         <span className="font-mono text-[11px] uppercase tracking-wider text-steel">
                           {formatRange(e.start, e.end)}
                         </span>
                         {current && (
-                          <span className="rounded-full border border-white/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-fog">
+                          <span
+                            className="rounded-full border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider"
+                            style={{ color: e.color, borderColor: `${e.color}55`, background: `${e.color}14` }}
+                          >
                             Now
                           </span>
                         )}
@@ -217,10 +236,15 @@ export default function Experience() {
         style={{ '--i': 6 }}
       >
         <span>
-          <span className="eyebrow">Up next · 03</span>
+          <span className="eyebrow" style={{ color: sectionColors['/projects'].light }}>
+            Up next · 03
+          </span>
           <span className="mt-2 block text-3xl font-semibold tracking-tight">Projects</span>
         </span>
-        <span className="grid size-12 place-items-center rounded-full border border-white/10 transition-all duration-500 ease-out-expo group-hover:border-transparent group-hover:bg-snow group-hover:text-void">
+        <span
+          className="grid size-12 place-items-center rounded-full text-white transition-transform duration-500 ease-out-expo group-hover:scale-110"
+          style={{ background: sectionColors['/projects'].base, boxShadow: glow(sectionColors['/projects'].base) }}
+        >
           <ArrowRight size={18} className="transition-transform duration-500 ease-out-expo group-hover:-rotate-45" />
         </span>
       </Link>

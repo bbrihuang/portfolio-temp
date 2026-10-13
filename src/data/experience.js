@@ -1,8 +1,11 @@
 // Work experience, newest first. Current roles (end: null) are listed before
-// past ones. Dates are 'YYYY-MM' so durations can be computed.
+// past ones. Dates are 'YYYY-MM' so durations can be computed. `logo` is a
+// square image in public/logos/; `color` is the company's accent color.
 export const experience = [
   {
     slug: 'gradientv',
+    logo: '/logos/gradientv.png',
+    color: '#60a5fa',
     role: 'Lead Software Engineer',
     org: 'GradientV LLC',
     orgNote: 'Technology & systems integration agency',
@@ -21,6 +24,8 @@ export const experience = [
   },
   {
     slug: 'bu-techops',
+    logo: '/logos/bu.svg',
+    color: '#ef4444',
     role: 'Student TechOps Assistant',
     org: 'Boston University',
     orgNote: 'College of Communication · TechOps Center',
@@ -38,6 +43,8 @@ export const experience = [
   },
   {
     slug: 'cubic-builds',
+    logo: '/logos/cubic-builds.svg',
+    color: '#5b6dff',
     role: 'Founder & Website Developer',
     org: 'Cubic Builds',
     orgNote: 'Custom PC building business',
@@ -56,6 +63,8 @@ export const experience = [
   },
   {
     slug: 'babel-audio',
+    logo: '/logos/babel-audio.svg',
+    color: '#ff7a1a',
     role: 'Audio & Video Recorder',
     org: 'Babel Audio',
     orgNote: 'AI training data',
