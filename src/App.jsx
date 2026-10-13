@@ -5,6 +5,7 @@ import Home from './pages/Home.jsx'
 import NotFound from './pages/NotFound.jsx'
 import ProjectDetail from './pages/ProjectDetail.jsx'
 import Projects from './pages/Projects.jsx'
+import Setup from './pages/Setup.jsx'
 
 // A data router (rather than <BrowserRouter>) is what makes <Link viewTransition>
 // work. Pages are small, so they load eagerly; that also keeps the
@@ -17,6 +18,7 @@ export const router = createBrowserRouter([
       { path: 'experience', element: <Experience /> },
       { path: 'projects', element: <Projects /> },
       { path: 'projects/:slug', element: <ProjectDetail /> },
+      { path: 'setup', element: <Setup /> },
       { path: '*', element: <NotFound /> },
     ],
   },

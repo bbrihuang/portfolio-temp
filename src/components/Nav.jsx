@@ -12,6 +12,7 @@ export const sections = [
   { to: '/', label: 'Home', end: true },
   { to: '/experience', label: 'Experience' },
   { to: '/projects', label: 'Projects' },
+  { to: '/setup', label: 'Setup' },
 ]
 
 const iconBtn =
@@ -64,10 +65,10 @@ export default function Nav() {
           </div>
 
           <div className="flex items-center gap-0.5 justify-self-end">
-            <a href={site.github} target="_blank" rel="noreferrer" aria-label="GitHub" className={`${iconBtn} hidden sm:grid`}>
+            <a href={site.github} target="_blank" rel="noreferrer" aria-label="GitHub" className={`${iconBtn} hidden xl:grid`}>
               <BrandIcon icon={siGithub} size={17} />
             </a>
-            <a href={site.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" className={`${iconBtn} hidden sm:grid`}>
+            <a href={site.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" className={`${iconBtn} hidden xl:grid`}>
               <LinkedIn size={17} />
             </a>
             {/* Résumé: an icon on mid-size screens, a labeled button once there's room. */}

@@ -1,7 +1,23 @@
 import { Link } from 'react-router'
 import { siGithub } from 'simple-icons'
 import BrandIcon from '../components/BrandIcon.jsx'
-import { ArrowDown, ArrowRight, ArrowUpRight, Chain, FileText, Glyph, Globe, LinkedIn, MapPin, Rocket, Trophy } from '../components/Icons.jsx'
+import {
+  ArrowDown,
+  ArrowRight,
+  ArrowUpRight,
+  Briefcase,
+  Chain,
+  Cpu,
+  FileText,
+  Glyph,
+  Globe,
+  Layers,
+  LinkedIn,
+  MapPin,
+  Rocket,
+  Trophy,
+  User,
+} from '../components/Icons.jsx'
 import ProfileBlurb from '../components/ProfileBlurb.jsx'
 import { site } from '../config.js'
 import { marquee, stack } from '../data/skills.js'
@@ -60,9 +76,9 @@ function Hero() {
           className="rise-blur mt-5 text-[clamp(2.75rem,6.4vw,5.25rem)] font-bold leading-[0.98] tracking-[-0.04em]"
           style={{ '--i': 1 }}
         >
-          <span className="text-steel">I build where</span>{' '}
+          <span className="text-fog">I build where</span>{' '}
           <span className="text-gradient bg-gradient-to-r from-sky-300 to-indigo-400">software</span>{' '}
-          <span className="text-steel">meets</span>{' '}
+          <span className="text-fog">meets</span>{' '}
           <span className="text-gradient bg-gradient-to-r from-amber-200 to-orange-400">hardware.</span>
         </h1>
         <p className="rise-blur mt-6 max-w-xl text-[17px] leading-relaxed text-fog" style={{ '--i': 2 }}>
@@ -94,8 +110,8 @@ function Hero() {
 // three on wider screens, stacked full width on phones where three would not fit.
 function SectionLinks() {
   const buttons = [
-    { to: '/experience', label: 'Experience' },
-    { to: '/projects', label: 'Projects' },
+    { to: '/experience', label: 'Experience', icon: <Briefcase size={16} /> },
+    { to: '/projects', label: 'Projects', icon: <Layers size={16} /> },
   ]
   return (
     <div className="mt-8 grid gap-3 sm:w-fit sm:grid-cols-3">
@@ -108,6 +124,7 @@ function SectionLinks() {
             className="btn rise group min-w-40 bg-(--c) text-white hover:bg-(--c-hover)"
             style={{ '--i': 3 + i, '--c': c.base, '--c-hover': c.hover, boxShadow: glow(c.base) }}
           >
+            {b.icon}
             {b.label}
             <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-0.5" />
           </Link>
@@ -126,6 +143,7 @@ function AboutButton() {
   }
   return (
     <button type="button" onClick={go} className="btn btn-glass rise group min-w-40" style={{ '--i': 5 }}>
+      <User size={16} />
       About me
       <ArrowDown size={16} className="transition-transform duration-300 group-hover:translate-y-0.5" />
     </button>
@@ -133,57 +151,93 @@ function AboutButton() {
 }
 
 // LinkedIn and GitHub. The email lives in the profile card up top.
+const cardClass =
+  'glass rise group flex w-full items-center gap-3 rounded-3xl p-4 text-left transition-transform duration-300 ease-out-expo hover:scale-[1.02]'
+
+function CardBody({ icon, tint, label, detail, trailing }) {
+  return (
+    <>
+      <span className={`grid size-9 shrink-0 place-items-center rounded-full ${tint}`}>{icon}</span>
+      <span className="min-w-0 flex-1">
+        <span className="block text-[15px] font-medium">{label}</span>
+        <span className="block truncate font-mono text-xs text-fog">{detail}</span>
+      </span>
+      <span className="hidden shrink-0 text-steel transition-colors group-hover:text-snow min-[420px]:block">{trailing}</span>
+    </>
+  )
+}
+
+// Résumé, LinkedIn, GitHub and Setup as four equal cards (2 × 2). Setup opens
+// the Setup page on this site; the others open in a new tab.
 function Elsewhere() {
   const links = [
+    site.resume && {
+      href: site.resume,
+      label: 'Résumé',
+      detail: 'PDF',
+      icon: <FileText size={17} />,
+      tint: 'bg-emerald-500 text-white',
+    },
     {
       href: site.linkedin,
       label: 'LinkedIn',
-      handle: site.linkedinHandle,
+      detail: site.linkedinHandle,
       icon: <LinkedIn size={16} />,
       tint: 'bg-[#0a66c2] text-white',
     },
     {
       href: site.github,
       label: 'GitHub',
-      handle: site.githubHandle,
+      detail: site.githubHandle,
       icon: <BrandIcon icon={siGithub} size={17} />,
       tint: 'bg-snow text-void',
-    },
-    // Full-width card under the other two, shown once config.js has a résumé.
-    site.resume && {
-      href: site.resume,
-      label: 'Résumé',
-      handle: 'PDF · opens in a new tab',
-      icon: <FileText size={17} />,
-      tint: 'bg-emerald-500 text-white',
-      wide: true,
     },
   ].filter(Boolean)
   return (
     <div className="grid grid-cols-2 gap-4">
       {links.map((l, k) => (
-        <a
-          key={l.label}
-          href={l.href}
-          target="_blank"
-          rel="noreferrer"
-          className={`glass rise group flex items-center gap-3 rounded-3xl p-4 transition-transform duration-300 ease-out-expo hover:scale-[1.02] active:scale-[0.99] ${
-            l.wide ? 'col-span-2' : ''
-          }`}
-          style={{ '--i': 3 + k }}
-        >
-          <span className={`grid size-9 shrink-0 place-items-center rounded-full ${l.tint}`}>{l.icon}</span>
-          <span className="min-w-0 flex-1">
-            <span className="block text-[15px] font-medium">{l.label}</span>
-            <span className="block truncate font-mono text-xs text-fog">{l.handle}</span>
-          </span>
-          <ArrowUpRight
-            size={16}
-            className="hidden shrink-0 text-steel transition-colors group-hover:text-snow min-[420px]:block"
-          />
+        <a key={l.label} href={l.href} target="_blank" rel="noreferrer" className={cardClass} style={{ '--i': 3 + k }}>
+          <CardBody {...l} trailing={<ArrowUpRight size={16} />} />
         </a>
       ))}
+      <Link to="/setup" className={cardClass} style={{ '--i': 3 + links.length }}>
+        <CardBody
+          label="Setup"
+          detail="My PC & tools"
+          icon={<Cpu size={17} />}
+          tint="bg-orange-500 text-white"
+          trailing={<ArrowRight size={16} />}
+        />
+      </Link>
     </div>
+  )
+}
+
+// A small Google Map of BU's campus, darkened to match the site. The embed is
+// oversized and centered so Google's own buttons fall outside the frame; the
+// whole tile is a link that opens BU in Google Maps. Full width under the
+// degree on phones, a small tile beside it on wider screens.
+function CampusMap() {
+  return (
+    <a
+      href="https://www.google.com/maps/place/Boston+University/"
+      target="_blank"
+      rel="noreferrer"
+      aria-label="Boston University on Google Maps"
+      className="group relative h-28 basis-full overflow-hidden rounded-2xl border border-white/12 bg-ash sm:h-[72px] sm:w-28 sm:basis-auto"
+    >
+      <iframe
+        title="Map of Boston University"
+        src="https://maps.google.com/maps?q=Boston%20University&z=16&output=embed"
+        loading="lazy"
+        tabIndex={-1}
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[640px] w-[960px] -translate-x-1/2 -translate-y-1/2 [filter:invert(0.92)_hue-rotate(180deg)_saturate(0.7)_brightness(0.95)]"
+      />
+      <span className="absolute bottom-1.5 right-1.5 grid size-6 place-items-center rounded-full bg-black/60 text-snow opacity-80 transition-opacity group-hover:opacity-100">
+        <ArrowUpRight size={12} />
+      </span>
+    </a>
   )
 }
 
@@ -191,25 +245,24 @@ function About() {
   return (
     <section id="about" className="mt-16 scroll-mt-28 sm:mt-20" aria-labelledby="about-title">
       <h2 id="about-title" className="rise-blur text-5xl font-bold tracking-[-0.04em] sm:text-6xl">
-        About
+        About Me
       </h2>
 
       <div className="mt-8 grid gap-4 lg:grid-cols-12">
         <div className="flex flex-col gap-4 lg:col-span-5">
-          <div className="glass rise flex items-center gap-5 rounded-3xl p-5" style={{ '--i': 1 }}>
-            <img
-              src="/bu-logo.png"
-              alt="Boston University"
-              width="500"
-              height="224"
-              className="h-14 w-auto shrink-0 rounded-lg shadow-[0_8px_24px_-10px_rgb(204_0_0/0.7)]"
-            />
-            <div>
-              <p className="text-lg font-semibold tracking-tight">{site.degree}</p>
+          <div className="glass rise flex flex-wrap items-center gap-4 rounded-3xl p-5" style={{ '--i': 1 }}>
+            {/* The logo sits on a BU-red tile, so the outer corners can be well rounded
+                without clipping the logo's own inner white border. */}
+            <div className="shrink-0 rounded-2xl bg-[#cc0000] p-1.5 shadow-[0_8px_24px_-10px_rgb(204_0_0/0.7)]">
+              <img src="/bu-logo.png" alt="Boston University" width="500" height="224" className="h-11 w-auto" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-lg font-semibold leading-snug tracking-tight">{site.degree}</p>
               <p className="text-sm text-fog">
                 {site.school} · {site.graduation}
               </p>
             </div>
+            <CampusMap />
           </div>
 
           <div className="glass rise rounded-3xl p-5" style={{ '--i': 2 }}>

@@ -6,6 +6,8 @@
 export const sectionColors = {
   '/experience': { base: '#2f7cf6', hover: '#4a8ef8', light: '#8ab8ff' },
   '/projects': { base: '#8b45f5', hover: '#9b5cf7', light: '#c3a0ff' },
+  // Setup matches "hardware" in the homepage headline.
+  '/setup': { base: '#f97316', hover: '#fb8a3c', light: '#fcd38d' },
 }
 
 /** The section color for a path ('/projects/jethexa' → Projects), or undefined. */

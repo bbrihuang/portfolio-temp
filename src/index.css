@@ -1,5 +1,19 @@
 @import "tailwindcss";
 
+/* Tailwind's hover: only fires on devices that can hover, so on phones every
+   hover effect (arrow nudges, lifts, highlights) never showed. This adds the
+   pressed state, so the same effects play while a finger is on the element. */
+@custom-variant hover {
+  @media (hover: hover) {
+    &:hover {
+      @slot;
+    }
+  }
+  &:active {
+    @slot;
+  }
+}
+
 /* ------------------------------------------------------------------
    Design tokens
    A graphite ground, white type, frosted-glass surfaces. Greys do the
@@ -366,15 +380,40 @@
   overflow: clip;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+/* Reduced motion (iPhone: Settings → Accessibility → Motion; Android: Remove
+   animations). Stop anything that slides, scrolls, spins or types, but keep
+   gentle fades and color changes so the page still feels alive. */
+@keyframes fade-in {
+  from {
+    opacity: 0;
   }
-  .marquee-track {
+}
+@media (prefers-reduced-motion: reduce) {
+  .page {
+    animation: none;
+  }
+  .rise,
+  .rise-blur,
+  .swap-in {
+    animation-name: fade-in;
+  }
+  .marquee-track,
+  .typed,
+  .caret,
+  .pulse-ring,
+  .art-flow,
+  .art-cell {
+    animation: none !important;
+  }
+  .typed {
+    width: auto !important;
+  }
+  .art-spin {
+    transition: none;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
     animation: none;
   }
 }

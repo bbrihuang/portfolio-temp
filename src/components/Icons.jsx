@@ -138,6 +138,119 @@ export const ArrowDown = (p) => (
   </Svg>
 )
 
+export const Briefcase = (p) => (
+  <Svg {...p}>
+    <rect x="3" y="7" width="18" height="13" rx="2" />
+    <path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M3 13h18" />
+  </Svg>
+)
+
+export const User = (p) => (
+  <Svg {...p}>
+    <circle cx="12" cy="8" r="4" />
+    <path d="M4.5 20.5a7.5 7.5 0 0 1 15 0" />
+  </Svg>
+)
+
+// Setup page: parts, devices and roles.
+export const Fan = (p) => (
+  <Svg {...p}>
+    <circle cx="12" cy="12" r="9" />
+    <circle cx="12" cy="12" r="1.6" />
+    <path d="M12 10.4c-.6-2.4.2-4.6 2.6-5 1.4 1.5.6 4.1-1.4 5.6M13.6 12c2.4-.6 4.6.2 5 2.6-1.5 1.4-4.1.6-5.6-1.4M12 13.6c.6 2.4-.2 4.6-2.6 5-1.4-1.5-.6-4.1 1.4-5.6M10.4 12c-2.4.6-4.6-.2-5-2.6 1.5-1.4 4.1-.6 5.6 1.4" />
+  </Svg>
+)
+
+export const Memory = (p) => (
+  <Svg {...p}>
+    <rect x="3" y="7" width="18" height="9" rx="1" />
+    <path d="M7 10v3M10.5 10v3M14 10v3M17.5 10v3M5 16v2.5M9 16v2.5M15 16v2.5M19 16v2.5" />
+  </Svg>
+)
+
+export const HardDrive = (p) => (
+  <Svg {...p}>
+    <rect x="3" y="5" width="18" height="14" rx="2" />
+    <path d="M3 14h18" />
+    <circle cx="16.5" cy="16.5" r=".6" fill="currentColor" />
+    <path d="M6.5 16.5h5" />
+  </Svg>
+)
+
+export const GraphicsCard = (p) => (
+  <Svg {...p}>
+    <rect x="2.5" y="6" width="19" height="10" rx="1.5" />
+    <circle cx="8.5" cy="11" r="2.6" />
+    <circle cx="15.5" cy="11" r="2.6" />
+    <path d="M5 16v2.5h9V16" />
+  </Svg>
+)
+
+export const Board = (p) => (
+  <Svg {...p}>
+    <rect x="4" y="4" width="16" height="16" rx="1.5" />
+    <rect x="8" y="8" width="5" height="5" />
+    <path d="M16 7.5v3M16 13.5v3M8 16.5h5" />
+  </Svg>
+)
+
+export const Tower = (p) => (
+  <Svg {...p}>
+    <rect x="6" y="2.5" width="12" height="19" rx="1.5" />
+    <circle cx="12" cy="14" r="3" />
+    <path d="M9 6.5h6" />
+  </Svg>
+)
+
+export const Plug = (p) => (
+  <Svg {...p}>
+    <path d="M9 3v4M15 3v4M6.5 7h11v3a5.5 5.5 0 0 1-11 0V7zM12 15.5V21" />
+  </Svg>
+)
+
+export const Laptop = (p) => (
+  <Svg {...p}>
+    <rect x="4.5" y="5" width="15" height="10" rx="1.2" />
+    <path d="M2.5 18.5h19l-1.5-3.5H4z" />
+  </Svg>
+)
+
+export const Phone = (p) => (
+  <Svg {...p}>
+    <rect x="7" y="2.5" width="10" height="19" rx="2.2" />
+    <path d="M10.5 5h3" />
+  </Svg>
+)
+
+export const Earbuds = (p) => (
+  <Svg {...p}>
+    <path d="M7 4.5a3 3 0 0 1 3 3v2.5a3 3 0 0 1-3 3 3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3zM8.5 12.6V19.5M17 4.5a3 3 0 0 0-3 3v2.5a3 3 0 0 0 3 3 3 3 0 0 0 3-3V7.5a3 3 0 0 0-3-3zM15.5 12.6V19.5" />
+  </Svg>
+)
+
+export const Gamepad = (p) => (
+  <Svg {...p}>
+    <path d="M7 7h10a4.5 4.5 0 0 1 4.4 5.4l-.8 4A2.5 2.5 0 0 1 16.4 18l-2.2-2.4H9.8L7.6 18a2.5 2.5 0 0 1-4.2-1.6l-.8-4A4.5 4.5 0 0 1 7 7z" />
+    <path d="M8 10.5v3M6.5 12h3" />
+    <circle cx="15.5" cy="11" r=".7" fill="currentColor" />
+    <circle cx="17" cy="13" r=".7" fill="currentColor" />
+  </Svg>
+)
+
+export const Server = (p) => (
+  <Svg {...p}>
+    <rect x="3.5" y="4" width="17" height="7" rx="1.5" />
+    <rect x="3.5" y="13" width="17" height="7" rx="1.5" />
+    <path d="M7 7.5h.01M7 16.5h.01M11 7.5h6M11 16.5h6" />
+  </Svg>
+)
+
+export const Cloud = (p) => (
+  <Svg {...p}>
+    <path d="M7 18.5h10.5a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.6 9.6 4.5 4.5 0 0 0 7 18.5z" />
+  </Svg>
+)
+
 export const Globe = (p) => (
   <Svg {...p}>
     <circle cx="12" cy="12" r="9" />
