@@ -1,10 +1,15 @@
-import { Outlet, ScrollRestoration, useLocation } from 'react-router'
+import { computeRoute, SpeedInsights } from '@vercel/speed-insights/react'
+import { Outlet, ScrollRestoration, useLocation, useMatches } from 'react-router'
 import Background from './Background.jsx'
 import Footer from './Footer.jsx'
 import Nav from './Nav.jsx'
 
 export default function Layout() {
   const { pathname } = useLocation()
+  // Vercel Speed Insights groups pages by route pattern, so every project page
+  // reports as /projects/[slug] instead of one entry per project.
+  const matches = useMatches()
+  const route = computeRoute(pathname, matches.at(-1)?.params ?? null)
 
   return (
     <div className="flex min-h-dvh flex-col">
@@ -25,6 +30,7 @@ export default function Layout() {
       {/* New pages start at the top; Back returns to where you were. Filter
           and role changes pass preventScrollReset so they stay put. */}
       <ScrollRestoration />
+      <SpeedInsights route={route} />
     </div>
   )
 }
