@@ -78,42 +78,50 @@ function tone({ freq, to, gain = 0.15, attack = 0.008, decay = 0.12, delay = 0 }
   osc.stop(t + attack + decay + 0.02)
 }
 
+// Notes from a major pentatonic scale, so any two sounds that overlap still
+// sound pleasant together. Repeated sounds pick a nearby note each time
+// instead of repeating the exact same pitch.
+const pick = (notes) => notes[Math.floor(Math.random() * notes.length)]
+
 const sounds = {
-  // Buttons and links: a soft, low "tok", like a muted wooden tap.
+  // Buttons and links: a very soft, low "pup" with a slow fade-in, so it has
+  // no sharp edge at all.
   tick() {
-    tone({ freq: 560, to: 430, gain: 0.24, attack: 0.006, decay: 0.09 })
-    tone({ freq: 1120, to: 860, gain: 0.04, attack: 0.006, decay: 0.05 })
+    tone({ freq: pick([294, 330, 349]), gain: 0.09, attack: 0.018, decay: 0.12 })
   },
   // Sliding highlights (nav, filters, tabs): two soft rising notes as the pill moves.
   slide() {
-    tone({ freq: 494, gain: 0.13, decay: 0.1 })
-    tone({ freq: 659, gain: 0.11, decay: 0.13, delay: 0.07 })
+    tone({ freq: 440, gain: 0.08, attack: 0.012, decay: 0.12 })
+    tone({ freq: 587, gain: 0.07, attack: 0.012, decay: 0.15, delay: 0.07 })
   },
-  // Page change: a soft two-note bloom that swells as the new page slides in
-  // and settles with it (the slide is a 0.9s ease-out, so most of it is early).
+  // Page change: a gentle three-note rising chime that plays out as the new
+  // page slides in (the slide is a 0.9s ease-out, so most of it is early).
   page() {
-    tone({ freq: 513, to: 523, gain: 0.07, attack: 0.06, decay: 0.5 })
-    tone({ freq: 768, to: 784, gain: 0.04, attack: 0.08, decay: 0.45, delay: 0.04 })
+    tone({ freq: 523, gain: 0.06, attack: 0.02, decay: 0.3 })
+    tone({ freq: 659, gain: 0.055, attack: 0.02, decay: 0.32, delay: 0.07 })
+    tone({ freq: 784, gain: 0.05, attack: 0.02, decay: 0.42, delay: 0.14 })
   },
-  // Panels opening and closing (quick look, gallery).
+  // Panels opening and closing (quick look, gallery): two notes up, two down.
   open() {
-    tone({ freq: 440, to: 660, gain: 0.14, decay: 0.14 })
+    tone({ freq: 440, gain: 0.08, attack: 0.012, decay: 0.12 })
+    tone({ freq: 659, gain: 0.07, attack: 0.012, decay: 0.16, delay: 0.06 })
   },
   close() {
-    tone({ freq: 660, to: 440, gain: 0.12, decay: 0.12 })
+    tone({ freq: 659, gain: 0.07, attack: 0.012, decay: 0.12 })
+    tone({ freq: 440, gain: 0.06, attack: 0.012, decay: 0.15, delay: 0.06 })
   },
   // Something worked (email copied): a small two-note chime.
   done() {
-    tone({ freq: 784, gain: 0.12, decay: 0.3 })
-    tone({ freq: 1175, gain: 0.1, decay: 0.38, delay: 0.08 })
+    tone({ freq: 784, gain: 0.09, attack: 0.012, decay: 0.3 })
+    tone({ freq: 1175, gain: 0.08, attack: 0.012, decay: 0.38, delay: 0.08 })
   },
-  // Terminal: very faint keystroke taps and a soft blip on Enter.
+  // Terminal: very faint taps that wander across the scale, and two notes on Enter.
   key() {
-    tone({ freq: 680 + Math.random() * 120, gain: 0.05, attack: 0.003, decay: 0.03 })
+    tone({ freq: pick([523, 587, 659, 784, 880]), gain: 0.03, attack: 0.008, decay: 0.05 })
   },
   enter() {
-    tone({ freq: 587, gain: 0.09, decay: 0.08 })
-    tone({ freq: 880, gain: 0.08, decay: 0.1, delay: 0.05 })
+    tone({ freq: 587, gain: 0.07, attack: 0.01, decay: 0.09 })
+    tone({ freq: 880, gain: 0.06, attack: 0.01, decay: 0.12, delay: 0.05 })
   },
 }
 
