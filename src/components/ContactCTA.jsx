@@ -1,29 +1,12 @@
-import { useEffect, useState } from 'react'
 import { site } from '../config.js'
 import { useCopyEmail, useTilt } from '../lib/hooks.js'
 import { Check, FileText, LinkedIn, MailPlus } from './Icons.jsx'
-
-// The fields the badge cycles through, matching the kinds of projects on the page.
-const fields = ['software', 'hardware', 'AI/ML', 'robotics']
-
-// Swaps to the next field every few seconds. Holds on the first one for visitors
-// who prefer reduced motion.
-function useCycle(length, ms = 2400) {
-  const [i, setI] = useState(0)
-  useEffect(() => {
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const id = setInterval(() => setI((n) => (n + 1) % length), ms)
-    return () => clearInterval(id)
-  }, [length, ms])
-  return i
-}
 
 // A compact "get in touch" card that sits to the right of the Projects page
 // header: availability badge, one line, and the three ways to reach me. A slow
 // light runs around its rim and a sheen follows the pointer.
 export default function ContactCTA({ index = 3 }) {
   const { copied, copy } = useCopyEmail()
-  const field = useCycle(fields.length)
   const sheen = useTilt(0)
   return (
     <aside
@@ -43,12 +26,6 @@ export default function ContactCTA({ index = 3 }) {
             <span className="size-2 rounded-full bg-emerald-400" />
           </span>
           Open to internships
-        </span>
-        <span className="font-mono text-xs text-fog">
-          in{' '}
-          <span key={field} className="swap-in inline-block text-snow">
-            {fields[field]}
-          </span>
         </span>
       </div>
       <p className="relative mt-4 text-[15px] leading-relaxed text-mist">

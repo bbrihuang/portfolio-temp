@@ -22,8 +22,8 @@ const intro = [
   {
     icon: (p) => <Glyph name="layers" {...p} />,
     color: 'text-amber-400',
-    cmd: 'ls ~/interests',
-    out: [{ text: 'pc-homelab/  robotics/  local-llms/  building-things/', folders: true }],
+    cmd: 'cat interests.txt',
+    out: [{ text: 'PCs, Homelabs, Machine Learning, Sports' }],
   },
 ]
 

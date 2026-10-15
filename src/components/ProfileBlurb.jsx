@@ -79,13 +79,6 @@ export default function ProfileBlurb({ startIndex = 0 }) {
           <p className="mt-0.5 text-sm text-fog">
             {site.school} · Class of ’{String(site.classOf).slice(2)}
           </p>
-          <p className="mt-1 flex items-center gap-2 font-mono text-[11px] text-steel">
-            <span className="relative grid size-2 place-items-center">
-              <span className="pulse-ring absolute inset-0 rounded-full bg-emerald-400/60" />
-              <span className="size-2 rounded-full bg-emerald-400" />
-            </span>
-            Lead Software Engineer at GradientV
-          </p>
         </div>
         <SocialLinks />
       </div>

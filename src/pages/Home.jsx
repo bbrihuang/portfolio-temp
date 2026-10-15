@@ -73,7 +73,7 @@ function Hero() {
         <p className="rise mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-steel" style={{ '--i': 5 }}>
           <span className="inline-flex items-center gap-1.5">
             <MapPin size={15} />
-            Boston, MA · New York City, NY
+            Boston, MA / New York City, NY
           </span>
           <span className="inline-flex items-center gap-2">
             <span className="size-1.5 rounded-full bg-emerald-400" />
