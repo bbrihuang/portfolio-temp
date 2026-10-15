@@ -60,9 +60,11 @@ export default function ProjectDetail() {
             {p.summary}
           </p>
 
-          <h2 className="eyebrow rise mt-12" style={{ '--i': 6 }}>
-            Highlights
-          </h2>
+          {p.highlights.length > 0 && (
+            <h2 className="eyebrow rise mt-12" style={{ '--i': 6 }}>
+              Highlights
+            </h2>
+          )}
           <ol className="mt-4 space-y-3">
             {p.highlights.map((h, k) => (
               <li key={h} className="glass rise flex gap-4 rounded-2xl p-4 sm:p-5" style={{ '--i': 7 + k }}>
@@ -88,16 +90,18 @@ export default function ProjectDetail() {
                 <dt className="eyebrow">Timeline</dt>
                 <dd className="mt-1.5 text-[15px] text-mist">{p.date}</dd>
               </div>
-              <div>
-                <dt className="eyebrow">Stack</dt>
-                <dd className="mt-2.5 flex flex-wrap gap-1.5">
-                  {p.stack.map((s) => (
-                    <span key={s} className="chip chip-sm">
-                      {s}
-                    </span>
-                  ))}
-                </dd>
-              </div>
+              {p.stack.length > 0 && (
+                <div>
+                  <dt className="eyebrow">Stack</dt>
+                  <dd className="mt-2.5 flex flex-wrap gap-1.5">
+                    {p.stack.map((s) => (
+                      <span key={s} className="chip chip-sm">
+                        {s}
+                      </span>
+                    ))}
+                  </dd>
+                </div>
+              )}
             </dl>
             {p.links.length > 0 && (
               <div className="mt-6 flex flex-col gap-2 border-t border-white/[0.07] pt-5">

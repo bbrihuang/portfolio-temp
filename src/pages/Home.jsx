@@ -173,7 +173,7 @@ function Elsewhere() {
           <CardBody {...l} trailing={<ArrowUpRight size={16} />} />
         </a>
       ))}
-      <Link to="/setup" className={cardClass} style={{ '--i': 3 + links.length }}>
+      <Link to="/projects/setup" className={cardClass} style={{ '--i': 3 + links.length }}>
         <CardBody
           label="Setup"
           detail="My PC & tools"

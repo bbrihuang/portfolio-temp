@@ -13,7 +13,6 @@ export const sections = [
   { to: '/', label: 'Home', end: true },
   { to: '/experience', label: 'Experience' },
   { to: '/projects', label: 'Projects' },
-  { to: '/setup', label: 'Setup' },
 ]
 
 const iconBtn =

@@ -56,7 +56,7 @@ function run(input) {
       ]
     case 'setup':
       return [
-        <Link key="s" to="/setup" className={link}>
+        <Link key="s" to="/projects/setup" className={link}>
           → open Setup (my PC & homelab)
         </Link>,
       ]

@@ -1,4 +1,4 @@
-import { useId } from 'react'
+import { useId, useState } from 'react'
 
 // Geometric cover art for projects without a photo. Every piece is drawn on
 // a 400x260 canvas and cropped to fill its box, so keep motifs inside
@@ -340,11 +340,32 @@ function Homelab() {
 
 const motifs = { meals: Meals, nozzle: Nozzle, hexapod: Hexapod, attention: Attention, cube: Cube, board: Board, sites: Sites, homelab: Homelab }
 
+// A project's `image` if it has one: it fades in over the geometric art once it
+// loads, and if the file is missing the art simply stays. `imagePosition` (any CSS
+// object-position, e.g. 'center 30%') moves the crop when the subject is off-center.
 export default function ProjectArt({ project, live = false, className = '' }) {
+  // Keyed by src, so moving to another project's page starts fresh.
+  const [status, setStatus] = useState({})
+  const state = status[project.image]
+  if (!project.image || state === 'failed') return <Art project={project} live={live} className={className} />
+  return (
+    <div className="relative size-full bg-[#141416]">
+      <img
+        src={project.image}
+        alt=""
+        loading="lazy"
+        decoding="async"
+        onLoad={() => setStatus({ [project.image]: 'loaded' })}
+        onError={() => setStatus({ [project.image]: 'failed' })}
+        className={`size-full object-cover transition-opacity duration-700 ${state === 'loaded' ? 'opacity-100' : 'opacity-0'} ${className}`}
+        style={{ objectPosition: project.imagePosition }}
+      />
+    </div>
+  )
+}
+
+function Art({ project, live, className }) {
   const id = useId().replace(/:/g, '')
-  if (project.image) {
-    return <img src={project.image} alt="" className={`size-full object-cover ${className}`} loading="lazy" />
-  }
   const Motif = motifs[project.art] ?? Cube
   return (
     <svg

@@ -330,6 +330,82 @@
   animation: pulse-ring 2.2s var(--ease-out-expo) infinite;
 }
 
+/* A slow band of light that runs around a card's rim (the contact card). The
+   ring is a conic gradient masked down to the 1px border. */
+@property --rim {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes rim-spin {
+  to {
+    --rim: 360deg;
+  }
+}
+.live-rim::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  background: conic-gradient(
+    from var(--rim),
+    transparent 0deg,
+    rgb(52 211 153 / 0.7) 40deg,
+    rgb(195 160 255 / 0.55) 90deg,
+    transparent 140deg 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  animation: rim-spin 7s linear infinite;
+}
+
+/* A light sweep across a button on hover. */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgb(255 255 255 / 0.9) 50%, transparent 65%);
+  transform: translateX(-120%);
+  pointer-events: none;
+}
+.shimmer:hover::after {
+  transition: transform 0.9s var(--ease-out-expo);
+  transform: translateX(120%);
+}
+
+/* Copy confirmation: the check pops in and the button gives off a green ring. */
+@keyframes pop-in {
+  0% {
+    transform: scale(0.3) rotate(-30deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.25) rotate(0);
+    opacity: 1;
+  }
+}
+.pop-in {
+  animation: pop-in 0.45s var(--ease-out-expo);
+}
+@keyframes copied-ring {
+  from {
+    box-shadow: 0 0 0 0 rgb(52 211 153 / 0.7);
+  }
+  to {
+    box-shadow: 0 0 0 14px rgb(52 211 153 / 0);
+  }
+}
+.copied-pop {
+  animation: copied-ring 0.8s var(--ease-out-expo);
+}
+
 /* Project art reacts when its card is hovered. */
 .art-spin {
   transform-box: fill-box;
@@ -401,6 +477,9 @@
   .typed,
   .caret,
   .pulse-ring,
+  .live-rim::before,
+  .pop-in,
+  .copied-pop,
   .art-flow,
   .art-cell {
     animation: none !important;
@@ -408,7 +487,8 @@
   .typed {
     width: auto !important;
   }
-  .art-spin {
+  .art-spin,
+  .shimmer:hover::after {
     transition: none;
   }
   ::view-transition-group(*),

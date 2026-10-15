@@ -1,7 +1,8 @@
 import { useRef } from 'react'
-import { useSearchParams } from 'react-router'
+import { Link, useSearchParams } from 'react-router'
 import Gallery from '../components/Gallery.jsx'
 import {
+  ArrowLeft,
   ArrowUpRight,
   Board,
   Cloud,
@@ -362,7 +363,16 @@ export default function Setup() {
 
   return (
     <>
-      <PageHeader index="04" title="Setup" color={orange}>
+      {/* Setup is one of the projects now, so it gets the same way back as a project page. */}
+      <Link
+        to="/projects"
+        viewTransition
+        className="rise group mb-8 inline-flex items-center gap-2 text-sm text-fog transition-colors hover:text-snow"
+      >
+        <ArrowLeft size={16} className="transition-transform duration-300 group-hover:-translate-x-0.5" />
+        All projects
+      </Link>
+      <PageHeader index="Projects" title="Setup" color={orange}>
         {setup.intro}
       </PageHeader>
       <ViewSwitch active={view} onChange={choose} />

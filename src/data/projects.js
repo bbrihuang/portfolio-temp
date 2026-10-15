@@ -1,11 +1,12 @@
-import { setup } from './setup.js'
-
-// Projects, newest first. `featured` projects show in the Featured section at the
-// top of the Projects page. `label` is the category tag on the card (e.g.
+// Projects. The Projects page sorts them by `start` (year-month; newest first by
+// default), while `date` is the text shown on the card. `featured` projects show in
+// the Featured section at the top of the page, in `featuredOrder` below. `label` is the category tag on the card (e.g.
 // "Software (AI/ML)"); `categories` drive the Software / Hardware filters.
 // `accent` is the project's color (cover art, card rule and label).
 // `art` picks a geometric cover from ProjectArt.jsx. To use a photo instead,
-// put it in public/projects/ and set `image: '/projects/<file>'`.
+// put it in public/projects/<slug>/ and set `image: '/projects/<slug>/cover.jpg'`.
+// Covers crop to 16:10 on cards and 21:9 on the project page, so keep the subject
+// near the middle; landscape and at least 1600px wide works best.
 //
 // `caseStudy` (optional) is the write-up under the highlights on a project's page.
 // Each section has a `title` and any of:
@@ -24,6 +25,7 @@ import { setup } from './setup.js'
 export const projects = [
   {
     slug: 'gradientv-client-sites',
+    start: '2026-10',
     accent: '#60a5fa',
     title: 'GradientV Client Websites',
     org: 'GradientV LLC',
@@ -85,6 +87,7 @@ export const projects = [
   },
   {
     slug: 'bu-dining-meal-planner',
+    start: '2026-09',
     accent: '#34d399',
     title: 'BU Dining Meal Planner',
     org: 'Personal project',
@@ -157,9 +160,11 @@ export const projects = [
     gallery: [],
   },
   {
-    slug: 'homelab',
-    accent: '#f59e0b',
-    title: 'PC Homelab',
+    // Lives at /projects/setup, which is the Setup page rather than a ProjectDetail page.
+    slug: 'setup',
+    start: '2026-01',
+    accent: '#f97316',
+    title: 'Setup',
     org: 'Personal project',
     role: 'Builder & admin',
     date: 'Ongoing',
@@ -168,42 +173,19 @@ export const projects = [
     label: 'Hardware · Software',
     featured: true,
     art: 'homelab',
-    short: 'My gaming PC doubles as a homelab: self-hosted services, local LLMs and remote access from anywhere.',
+    short: 'My daily drivers, and the gaming PC that doubles as a homelab: self-hosted services, local LLMs and remote access.',
     summary:
-      'One Mini-ITX PC that games, builds and serves. It runs self-hosted services in Docker on WSL2, local LLMs on the RTX 5070, and streams to my laptop and phone, all reachable from anywhere over Tailscale without exposing anything to the public internet.',
-    highlights: [
-      'Self-host n8n, Jellyfin, Uptime Kuma, Homarr and SnapOtter, each in its own Docker container on WSL2.',
-      'Run and profile local LLMs with Ollama and llama.cpp on the RTX 5070’s 12 GB of VRAM.',
-      'Reach every service from my laptop and phone over Tailscale, with nothing exposed to the public internet.',
-      'Stream the PC to my laptop and phone with Sunshine and Moonlight instead of carrying a gaming laptop.',
-    ],
+      'Everything I use day to day, plus one Mini-ITX PC that games, builds and serves. It runs self-hosted services in Docker on WSL2, local LLMs on the RTX 5070, and streams to my laptop and phone, all reachable from anywhere over Tailscale.',
+    highlights: [],
     stack: ['Docker', 'WSL2', 'Tailscale', 'Sunshine', 'Moonlight', 'Ollama', 'n8n', 'Jellyfin', 'Uptime Kuma', 'Homarr'],
-    links: [{ label: 'Full setup & parts list', href: '/setup?view=pc' }],
-    // Built from the Setup page's data, so the two never disagree.
-    caseStudy: [
-      { title: 'The problem', text: setup.architecture.intro },
-      {
-        title: 'How it works',
-        flow: [
-          { label: 'Laptop & phone', note: 'Moonlight · browser' },
-          { label: 'Tailscale', note: 'Private network' },
-          { label: 'Windows 11 Pro', note: 'Games · Sunshine · Ollama' },
-          { label: 'WSL2', note: 'Linux kernel in Windows' },
-          { label: 'Docker', note: 'One container per service' },
-        ],
-        text: 'Everything I reach from outside comes in over Tailscale. Windows runs the games and apps directly; WSL2 gives Docker a real Linux kernel, and each self-hosted service runs in its own container:',
-        points: setup.architecture.services.map((sv) => ({ title: sv.name, text: sv.why })),
-      },
-      { title: 'Design decisions', points: setup.architecture.decisions.map(({ title, text }) => ({ title, text })) },
-      { title: 'Trade-offs', points: setup.architecture.tradeoffs },
-      { title: setup.whyNot[0].question, text: setup.whyNot[0].text },
-    ],
+    links: [],
     gallery: [],
   },
   {
     slug: 'burpg-nozzle',
+    start: '2026-01',
     accent: '#fb923c',
-    title: 'Hybrid Rocket Nozzle',
+    title: 'BURPG HIP',
     org: 'BU Rocket Propulsion Group · Project HIP',
     role: 'Nozzle Design Engineer',
     date: 'Jan 2026 – Present',
@@ -249,6 +231,7 @@ export const projects = [
   },
   {
     slug: 'jethexa',
+    start: '2026-09',
     accent: '#22d3ee',
     title: 'Project JetHexa',
     org: 'BU AI Society · Robotics Division',
@@ -312,61 +295,29 @@ export const projects = [
     gallery: [],
   },
   {
-    slug: 'local-llm-inference',
+    // Details to come.
+    slug: 'llm-research',
+    start: '2026-09',
     accent: '#a78bfa',
-    title: 'Local LLM Inference',
+    title: 'LLM Research',
     org: 'BU AI Society · Local LLM Division',
     role: 'LLM Inference Researcher',
     date: 'Sep 2026 – Present',
     year: '2026',
     categories: ['Software', 'AI/ML'],
     label: 'Software (AI/ML)',
+    featured: true,
     art: 'attention',
-    short: 'Measuring why LLM text generation is memory-bandwidth-bound.',
-    summary:
-      'Profiling a quantized small model running locally in llama.cpp to show where the time actually goes: the prompt is processed in one parallel pass, then every new token waits on a full read of the weights.',
-    highlights: [
-      'Profiled 8-bit Qwen3-1.7B in llama.cpp, measuring prefill vs. decode speed and TTFT on 50 to 4K-token prompts.',
-      'Plotted throughput and time-to-first-token against prompt length to compare prefill and decode per token.',
-      'Presented a live demo to a 20+ member group on why LLM text generation is memory-bandwidth-bound.',
-    ],
-    stack: ['llama.cpp', 'Ollama', 'Python', 'Qwen3', 'Profiling'],
+    short: 'Research on running large language models locally. Write-up coming soon.',
+    summary: 'Research on running large language models locally with BU AI Society. A full write-up is coming soon.',
+    highlights: [],
+    stack: ['llama.cpp', 'Ollama', 'Python'],
     links: [],
-    // Add a 'Results' section once the numbers are final: how many times faster
-    // prefill ran per token than decode, TTFT at 50 vs. 4K tokens, and the hardware
-    // and llama.cpp version you ran on. Put the throughput and TTFT plots in the gallery.
-    caseStudy: [
-      {
-        title: 'The question',
-        text: 'Ask a local model a long question and there’s a pause, then the answer streams out at a steady pace. Those are two different phases with two different bottlenecks. I wanted to measure them instead of taking the explanation on faith, and then show a room of people why it happens.',
-      },
-      {
-        title: 'What’s going on',
-        flow: [
-          { label: 'Prompt', note: '50 to 4K tokens' },
-          { label: 'Prefill', note: 'Whole prompt in one pass' },
-          { label: 'First token', note: 'Time to first token' },
-          { label: 'Decode', note: 'One token per weight read' },
-        ],
-        text: [
-          'Prefill pushes every prompt token through the model at once. That’s large matrix–matrix math, so the hardware stays busy computing and the cost per token is low.',
-          'Decode produces one token at a time, and every token needs a read of all ~1.7 billion weights from memory to do comparatively little math. Speed is capped by how fast memory can feed the processor, not by how fast it can compute, which is what “memory-bandwidth-bound” means.',
-        ],
-      },
-      {
-        title: 'Method',
-        points: [
-          'Ran Qwen3-1.7B, quantized to 8 bits, locally in llama.cpp.',
-          'Swept prompt lengths from 50 to about 4,000 tokens.',
-          'Recorded prefill throughput, decode throughput and time to first token at each length.',
-          'Plotted all three against prompt length to compare the per-token cost of each phase.',
-        ],
-      },
-    ],
     gallery: [],
   },
   {
     slug: 'cubic-builds-storefront',
+    start: '2026-10',
     accent: '#7c8bff',
     title: 'Cubic Builds Storefront',
     org: 'Cubic Builds',
@@ -428,6 +379,7 @@ export const projects = [
   },
   {
     slug: 'pc-building-guide',
+    start: '2024-01',
     accent: '#a3e635',
     title: 'How to Build a PC',
     org: 'Published on Notion',
@@ -436,7 +388,6 @@ export const projects = [
     year: '2024',
     categories: ['Hardware'],
     label: 'Hardware · Guide',
-    featured: true,
     art: 'board',
     short: 'A free beginner’s guide to choosing parts, assembling, and troubleshooting a PC.',
     summary:
@@ -449,10 +400,64 @@ export const projects = [
     links: [],
     gallery: [],
   },
+  {
+    // Details to come: dates (set `start` so it sorts), what it measures, parts and stack.
+    slug: 'temperature-sensor',
+    start: null,
+    accent: '#f87171',
+    title: 'Temperature Sensor',
+    org: 'Personal project',
+    role: 'Builder',
+    date: 'Coming soon',
+    year: '',
+    categories: ['Hardware'],
+    label: 'Hardware',
+    art: 'board',
+    short: 'Write-up coming soon.',
+    summary: 'A full write-up is coming soon.',
+    highlights: [],
+    stack: [],
+    links: [],
+    gallery: [],
+  },
+  {
+    // Details to come: dates (set `start` so it sorts), what it does, stack and links.
+    slug: 'finance-dashboard',
+    start: null,
+    accent: '#4ade80',
+    title: 'Finance Dashboard / Paycheck Splitter',
+    org: 'Personal project',
+    role: 'Developer',
+    date: 'Coming soon',
+    year: '',
+    categories: ['Software'],
+    label: 'Software',
+    art: 'sites',
+    short: 'Write-up coming soon.',
+    summary: 'A full write-up is coming soon.',
+    highlights: [],
+    stack: [],
+    links: [],
+    gallery: [],
+  },
 ]
 
 // The Featured section at the top of the Projects page, in this order.
-export const featuredOrder = ['bu-dining-meal-planner', 'pc-building-guide', 'homelab']
+export const featuredOrder = ['llm-research', 'setup', 'bu-dining-meal-planner']
+
+// Sort options on the Projects page, kept apart from the filters. Projects with
+// no `start` yet go last; ties keep their order in the list above.
+const byStart = (dir) => (a, b) => {
+  if (a.start === b.start) return 0
+  if (!a.start) return 1
+  if (!b.start) return -1
+  return a.start < b.start ? dir : -dir
+}
+export const sorts = {
+  Newest: byStart(1),
+  Oldest: byStart(-1),
+  'A–Z': (a, b) => a.title.localeCompare(b.title),
+}
 
 // The filters on the Projects page, and which `categories` each one includes.
 // A project shows under every filter it matches (JetHexa is both).

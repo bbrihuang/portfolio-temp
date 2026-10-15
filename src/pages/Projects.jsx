@@ -4,7 +4,7 @@ import ContactCTA from '../components/ContactCTA.jsx'
 import { Plus } from '../components/Icons.jsx'
 import PageHeader from '../components/PageHeader.jsx'
 import ProjectCard from '../components/ProjectCard.jsx'
-import { featuredOrder, filterGroups, inFilter, projects } from '../data/projects.js'
+import { featuredOrder, filterGroups, inFilter, projects, sorts } from '../data/projects.js'
 import { usePageMeta, useSlidingPill } from '../lib/hooks.js'
 import { glow, sectionColors } from '../lib/theme.js'
 
@@ -16,21 +16,24 @@ const others = projects.filter((p) => !featuredOrder.includes(p.slug))
 
 const EASE = 'cubic-bezier(0.16, 1, 0.3, 1)'
 const filters = ['All', ...Object.keys(filterGroups)]
+const sortNames = Object.keys(sorts)
 
-function FilterBar({ active, onChange }) {
+// A row of pill buttons with a sliding highlight. Used twice: the category filter
+// (filled purple) and, separately, the sort order (a quieter white outline).
+function PillGroup({ label, options, active, onChange, filled, index }) {
   const ref = useRef(null)
   const pill = useSlidingPill(ref, '[aria-pressed="true"]', active)
   return (
-    <div className="glass rise max-w-full overflow-x-auto rounded-full p-1 [scrollbar-width:none]" style={{ '--i': 3 }}>
-      <div ref={ref} role="group" aria-label="Filter projects" className="relative flex w-max">
+    <div className="glass rise max-w-full overflow-x-auto rounded-full p-1 [scrollbar-width:none]" style={{ '--i': index }}>
+      <div ref={ref} role="group" aria-label={label} className="relative flex w-max">
         <span
           aria-hidden
           className={`absolute inset-y-0 left-0 rounded-full ${
             pill.animate ? 'transition-[transform,width] duration-500 ease-out-expo' : ''
-          }`}
-          style={{ ...pill.style, background: purple.base, boxShadow: glow(purple.base) }}
+          } ${filled ? '' : 'border border-white/20 bg-white/10'}`}
+          style={{ ...pill.style, ...(filled && { background: purple.base, boxShadow: glow(purple.base) }) }}
         />
-        {filters.map((f) => (
+        {options.map((f) => (
           <button
             key={f}
             type="button"
@@ -50,19 +53,25 @@ export default function Projects() {
   usePageMeta('Projects', 'Software, hardware, robotics, AI and aerospace projects by Brian Huang.')
   const [params, setParams] = useSearchParams()
   const active = filters.includes(params.get('filter')) ? params.get('filter') : 'All'
+  const sort = sortNames.includes(params.get('sort')) ? params.get('sort') : 'Newest'
   const list = useMemo(
-    () => others.filter((p) => inFilter(p, active)),
-    [active],
+    () => others.filter((p) => inFilter(p, active)).sort(sorts[sort]),
+    [active, sort],
   )
 
   // FLIP: remember where each card was, change the filter, then animate
   // every card from its old spot to its new one.
   const nodes = useRef(new Map())
   const before = useRef(null)
-  const choose = (f) => {
-    if (f === active) return
+  // Filter and sort both live in the URL; the defaults (All, Newest) are left out.
+  const update = (next) => {
+    const q = { filter: active, sort, ...next }
+    if (q.filter === active && q.sort === sort) return
     before.current = new Map([...nodes.current].map(([slug, el]) => [slug, el.getBoundingClientRect()]))
-    setParams(f === 'All' ? {} : { filter: f }, { replace: true, preventScrollReset: true })
+    setParams(
+      { ...(q.filter !== 'All' && { filter: q.filter }), ...(q.sort !== 'Newest' && { sort: q.sort }) },
+      { replace: true, preventScrollReset: true },
+    )
   }
   useLayoutEffect(() => {
     const prev = before.current
@@ -89,7 +98,7 @@ export default function Projects() {
         el.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'none' }], { duration: 650, easing: EASE })
       }
     }
-  }, [active])
+  }, [active, sort])
 
   return (
     <>
@@ -133,8 +142,19 @@ export default function Projects() {
             Showing {list.length} of {others.length}
           </p>
         </div>
-        <div className="mt-4 flex">
-          <FilterBar active={active} onChange={choose} />
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+          <PillGroup
+            label="Filter projects"
+            options={filters}
+            active={active}
+            onChange={(filter) => update({ filter })}
+            filled
+            index={3}
+          />
+          <div className="flex items-center gap-2.5">
+            <span className="eyebrow">Sort</span>
+            <PillGroup label="Sort projects" options={sortNames} active={sort} onChange={(s) => update({ sort: s })} index={4} />
+          </div>
         </div>
 
         <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
