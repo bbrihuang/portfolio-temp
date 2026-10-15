@@ -24,68 +24,6 @@
 // a video can take a `poster` image to show before it plays.
 export const projects = [
   {
-    slug: 'gradientv-client-sites',
-    start: '2026-10',
-    accent: '#60a5fa',
-    title: 'GradientV Client Websites',
-    org: 'GradientV LLC',
-    role: 'Lead Software Engineer',
-    date: 'Oct 2026 – Present',
-    year: '2026',
-    categories: ['Software'],
-    label: 'Software',
-    art: 'sites',
-    short: 'Three production websites for paying small-business clients: a Filipino cafe, a food truck and a tax advisory firm.',
-    summary:
-      'As lead engineer at GradientV, I built and shipped websites for three small businesses, each with its own job to do: a Filipino cafe in Elmhurst, Queens that wants regulars on its list, a Filipino food truck in Queens that takes catering requests, and a withholding-tax advisory firm whose site has to earn trust and qualify leads.',
-    highlights: [
-      'Built and deployed 3 production client websites on Vercel, with SEO and social-share metadata.',
-      'Built every site with accessible, mobile-responsive layouts.',
-      'Built a self-assessment tool for the tax firm that estimates a business’s IRS penalty exposure by industry.',
-      'Added a catering request form for the food truck and an email signup for the cafe’s new drops and events.',
-    ],
-    stack: ['React', 'Vercel', 'SEO', 'Accessibility', 'Responsive design'],
-    links: [
-      { label: 'Bukas Cafe', href: 'https://bukascafe.vercel.app/' },
-      { label: 'Swabe Foodtruck', href: 'https://www.swabefoodtruck.com/' },
-      { label: 'InfoReporting Solutions', href: 'https://inforeportingsolutions.vercel.app/' },
-    ],
-    caseStudy: [
-      {
-        title: 'The problem',
-        text: 'For a small business, the website has to give someone searching for it a clear, fast answer: what you offer, when you’re open, how to reach you. Each of these clients also needed their site to drive one specific action.',
-      },
-      {
-        title: 'Three clients, three jobs',
-        points: [
-          {
-            title: 'Bukas Cafe: turn visitors into regulars',
-            text: 'A Filipino progressive cafe in Elmhurst, Queens, known for its house lattes and the Clouds over Manila espresso series. The site tells that story and centers an email signup so people hear about new drops and events.',
-          },
-          {
-            title: 'Swabe Foodtruck: hours, menu and catering',
-            text: 'A Filipino food truck in Queens serving pares mami, tapa and pork belly rice bowls, sandwiches and lumpia. Visitors need the menu and hours at a glance, and the catering form turns the site into a source of bigger orders.',
-          },
-          {
-            title: 'InfoReporting Solutions: earn trust, qualify leads',
-            text: 'A withholding-tax advisory practice for nonfinancial businesses (Forms 1099, 1042-S, 1042 and W-8/W-9). The self-assessment tool lets a prospective client estimate their IRS penalty exposure by industry before they ever book a call.',
-          },
-        ],
-      },
-      {
-        title: 'How they’re built',
-        flow: [
-          { label: 'Client brief', note: 'Goal and audience' },
-          { label: 'Design and build', note: 'React, mobile first' },
-          { label: 'SEO and sharing', note: 'Metadata, link previews' },
-          { label: 'Deploy', note: 'Vercel' },
-        ],
-        text: 'Each site is deployed on Vercel with page titles and descriptions for search, and social-share metadata so links look right when they’re posted. Layouts are accessible and mobile-responsive throughout.',
-      },
-    ],
-    gallery: [],
-  },
-  {
     slug: 'bu-dining-meal-planner',
     start: '2026-09',
     accent: '#34d399',
@@ -188,7 +126,7 @@ export const projects = [
     title: 'BURPG HIP',
     org: 'BU Rocket Propulsion Group · Project HIP',
     role: 'Nozzle Design Engineer',
-    date: 'Jan 2026 – Present',
+    date: 'Jan 2026 – May 2026',
     year: '2026',
     categories: ['Hardware', 'Aerospace'],
     label: 'Hardware (Aerospace)',
@@ -317,13 +255,13 @@ export const projects = [
   },
   {
     slug: 'cubic-builds-storefront',
-    start: '2026-10',
+    start: '2023-01',
     accent: '#7c8bff',
     title: 'Cubic Builds Storefront',
     org: 'Cubic Builds',
     role: 'Founder & developer',
-    date: 'Oct 2026',
-    year: '2026',
+    date: 'Jan 2023',
+    year: '2023',
     categories: ['Software'],
     label: 'Software',
     art: 'cube',
@@ -401,24 +339,86 @@ export const projects = [
     gallery: [],
   },
   {
-    // Details to come: dates (set `start` so it sorts), what it measures, parts and stack.
     slug: 'temperature-sensor',
-    start: null,
+    start: '2026-01',
     accent: '#f87171',
-    title: 'Temperature Sensor',
-    org: 'Personal project',
-    role: 'Builder',
-    date: 'Coming soon',
-    year: '',
+    title: 'Room Temperature Monitor',
+    org: 'Boston University · EK 131',
+    role: 'Designer & builder',
+    date: 'Jan 2026 – May 2026',
+    year: '2026',
     categories: ['Hardware'],
     label: 'Hardware',
     art: 'board',
-    short: 'Write-up coming soon.',
-    summary: 'A full write-up is coming soon.',
-    highlights: [],
-    stack: [],
-    links: [],
-    gallery: [],
+    image: '/projects/temperature-sensor/cover.jpg',
+    short: 'An Arduino monitor in a 3D-printed case that shows the room temperature and sounds an alarm outside 60–80°F.',
+    summary:
+      'A battery-powered monitor that reads the room temperature with a TMP36 sensor, shows it in °F on an LCD, and lights a red LED and sounds a buzzer when the room drops below 60°F or climbs above 80°F. I picked the parts, did the soldering and wiring, wrote the Arduino code, and designed the ABS enclosure in CAD.',
+    highlights: [
+      'Built an Arduino UNO temperature monitor with a TMP36 sensor, a 16x2 I2C LCD, a red alarm LED, a buzzer and a green power LED.',
+      'Programmed COLD, NORMAL and HIGH states in C++ around a 60–80°F safe window, with a light and sound alert outside it.',
+      'Designed and 3D-printed a 160.5 × 117 × 57.4 mm ABS enclosure with cutouts for the display, switch, USB, DC jack and LEDs, plus a battery holder.',
+      'Measured a 70.3 mA draw, which gives about 7.8 hours on a 550 mAh 9V battery, and chose 22 AWG wire for a roughly 13x current margin.',
+    ],
+    stack: ['Arduino UNO', 'Arduino IDE', 'C++', 'TMP36', 'I2C LCD', 'Soldering', 'CAD', '3D printing (ABS)'],
+    links: [{ label: 'GitHub', href: 'https://github.com/bbrihuang/temperature-sensor' }],
+    caseStudy: [
+      {
+        title: 'The problem',
+        text: 'Skin is a poor thermometer, and a dorm or lab can drift out of a safe range without anyone noticing. I wanted a device that does more than display a number: one that tells you when the room has become unsafe.',
+      },
+      {
+        title: 'How it works',
+        flow: [
+          { label: 'TMP36 sensor', note: 'Outputs a voltage that rises with temperature. It goes to analog pin A0.' },
+          { label: 'Arduino UNO', note: 'Reads the voltage as a number from 0 to 1023 and converts it to °F in code.' },
+          { label: 'LCD', note: 'Shows the live temperature on line 1 and COLD, NORMAL or HIGH on line 2.' },
+          { label: 'Alarm', note: 'Outside 60–80°F, the red LED turns on and the buzzer sounds. Inside it, both stay off.' },
+        ],
+        text: 'The Arduino reads the TMP36 on A0, converts the voltage to °F and prints it on the LCD with a status line. Below 60°F the status reads COLD and above 80°F it reads HIGH; either one turns on the red LED and sounds the buzzer. Between 60°F and 80°F it reads NORMAL and the alarm stays off.',
+      },
+      {
+        title: 'Decisions',
+        points: [
+          {
+            title: '22 AWG solid wire instead of jumper wire',
+            text: 'It fits the Arduino’s female headers better and carries far more current than the circuit needs. Against the measured 70.3 mA, 22 AWG gives about a 13x margin, where 26 and 28 AWG jumper wire gives about 5x and 3x.',
+          },
+          {
+            title: 'Sizing the LED resistors with KVL',
+            text: 'With a 5V supply and an assumed 2V LED drop, a 220 Ω resistor gives the red alarm LED 13.6 mA and a 1000 Ω resistor keeps the green power LED at 3.0 mA.',
+          },
+          {
+            title: 'Three kinds of connection',
+            text: 'Twist nut caps bundle the shared 5V and ground wires, spade connectors hold the switch terminals, and direct solder joints carry 5V, data and ground on the pins.',
+          },
+        ],
+      },
+      {
+        title: 'What went wrong',
+        points: [
+          {
+            title: 'Loose wiring and poor color coding',
+            text: 'Wires inside the twist nut caps worked loose, and my color choices made the harness hard to trace. I redid the connections and settled on a fixed code: red for power, black for ground, orange for data and white for the TMP36 output.',
+          },
+          {
+            title: 'Fragile header and malleable sensor pins',
+            text: 'The Arduino’s header connections were fragile during wire management, and the TMP36’s pins bent easily. Next time I would solder the sensor pins properly before it goes into the case.',
+          },
+        ],
+      },
+      {
+        title: 'Results and next steps',
+        text: 'The monitor worked as designed and was demonstrated live. A 9V battery lasts about 7.8 hours, so a wall adapter is the better choice for long-term monitoring. A future version would drop the battery for AC power and could drop the LCD for an LED-only display to shrink the enclosure.',
+      },
+    ],
+    gallery: [
+      { src: '/projects/temperature-sensor/cad-closed.png', alt: 'CAD model of the closed enclosure with the LCD window on top', caption: 'Enclosure design in CAD' },
+      { src: '/projects/temperature-sensor/cad-open.png', alt: 'CAD model with the lid off, showing the Arduino and the 9V battery holder', caption: 'Inside: Arduino UNO and the battery holder' },
+      { src: '/projects/temperature-sensor/cad-top.png', alt: 'Top-down CAD view of the Arduino and battery layout', caption: 'Component layout from above' },
+      { src: '/projects/temperature-sensor/cad-front.png', alt: 'Front panel with the power switch, green LED, USB port and DC jack', caption: 'Front panel: switch, power LED, USB and DC jack' },
+      { src: '/projects/temperature-sensor/cad-side.png', alt: 'Side panel with the buzzer, red alarm LED and sensor opening', caption: 'Side panel: buzzer, alarm LED and sensor' },
+    ],
   },
   {
     // Details to come: dates (set `start` so it sorts), what it does, stack and links.
