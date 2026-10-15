@@ -413,6 +413,9 @@ export const projects = [
       },
     ],
     gallery: [
+      { src: '/projects/temperature-sensor/build-closed.jpg', alt: 'The finished monitor in its black enclosure with the LCD on top', caption: 'The finished monitor' },
+      { src: '/projects/temperature-sensor/build-open.jpg', alt: 'The enclosure open with the LCD lid set beside the Arduino and battery', caption: 'Lid off: LCD on the lid, Arduino and 9V battery in the base' },
+      { src: '/projects/temperature-sensor/build-wiring.jpg', alt: 'Top-down view of the wiring inside the enclosure', caption: 'Wiring inside the case: twist nut caps, spade connectors and soldered joints' },
       { src: '/projects/temperature-sensor/cad-closed.png', alt: 'CAD model of the closed enclosure with the LCD window on top', caption: 'Enclosure design in CAD' },
       { src: '/projects/temperature-sensor/cad-open.png', alt: 'CAD model with the lid off, showing the Arduino and the 9V battery holder', caption: 'Inside: Arduino UNO and the battery holder' },
       { src: '/projects/temperature-sensor/cad-top.png', alt: 'Top-down CAD view of the Arduino and battery layout', caption: 'Component layout from above' },
