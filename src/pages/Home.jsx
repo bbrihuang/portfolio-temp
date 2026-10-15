@@ -1,16 +1,12 @@
 import { Link } from 'react-router'
-import { siGithub } from 'simple-icons'
 import BrandIcon from '../components/BrandIcon.jsx'
 import {
   ArrowDown,
   ArrowRight,
   ArrowUpRight,
   Briefcase,
-  Cpu,
-  FileText,
   Glyph,
   Layers,
-  LinkedIn,
   MapPin,
   Trophy,
   User,
@@ -23,18 +19,32 @@ import { usePageMeta } from '../lib/hooks.js'
 import { glow, sectionColors } from '../lib/theme.js'
 
 // Clubs, with cultural clubs last. Logos live in public/clubs/ (taken from each
-// club's website or Instagram). `href` makes the whole row a link.
+// club's website or Instagram); a club with no `logo` gets an initials tile.
+// `roles` is one line per role. `href` makes the whole row a link.
 const activities = [
-  { org: 'BU Rocket Propulsion Group', role: 'Nozzle Design Engineer', logo: '/clubs/burpg.png', href: 'https://burpg.org/' },
   {
     org: 'BU AI Society',
-    role: 'Robotics Simulation Developer & LLM Inference Researcher',
+    roles: ['Robotics Simulation Developer & LLM Inference Researcher'],
     logo: '/clubs/bu-ai-society.png',
     href: 'https://www.buaisociety.com/',
   },
-  { org: 'BU Blockchain', role: 'Member', logo: '/clubs/bu-blockchain.png', href: 'https://www.instagram.com/bu_blockchain/' },
-  { org: 'BU Chinese Students Association', role: 'Member', logo: '/clubs/bu-csa.png', href: 'https://www.instagram.com/teamcsa/' },
-  { org: 'BU Japanese Student Association', role: 'Member', logo: '/clubs/bu-jsa.png', href: 'https://www.instagram.com/thebujsa/' },
+  { org: 'BU Rocket Propulsion Group', roles: ['Nozzle Design Engineer'], logo: '/clubs/burpg.png', href: 'https://burpg.org/' },
+  {
+    org: 'Heartfelt Connections',
+    roles: ['VP of User Experience'],
+    initials: 'HC',
+    href: 'https://www.linkedin.com/company/105780600/',
+  },
+  { org: 'BU Blockchain', roles: ['Member'], logo: '/clubs/bu-blockchain.png', href: 'https://www.instagram.com/bu_blockchain/' },
+  { org: 'BU Game Design', roles: ['Member'], logo: '/clubs/bu-game-design.jpg', href: 'https://www.instagram.com/bugamedesign/' },
+  { org: 'BU Computer Science', roles: ['Member'], logo: '/clubs/bu-computer-science.jpg', href: 'https://www.instagram.com/bucomputerscience/' },
+  {
+    org: 'BU Japanese Student Association',
+    roles: ['Member', 'Kyodai Family, Member'],
+    logo: '/clubs/bu-jsa.png',
+    href: 'https://www.instagram.com/thebujsa/',
+  },
+  { org: 'BU Chinese Students Association', roles: ['Member'], logo: '/clubs/bu-csa.png', href: 'https://www.instagram.com/teamcsa/' },
 ]
 
 function Hero() {
@@ -123,69 +133,6 @@ function AboutButton() {
   )
 }
 
-// LinkedIn and GitHub. The email lives in the profile card up top.
-const cardClass =
-  'glass rise group flex w-full items-center gap-3 rounded-3xl p-4 text-left transition-transform duration-300 ease-out-expo hover:scale-[1.02]'
-
-function CardBody({ icon, tint, label, detail, trailing }) {
-  return (
-    <>
-      <span className={`grid size-9 shrink-0 place-items-center rounded-full ${tint}`}>{icon}</span>
-      <span className="min-w-0 flex-1">
-        <span className="block text-[15px] font-medium">{label}</span>
-        <span className="block truncate font-mono text-xs text-fog">{detail}</span>
-      </span>
-      <span className="hidden shrink-0 text-steel transition-colors group-hover:text-snow min-[420px]:block">{trailing}</span>
-    </>
-  )
-}
-
-// Resume, LinkedIn, GitHub and Setup as four equal cards (2 × 2). Setup opens
-// the Setup page on this site; the others open in a new tab.
-function Elsewhere() {
-  const links = [
-    site.resume && {
-      href: site.resume,
-      label: 'Resume',
-      detail: 'PDF',
-      icon: <FileText size={17} />,
-      tint: 'bg-emerald-500 text-white',
-    },
-    {
-      href: site.linkedin,
-      label: 'LinkedIn',
-      detail: site.linkedinHandle,
-      icon: <LinkedIn size={16} />,
-      tint: 'bg-[#0a66c2] text-white',
-    },
-    {
-      href: site.github,
-      label: 'GitHub',
-      detail: site.githubHandle,
-      icon: <BrandIcon icon={siGithub} size={17} />,
-      tint: 'bg-snow text-void',
-    },
-  ].filter(Boolean)
-  return (
-    <div className="grid flex-1 grid-cols-2 gap-4">
-      {links.map((l, k) => (
-        <a key={l.label} href={l.href} target="_blank" rel="noreferrer" className={cardClass} style={{ '--i': 3 + k }}>
-          <CardBody {...l} trailing={<ArrowUpRight size={16} />} />
-        </a>
-      ))}
-      <Link to="/projects/setup" className={cardClass} style={{ '--i': 3 + links.length }}>
-        <CardBody
-          label="Setup"
-          detail="My PC & tools"
-          icon={<Cpu size={17} />}
-          tint="bg-orange-500 text-white"
-          trailing={<ArrowRight size={16} />}
-        />
-      </Link>
-    </div>
-  )
-}
-
 // A small Google Map of BU's campus, darkened to match the site. The embed is
 // oversized and centered so Google's own buttons fall outside the frame; the
 // whole tile is a link that opens BU in Google Maps. Full width under the
@@ -221,7 +168,7 @@ function About() {
         About Me
       </h2>
 
-      <div className="mt-8 grid gap-4 lg:grid-cols-2">
+      <div className="mt-8 flex flex-col gap-4">
         <div className="flex flex-col gap-4">
           <div className="glass rise flex flex-wrap items-center gap-4 rounded-3xl p-5" style={{ '--i': 1 }}>
             {/* The logo sits on a BU-red tile, so the outer corners can be well rounded
@@ -237,23 +184,22 @@ function About() {
             </div>
             <CampusMap />
           </div>
-
-          <Elsewhere />
         </div>
-          <div className="glass rise rounded-3xl p-5 lg:h-full" style={{ '--i': 2 }}>
-            <p className="flex items-center gap-2 text-[15px] font-medium">
-              <Trophy size={18} className="text-amber-300" />
-              Clubs & Activities
-            </p>
-            <ul className="-mx-2 mt-2.5">
-              {activities.map((a) => (
-                <li key={a.org}>
-                  <a
-                    href={a.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group flex items-center gap-3.5 rounded-2xl p-2 transition-colors hover:bg-white/[0.05]"
-                  >
+        <div className="glass rise rounded-3xl p-5" style={{ '--i': 2 }}>
+          <p className="flex items-center gap-2 text-[15px] font-medium">
+            <Trophy size={18} className="text-amber-300" />
+            Clubs & Activities
+          </p>
+          <ul className="-mx-2 mt-2.5 grid sm:grid-cols-2 lg:grid-cols-3">
+            {activities.map((a) => (
+              <li key={a.org}>
+                <a
+                  href={a.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group flex items-center gap-3 rounded-2xl p-2 transition-colors hover:bg-white/[0.05]"
+                >
+                  {a.logo ? (
                     <img
                       src={a.logo}
                       alt=""
@@ -262,18 +208,30 @@ function About() {
                       loading="lazy"
                       className="size-11 shrink-0 rounded-xl border border-white/10 object-cover"
                     />
-                    <span className="min-w-0 flex-1">
-                      <span className="block text-[15px] font-medium leading-snug text-mist transition-colors group-hover:text-snow">
-                        {a.org}
-                      </span>
-                      <span className="block text-sm leading-snug text-fog">{a.role}</span>
+                  ) : (
+                    <span
+                      aria-hidden
+                      className="grid size-11 shrink-0 place-items-center rounded-xl border border-white/10 bg-white/[0.06] font-mono text-xs font-semibold text-mist"
+                    >
+                      {a.initials}
                     </span>
-                    <ArrowUpRight size={14} className="shrink-0 text-steel transition-colors group-hover:text-snow" />
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+                  )}
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-[15px] font-medium leading-snug text-mist transition-colors group-hover:text-snow">
+                      {a.org}
+                    </span>
+                    {a.roles.map((r) => (
+                      <span key={r} className="block text-sm leading-snug text-fog">
+                        {r}
+                      </span>
+                    ))}
+                  </span>
+                  <ArrowUpRight size={14} className="shrink-0 text-steel transition-colors group-hover:text-snow" />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
 
       <div className="mt-14 flex flex-wrap items-baseline gap-x-3 gap-y-1">

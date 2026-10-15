@@ -1,7 +1,7 @@
 import { site } from '../config.js'
 
-// GitHub, LinkedIn and Email live in the top bar on wide screens. The footer only
-// shows the ones the top bar has to hide on smaller screens, so they never repeat.
+// GitHub and LinkedIn live in the profile card on the homepage. Email is in the top
+// bar on wide screens; the footer shows it only where the top bar hides it.
 export default function Footer() {
   return (
     <footer className="border-t border-white/[0.06]">
@@ -10,17 +10,9 @@ export default function Footer() {
           © {new Date().getFullYear()} {site.name}
         </p>
         <p className="font-mono text-xs">Built with React, Vite & Tailwind</p>
-        <div className="flex gap-5 xl:hidden">
-          <a href={site.github} target="_blank" rel="noreferrer" className="link-line transition-colors hover:text-snow">
-            GitHub
-          </a>
-          <a href={site.linkedin} target="_blank" rel="noreferrer" className="link-line transition-colors hover:text-snow">
-            LinkedIn
-          </a>
-          <a href={`mailto:${site.email}`} className="link-line transition-colors hover:text-snow md:hidden">
-            Email
-          </a>
-        </div>
+        <a href={`mailto:${site.email}`} className="link-line transition-colors hover:text-snow md:hidden">
+          Email
+        </a>
       </div>
     </footer>
   )

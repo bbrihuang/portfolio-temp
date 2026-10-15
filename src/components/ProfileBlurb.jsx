@@ -1,7 +1,9 @@
 import { useState } from 'react'
+import { siGithub } from 'simple-icons'
 import { site } from '../config.js'
 import { useCopyEmail } from '../lib/hooks.js'
-import { Check, Copy } from './Icons.jsx'
+import BrandIcon from './BrandIcon.jsx'
+import { Check, Copy, LinkedIn } from './Icons.jsx'
 import Terminal from './Terminal.jsx'
 
 function Avatar() {
@@ -48,6 +50,22 @@ function CopyEmail() {
   )
 }
 
+// GitHub and LinkedIn icons at the right edge of the profile card.
+function SocialLinks() {
+  const cls =
+    'grid size-9 place-items-center rounded-full border border-white/10 bg-white/[0.04] text-fog transition-colors hover:bg-white/10 hover:text-snow'
+  return (
+    <div className="ml-auto flex shrink-0 flex-col gap-2">
+      <a href={site.github} target="_blank" rel="noreferrer" aria-label="GitHub" title="GitHub" className={cls}>
+        <BrandIcon icon={siGithub} size={17} />
+      </a>
+      <a href={site.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" title="LinkedIn" className={cls}>
+        <LinkedIn size={16} />
+      </a>
+    </div>
+  )
+}
+
 // The profile card and the terminal (Terminal.jsx), stacked on the homepage.
 // `startIndex` continues the page's entrance stagger.
 export default function ProfileBlurb({ startIndex = 0 }) {
@@ -66,9 +84,10 @@ export default function ProfileBlurb({ startIndex = 0 }) {
               <span className="pulse-ring absolute inset-0 rounded-full bg-emerald-400/60" />
               <span className="size-2 rounded-full bg-emerald-400" />
             </span>
-            GradientV · BU AI Society · Cubic Builds
+            Lead Software Engineer at GradientV
           </p>
         </div>
+        <SocialLinks />
       </div>
 
       <Terminal startIndex={startIndex + 1} />
