@@ -60,6 +60,24 @@ export default function ProjectDetail() {
             {p.summary}
           </p>
 
+          {p.gallery?.length ? (
+            <Gallery key={p.slug} items={p.gallery} />
+          ) : (
+            // Same frame as the carousel, so every project page has the same layout.
+            <section className="mt-8" aria-label="Project photos">
+              <div className="glass rounded-3xl p-1.5">
+                <div className="relative aspect-[16/10] overflow-hidden rounded-[20px] bg-ash">
+                  <div className="absolute inset-0 opacity-30">
+                    <ProjectArt project={{ ...p, image: undefined }} />
+                  </div>
+                  <p className="absolute inset-0 grid place-items-center font-mono text-xs uppercase tracking-[0.14em] text-fog">
+                    Photos coming soon
+                  </p>
+                </div>
+              </div>
+            </section>
+          )}
+
           {p.highlights.length > 0 && (
             <h2 className="eyebrow rise mt-12" style={{ '--i': 6 }}>
               Highlights
@@ -125,8 +143,6 @@ export default function ProjectDetail() {
           </div>
         </aside>
       </div>
-
-      <Gallery key={p.slug} items={p.gallery} />
 
       <nav aria-label="More projects" className="mt-16 grid gap-4 sm:grid-cols-2">
         {[

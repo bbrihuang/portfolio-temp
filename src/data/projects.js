@@ -360,7 +360,7 @@ export const projects = [
       'Designed and 3D-printed a 160.5 × 117 × 57.4 mm ABS enclosure with cutouts for the display, switch, USB, DC jack and LEDs, plus a battery holder.',
       'Measured a 70.3 mA draw, which gives about 7.8 hours on a 550 mAh 9V battery, and chose 22 AWG wire for a roughly 13x current margin.',
     ],
-    stack: ['Arduino UNO', 'Arduino IDE', 'C++', 'TMP36', 'I2C LCD', 'Soldering', 'CAD', '3D printing (ABS)'],
+    stack: ['Arduino UNO', 'Arduino IDE', 'C++', 'TMP36', 'I2C LCD', 'Soldering', 'Onshape', 'Ultimaker Cura', '3D printing (ABS)'],
     links: [{ label: 'GitHub', href: 'https://github.com/bbrihuang/temperature-sensor' }],
     caseStudy: [
       {

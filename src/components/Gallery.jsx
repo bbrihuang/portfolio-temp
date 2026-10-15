@@ -5,7 +5,8 @@ import { ArrowLeft, ArrowRight, Close, Play } from './Icons.jsx'
 // Photos and videos for a project, from its `gallery` in data/projects.js.
 // Each item: { src, alt, caption?, poster? }. Images (jpg, png, webp, gif, svg)
 // and videos (mp4, webm) both work; `poster` is the still a video shows before
-// it plays. Clicking an item opens it full size; arrows, swipes and Esc work there.
+// it plays. Shown as a carousel (arrows, dots, swipe, auto-advance). Clicking a slide
+// opens it full size; arrows, swipes and Esc work there.
 
 const isVideo = (src) => /\.(mp4|webm|mov)$/i.test(src)
 
@@ -14,6 +15,9 @@ export default function Gallery({ items }) {
   const dialog = useRef(null)
   const touchX = useRef(null)
   const n = items?.length ?? 0
+  const track = useRef(null)
+  const [index, setIndex] = useState(0)
+  const [hover, setHover] = useState(false)
 
   useEffect(() => {
     const d = dialog.current
@@ -21,6 +25,25 @@ export default function Gallery({ items }) {
     if (open >= 0 && !d.open) d.showModal()
     if (open < 0 && d.open) d.close()
   }, [open])
+
+  // Slide to photo i (wrapping). The scroll handler keeps `index` in step.
+  const go = (i) => {
+    const t = track.current
+    if (!t) return
+    t.scrollTo({ left: ((i + n) % n) * t.clientWidth })
+  }
+  const onScroll = (e) => {
+    const t = e.currentTarget
+    setIndex(Math.round(t.scrollLeft / t.clientWidth))
+  }
+
+  // Auto-advance every few seconds; stops while hovered or focused, while the
+  // full-size viewer is open, and for visitors who prefer reduced motion.
+  useEffect(() => {
+    if (n < 2 || hover || open >= 0 || matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const id = setInterval(() => go(index + 1), 4500)
+    return () => clearInterval(id)
+  })
 
   if (!n) return null
 
@@ -43,44 +66,84 @@ export default function Gallery({ items }) {
   }
 
   return (
-    <section className="mt-16" aria-labelledby="gallery-title">
-      <h2 id="gallery-title" className="eyebrow">
-        Gallery
-      </h2>
-      <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {items.map((g, k) => (
-          <li key={g.src}>
-            <button
-              type="button"
-              onClick={() => setOpen(k)}
-              data-sound="open"
-              aria-label={`View ${g.alt || `item ${k + 1}`}`}
-              className="glass group block w-full rounded-3xl p-1.5 text-left transition-transform duration-500 ease-out-expo hover:-translate-y-1"
-            >
-              <div className="relative aspect-[4/3] overflow-hidden rounded-[20px] bg-ash">
+    <section className="mt-8" aria-label="Project photos" aria-roledescription="carousel">
+      <div
+        className="glass rounded-3xl p-1.5"
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        onFocus={() => setHover(true)}
+        onBlur={() => setHover(false)}
+      >
+        <div className="relative">
+          <div
+            ref={track}
+            onScroll={onScroll}
+            className="flex snap-x snap-mandatory overflow-x-auto scroll-smooth rounded-[20px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
+            {items.map((g, k) => (
+              <button
+                key={g.src}
+                type="button"
+                onClick={() => setOpen(k)}
+                data-sound="open"
+                aria-label={`View ${g.alt || `item ${k + 1}`} full size`}
+                aria-roledescription="slide"
+                className="relative aspect-[16/10] w-full shrink-0 snap-center bg-ash"
+              >
                 {isVideo(g.src) ? (
                   <>
-                    <video src={g.src} poster={g.poster} muted playsInline preload="metadata" className="size-full object-cover" />
+                    <video src={g.src} poster={g.poster} muted playsInline preload="metadata" className="size-full object-contain" />
                     <span className="absolute inset-0 grid place-items-center">
-                      <span className="grid size-12 place-items-center rounded-full bg-snow/90 text-void transition-transform duration-300 group-hover:scale-110">
+                      <span className="grid size-12 place-items-center rounded-full bg-snow/90 text-void">
                         <Play size={18} />
                       </span>
                     </span>
                   </>
                 ) : (
-                  <img
-                    src={g.src}
-                    alt={g.alt ?? ''}
-                    loading="lazy"
-                    className="size-full object-cover transition-transform duration-700 ease-out-expo group-hover:scale-[1.03]"
-                  />
+                  <img src={g.src} alt={g.alt ?? ''} loading={k === 0 ? 'eager' : 'lazy'} className="size-full object-contain" />
                 )}
-              </div>
-              {g.caption && <p className="px-2.5 pb-1.5 pt-2.5 text-sm text-fog">{g.caption}</p>}
-            </button>
-          </li>
-        ))}
-      </ul>
+              </button>
+            ))}
+          </div>
+
+          {n > 1 &&
+            [
+              [-1, 'Previous photo', ArrowLeft, 'left-3'],
+              [1, 'Next photo', ArrowRight, 'right-3'],
+            ].map(([dir, label, Icon, side]) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => go(index + dir)}
+                data-sound="slide"
+                aria-label={label}
+                className={`btn btn-glass absolute top-1/2 size-10 -translate-y-1/2 px-0 ${side}`}
+              >
+                <Icon size={16} />
+              </button>
+            ))}
+        </div>
+
+        <div className="flex items-center justify-between gap-3 px-2.5 pb-1.5 pt-2.5">
+          <p className="min-w-0 text-sm text-fog" aria-live="polite">
+            {items[index]?.caption}
+          </p>
+          {n > 1 && (
+            <div className="flex shrink-0 items-center gap-1.5">
+              {items.map((g, k) => (
+                <button
+                  key={g.src}
+                  type="button"
+                  onClick={() => go(k)}
+                  aria-label={`Go to photo ${k + 1}`}
+                  aria-current={k === index}
+                  className={`size-2 rounded-full transition-colors ${k === index ? 'bg-snow' : 'bg-white/25 hover:bg-white/50'}`}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
 
       <dialog
         ref={dialog}
