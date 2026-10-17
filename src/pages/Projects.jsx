@@ -7,9 +7,6 @@ import { featuredOrder, filterGroups, inFilter, projects, sorts } from '../data/
 import { usePageMeta, useSlidingPill } from '../lib/hooks.js'
 import { sectionColors } from '../lib/theme.js'
 
-// The filter takes the line colors from the home page map: Software is blue,
-// Hardware is orange, All is neutral.
-const pillColor = { All: 'var(--color-snow)', Software: 'var(--color-sw)', Hardware: 'var(--color-hw)' }
 
 // Featured projects lead the page in a set order; everything else is filterable below.
 const featured = featuredOrder.map((slug) => projects.find((p) => p.slug === slug)).filter(Boolean)
@@ -31,7 +28,7 @@ function FilterBar({ active, onChange }) {
           className={`absolute inset-y-0 left-0 rounded-full ${
             pill.animate ? 'transition-[transform,width,background-color] duration-500 ease-out-expo' : ''
           }`}
-          style={{ ...pill.style, background: pillColor[active] }}
+          style={{ ...pill.style, background: sectionColors['/projects'].fill }}
         />
         {filters.map((f) => (
           <button
@@ -39,7 +36,7 @@ function FilterBar({ active, onChange }) {
             type="button"
             aria-pressed={active === f}
             onClick={() => onChange(f)}
-            className="relative inline-flex h-9 items-center rounded-full px-4 text-sm font-medium text-fog transition-colors duration-300 hover:text-snow aria-pressed:text-void"
+            className="relative inline-flex h-9 items-center rounded-full px-3.5 text-sm font-medium text-fog transition-colors duration-300 hover:text-snow aria-pressed:text-white sm:px-4"
           >
             {f}
           </button>
@@ -170,7 +167,8 @@ export default function Projects() {
           <SortMenu value={sort} onChange={(s) => update({ sort: s })} />
         </div>
         <p className="rise mt-4 font-mono text-xs text-steel" style={{ '--i': 5 }} aria-live="polite">
-          Showing {list.length} of {others.length}
+          {list.length} {list.length === 1 ? 'project' : 'projects'}
+          {active !== 'All' && ` · ${active}`}
         </p>
 
         <ul className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

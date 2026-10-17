@@ -12,7 +12,7 @@ export default function ProjectCard({ project: p, index = 0 }) {
 
   return (
     <article
-      className="glass rise group relative flex h-full flex-col overflow-hidden rounded-3xl transition-colors duration-300 hover:border-white/25"
+      className="glass rise group relative flex h-full flex-col overflow-hidden rounded-3xl transition-colors duration-300 hover:border-[color-mix(in_srgb,var(--section-light)_55%,transparent)]"
       style={{ '--i': index + 3 }}
     >
       <div className="relative aspect-[16/10] overflow-hidden">
@@ -70,7 +70,7 @@ export default function ProjectCard({ project: p, index = 0 }) {
             aria-expanded={open}
             aria-controls={`peek-${p.slug}`}
             aria-label={open ? `Close preview of ${p.title}` : `Preview ${p.title}`}
-            className="relative z-10 inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border border-white/10 pl-2.5 pr-3 text-xs font-medium text-fog transition-colors hover:border-white/25 hover:text-snow aria-expanded:border-transparent aria-expanded:bg-snow aria-expanded:text-void"
+            className="relative z-10 inline-flex h-9 shrink-0 after:absolute after:inset-x-0 after:-inset-y-1 after:content-[''] items-center gap-1.5 rounded-full border border-white/10 pl-2.5 pr-3 text-xs font-medium text-fog transition-colors hover:border-white/25 hover:text-snow aria-expanded:border-transparent aria-expanded:bg-snow aria-expanded:text-void"
           >
             <Plus size={14} className={`transition-transform duration-500 ease-out-expo ${open ? 'rotate-45' : ''}`} />
             {open ? 'Close' : 'Preview'}

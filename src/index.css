@@ -66,7 +66,7 @@
     overflow-x: clip;
   }
   :focus-visible {
-    outline: 2px solid var(--color-snow);
+    outline: 2px solid var(--section-light, var(--color-snow));
     outline-offset: 3px;
   }
   button {

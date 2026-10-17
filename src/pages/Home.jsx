@@ -105,7 +105,7 @@ function Hero({ wide }) {
             </a>
           )}
           {[
-            ['/projects', 'All projects'],
+            ['/projects', 'Projects'],
             ['/experience', 'Experience'],
           ].map(([to, label]) => (
             <Link

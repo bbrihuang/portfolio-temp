@@ -6,13 +6,19 @@ import { Check, FileText, LinkedIn, MailPlus } from './Icons.jsx'
 // The fields the badge cycles through, matching the kinds of projects on the page.
 const fields = ['software', 'hardware', 'AI/ML', 'robotics']
 
-// Swaps to the next field every few seconds. Holds on the first one for visitors
-// who prefer reduced motion.
+// Steps through the fields once, a few seconds each, then rests on the first.
+// Text that keeps changing with no way to stop it is hard on some readers, so it
+// does not loop. Reduced-motion visitors just get the first field.
 function useCycle(length, ms = 2400) {
   const [i, setI] = useState(0)
   useEffect(() => {
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const id = setInterval(() => setI((n) => (n + 1) % length), ms)
+    let step = 0
+    const id = setInterval(() => {
+      step += 1
+      setI(step % length)
+      if (step >= length) clearInterval(id)
+    }, ms)
     return () => clearInterval(id)
   }, [length, ms])
   return i
@@ -43,7 +49,7 @@ export default function ContactCTA({ index = 3 }) {
       <div className="mt-3 flex flex-wrap gap-2">
         {/* Both labels share one grid cell, so the button is always as wide as the
             email and doesn't shrink when it says "Copied!". */}
-        <button type="button" onClick={copy} className="btn btn-light h-9 px-3 text-[13px]" aria-live="polite">
+        <button type="button" onClick={copy} className="btn btn-light relative h-9 px-3 text-[13px] after:absolute after:inset-x-0 after:-inset-y-1 after:content-['']" aria-live="polite">
           {copied ? <Check size={14} className="pop-in text-ok" /> : <MailPlus size={14} />}
           <span className="grid">
             <span className={`col-start-1 row-start-1 transition-opacity duration-200 ${copied ? 'opacity-0' : ''}`} aria-hidden={copied}>
@@ -57,12 +63,12 @@ export default function ContactCTA({ index = 3 }) {
             </span>
           </span>
         </button>
-        <a href={site.linkedin} target="_blank" rel="noreferrer" className="btn btn-glass h-9 px-3 text-[13px]">
+        <a href={site.linkedin} target="_blank" rel="noreferrer" className="btn btn-glass relative h-9 px-3 text-[13px] after:absolute after:inset-x-0 after:-inset-y-1 after:content-['']">
           <LinkedIn size={14} />
           LinkedIn
         </a>
         {site.resume && (
-          <a href={site.resume} target="_blank" rel="noreferrer" className="btn btn-glass h-9 px-3 text-[13px]">
+          <a href={site.resume} target="_blank" rel="noreferrer" className="btn btn-glass relative h-9 px-3 text-[13px] after:absolute after:inset-x-0 after:-inset-y-1 after:content-['']">
             <FileText size={14} />
             Resume
           </a>

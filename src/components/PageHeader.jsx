@@ -9,7 +9,7 @@ export default function PageHeader({ index, title, count, color, children }) {
         >
           <span
             className={color ? 'text-gradient' : undefined}
-            style={color ? { backgroundImage: `linear-gradient(100deg, ${color.light}, ${color.base})` } : undefined}
+            style={color ? { backgroundImage: `linear-gradient(100deg, ${color.light}, ${color.titleEnd ?? color.base})` } : undefined}
           >
             {title}
           </span>

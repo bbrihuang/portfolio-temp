@@ -142,7 +142,7 @@ export default function Experience() {
           <div ref={listRef} role="tablist" aria-orientation="vertical" aria-label="Roles" onKeyDown={onKeyDown} className="relative">
             <span
               aria-hidden
-              className={`absolute inset-x-0 top-0 rounded-2xl border border-white/10 bg-white/[0.07] ${
+              className={`absolute inset-x-0 top-0 rounded-2xl border border-[color-mix(in_srgb,var(--section-light)_40%,transparent)] bg-[color-mix(in_srgb,var(--section)_16%,transparent)] ${
                 pill.animate ? 'transition-[transform,height] duration-500 ease-out-expo' : ''
               }`}
               style={pill.style}

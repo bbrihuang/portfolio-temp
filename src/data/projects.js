@@ -2,7 +2,8 @@
 // default), while `date` is the text shown on the card. `featured` projects show in
 // the Featured section at the top of the page, in `featuredOrder` below. `label` is the category tag on the card (e.g.
 // "Software (AI/ML)"); `categories` drive the Software / Hardware filters.
-// `accent` is the project's color (cover art, card rule and label).
+// A project's accent color (cover art, card rule and label) comes from its
+// categories, see `lineAccent` at the bottom; an `accent` written here is overridden.
 // `art` picks a geometric cover from ProjectArt.jsx. To use a photo instead,
 // put it in public/projects/<slug>/ and set `image: '/projects/<slug>/cover.jpg'`.
 // Covers crop to 16:10 on cards and 21:9 on the project page, so keep the subject
@@ -22,7 +23,7 @@
 //   ],
 // Images (jpg, png, webp, gif) and videos (mp4, webm) both work. `caption` is optional;
 // a video can take a `poster` image to show before it plays.
-export const projects = [
+const projectList = [
   {
     slug: 'bu-dining-meal-planner',
     start: '2026-09',
@@ -478,3 +479,11 @@ export const filterGroups = {
 export const inFilter = (p, filter) =>
   filter === 'All' || p.categories.some((c) => filterGroups[filter]?.includes(c))
 
+// A card's accent follows the home page map: blue for Software, orange for
+// Hardware, white for work on both lines. (An accent set on a project is ignored.)
+const lineAccent = { software: '#7db2f5', hardware: '#f28c28', both: '#f4f6f8' }
+export const projects = projectList.map((p) => {
+  const sw = p.categories.some((c) => filterGroups.Software.includes(c))
+  const hw = p.categories.some((c) => filterGroups.Hardware.includes(c))
+  return { ...p, accent: lineAccent[sw && hw ? 'both' : hw ? 'hardware' : 'software'] }
+})
