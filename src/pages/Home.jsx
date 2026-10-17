@@ -3,6 +3,7 @@ import { siGithub } from 'simple-icons'
 import BrandIcon from '../components/BrandIcon.jsx'
 import { ArrowUpRight, Briefcase, Check, Copy, FileText, Glyph, Layers, LinkedIn, MapPin } from '../components/Icons.jsx'
 import { ProfileCard } from '../components/ProfileBlurb.jsx'
+import ProjectArt from '../components/ProjectArt.jsx'
 import Terminal from '../components/Terminal.jsx'
 import { site } from '../config.js'
 import { projects } from '../data/projects.js'
@@ -37,18 +38,21 @@ const memberships = [
   { org: 'BU Chinese Students Association', href: 'https://www.instagram.com/teamcsa/' },
 ]
 
-// Where each project sits on the map. x and y are positions on a 1000 x 440
+// Where each project sits on the map. x and y are positions on a 1000 x 420
 // plane (see the SVG paths below); `line` is which line it belongs to and
-// `side` puts its label above or below the station.
+// `side` puts its label above or below the station. Stations are spaced evenly
+// along each line (180 apart on the left), and the two interchange stations sit
+// 120 apart on a longer shared trunk, with their labels on opposite sides.
+const MAP_H = 420
 const stations = [
-  { slug: 'bu-dining-meal-planner', line: 'sw', x: 150, y: 60, side: 'above' },
-  { slug: 'llm-research', line: 'sw', x: 300, y: 60, side: 'above' },
-  { slug: 'jethexa', line: 'both', x: 535, y: 150, side: 'above' },
-  { slug: 'setup', line: 'both', x: 605, y: 150, side: 'below' },
-  { slug: 'cubic-builds-storefront', line: 'sw', x: 860, y: 60, side: 'above' },
-  { slug: 'temperature-sensor', line: 'hw', x: 150, y: 240, side: 'below' },
-  { slug: 'pc-building-guide', line: 'hw', x: 300, y: 240, side: 'below' },
-  { slug: 'burpg-nozzle', line: 'hw', x: 860, y: 240, side: 'below' },
+  { slug: 'bu-dining-meal-planner', line: 'sw', x: 120, y: 130, side: 'above' },
+  { slug: 'llm-research', line: 'sw', x: 300, y: 130, side: 'above' },
+  { slug: 'jethexa', line: 'both', x: 520, y: 220, side: 'above' },
+  { slug: 'setup', line: 'both', x: 640, y: 220, side: 'below' },
+  { slug: 'cubic-builds-storefront', line: 'sw', x: 860, y: 130, side: 'above' },
+  { slug: 'temperature-sensor', line: 'hw', x: 120, y: 310, side: 'below' },
+  { slug: 'pc-building-guide', line: 'hw', x: 300, y: 310, side: 'below' },
+  { slug: 'burpg-nozzle', line: 'hw', x: 860, y: 310, side: 'below' },
 ]
 
 const bySlug = Object.fromEntries(projects.map((p) => [p.slug, p]))
@@ -137,13 +141,18 @@ function Station({ s, n }) {
     <Link
       to={`/projects/${p.slug}`}
       className="station"
-      style={{ left: `${s.x / 10}%`, top: `${(s.y / 300) * 100}%`, '--n': n }}
+      style={{ left: `${s.x / 10}%`, top: `${(s.y / MAP_H) * 100}%`, '--n': n }}
       aria-label={`${p.title}, ${p.label}`}
     >
       <span className={`station-dot ${s.line === 'both' ? 'is-interchange' : ''}`} />
-      <span className={`station-label ${s.side}`}>
-        <span className="station-title block text-[15px] font-semibold leading-tight text-snow">{p.title}</span>
-        <span className="mt-0.5 block text-xs text-fog">{p.date}</span>
+      <span className={`station-label ${s.side} ${s.line === 'both' ? 'is-interchange' : ''}`}>
+        <span className="station-thumb">
+          <ProjectArt project={p} />
+        </span>
+        <span>
+          <span className="station-title block text-[15px] font-semibold leading-tight text-snow">{p.title}</span>
+          <span className="mt-0.5 block text-xs text-fog">{p.date}</span>
+        </span>
       </span>
     </Link>
   )
@@ -154,12 +163,12 @@ function Station({ s, n }) {
 // and part again. Bends are 45 degrees only.
 function SystemMap() {
   return (
-    <div className="relative mx-auto hidden w-full lg:block" style={{ aspectRatio: '1000 / 300' }}>
-      <svg viewBox="0 0 1000 300" className="absolute inset-0 size-full" fill="none" aria-hidden>
+    <div className="relative mx-auto hidden w-full lg:block" style={{ aspectRatio: `1000 / ${MAP_H}` }}>
+      <svg viewBox={`0 0 1000 ${MAP_H}`} className="absolute inset-0 size-full" fill="none" aria-hidden>
         <path
           className="route route-hw"
           pathLength="1"
-          d="M40 240 H395 L480 155 H660 L745 240 H960"
+          d="M40 310 H370 L455 225 H685 L770 310 H960"
           stroke="var(--color-hw)"
           strokeWidth="9"
           strokeLinejoin="round"
@@ -168,16 +177,18 @@ function SystemMap() {
         <path
           className="route"
           pathLength="1"
-          d="M40 60 H395 L480 145 H660 L745 60 H960"
+          d="M40 130 H370 L455 215 H685 L770 130 H960"
           stroke="var(--color-sw)"
           strokeWidth="9"
           strokeLinejoin="round"
           strokeLinecap="round"
         />
       </svg>
-      <p className="absolute left-0 top-[27%] text-sm font-semibold text-sw-light">Software line</p>
+      {/* The line names sit in the empty band between the two lines, under their own line. */}
+      <p className="absolute left-0 top-[34%] text-sm font-semibold text-sw-light">Software line</p>
       <p className="absolute left-0 top-[63%] text-sm font-semibold text-hw">Hardware line</p>
-      <p className="absolute left-[57%] top-[calc(50%+4.75rem)] w-max -translate-x-1/2 text-sm text-fog">Interchange: work that needs both</p>
+      {/* Under the interchange, below the Setup label. */}
+      <p className="absolute left-[58%] top-[86%] w-max -translate-x-1/2 text-sm text-fog">Interchange: work that needs both</p>
       {placed.map((s, i) => (
         <Station key={s.slug} s={s} n={i} />
       ))}
@@ -196,11 +207,16 @@ function RailGroup({ title, color, split, items }) {
       <ul className={`rail mt-3 ${split ? 'rail-split' : ''}`} style={{ '--rail': color }}>
         {items.map((s) => (
           <li key={s.slug} className="relative">
-            <Link to={`/projects/${s.slug}`} className="relative flex min-h-12 flex-col justify-center py-2">
+            <Link to={`/projects/${s.slug}`} className="relative flex min-h-12 items-center gap-3 py-2">
               <span className={`station-dot ${split ? 'is-interchange' : ''}`} />
-              <span className="text-[15px] font-semibold leading-tight text-snow">{s.project.title}</span>
-              <span className="text-xs text-fog">
-                {s.project.label} · {s.project.date}
+              <span className="min-w-0 flex-1">
+                <span className="block text-[15px] font-semibold leading-tight text-snow">{s.project.title}</span>
+                <span className="block text-xs text-fog">
+                  {s.project.label} · {s.project.date}
+                </span>
+              </span>
+              <span className="station-thumb station-thumb-rail">
+                <ProjectArt project={s.project} />
               </span>
             </Link>
           </li>
@@ -365,7 +381,12 @@ function About() {
         </div>
       </div>
       <div className="mt-12 grid gap-14 lg:grid-cols-2 lg:gap-16">
-        <Roles />
+        {/* Contact sits under the clubs, in the same column and the same scale as the
+            other two blocks, so the column ends near where the stack does. */}
+        <div className="flex flex-col gap-12">
+          <Roles />
+          <Contact />
+        </div>
         <Stack />
       </div>
     </section>
@@ -375,43 +396,37 @@ function About() {
 function Contact() {
   const { copied, copy } = useCopyEmail()
   return (
-    <section id="contact" className="mt-20 scroll-mt-28 sm:mt-28" aria-labelledby="contact-title">
-      <div>
-        <div>
-          <h2 id="contact-title" className="text-4xl font-bold tracking-[-0.03em] [font-stretch:90%] sm:text-5xl">
-            Get in touch
-          </h2>
-          <p className="mt-4 max-w-[48ch] text-[17px] leading-relaxed text-mist">
-            Looking for an internship, or building something interesting? I would like to help and learn along the way.
-          </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <button type="button" onClick={copy} className="btn btn-light" aria-live="polite">
-              {copied ? <Check size={16} className="text-ok" /> : <Copy size={16} />}
-              <span className="grid">
-                <span className={`col-start-1 row-start-1 ${copied ? 'invisible' : ''}`}>{site.email}</span>
-                <span aria-hidden className={`col-start-1 row-start-1 text-center ${copied ? '' : 'invisible'}`}>
-                  Email copied
-                </span>
-              </span>
-            </button>
-            {site.resume && (
-              <a href={site.resume} target="_blank" rel="noreferrer" className="btn btn-glass">
-                <FileText size={16} />
-                Resume
-              </a>
-            )}
-            <a href={site.linkedin} target="_blank" rel="noreferrer" className="btn btn-glass">
-              <LinkedIn size={16} />
-              LinkedIn
-            </a>
-            <a href={site.github} target="_blank" rel="noreferrer" className="btn btn-glass">
-              <BrandIcon icon={siGithub} size={16} />
-              GitHub
-            </a>
-          </div>
-        </div>
+    <div id="contact" className="scroll-mt-28">
+      <h3 className="text-2xl font-semibold tracking-tight">Get in touch</h3>
+      <p className="mt-3 max-w-[48ch] text-[15px] leading-relaxed text-mist">
+        Looking for an internship, or building something interesting? I would like to help and learn along the way.
+      </p>
+      <div className="mt-5 flex flex-wrap gap-3">
+        <button type="button" onClick={copy} className="btn btn-light" aria-live="polite">
+          {copied ? <Check size={16} className="text-ok" /> : <Copy size={16} />}
+          <span className="grid">
+            <span className={`col-start-1 row-start-1 ${copied ? 'invisible' : ''}`}>{site.email}</span>
+            <span aria-hidden className={`col-start-1 row-start-1 text-center ${copied ? '' : 'invisible'}`}>
+              Email copied
+            </span>
+          </span>
+        </button>
+        {site.resume && (
+          <a href={site.resume} target="_blank" rel="noreferrer" className="btn btn-glass">
+            <FileText size={16} />
+            Resume
+          </a>
+        )}
+        <a href={site.linkedin} target="_blank" rel="noreferrer" className="btn btn-glass">
+          <LinkedIn size={16} />
+          LinkedIn
+        </a>
+        <a href={site.github} target="_blank" rel="noreferrer" className="btn btn-glass">
+          <BrandIcon icon={siGithub} size={16} />
+          GitHub
+        </a>
       </div>
-    </section>
+    </div>
   )
 }
 
@@ -423,7 +438,6 @@ export default function Home() {
       <Hero wide={wide} />
       <Work wide={wide} />
       <About />
-      <Contact />
     </>
   )
 }

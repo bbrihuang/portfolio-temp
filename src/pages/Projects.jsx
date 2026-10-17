@@ -135,7 +135,7 @@ export default function Projects() {
     <>
       <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
         <div className="lg:col-span-7">
-          <PageHeader index="03" title="Projects" color={sectionColors['/projects']}>
+          <PageHeader title="Projects" color={sectionColors['/projects']}>
             From full-stack applications and local AI experiments to robotics and hardware design, these are projects
             where I’ve turned my random ideas into actual working systems.
           </PageHeader>

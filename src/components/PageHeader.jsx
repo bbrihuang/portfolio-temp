@@ -1,5 +1,5 @@
 // `color` is a section color from lib/theme.js; the eyebrow and title take it on.
-export default function PageHeader({ index, title, count, color, children }) {
+export default function PageHeader({ title, count, color, children }) {
   return (
     <header className="max-w-3xl">
       <div>

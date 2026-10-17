@@ -133,7 +133,7 @@ export default function Experience() {
 
   return (
     <>
-      <PageHeader index="02" title="Experience" color={sectionColors['/experience']}>
+      <PageHeader title="Experience" color={sectionColors['/experience']}>
         Where I’ve worked, in chronological order.
       </PageHeader>
 

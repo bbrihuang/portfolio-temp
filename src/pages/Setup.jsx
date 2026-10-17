@@ -372,7 +372,7 @@ export default function Setup() {
         <ArrowLeft size={16} className="transition-transform duration-300 group-hover:-translate-x-0.5" />
         All projects
       </Link>
-      <PageHeader index="Projects" title="Setup" color={orange}>
+      <PageHeader title="Setup" color={orange}>
         {setup.intro}
       </PageHeader>
       <ViewSwitch active={view} onChange={choose} />
