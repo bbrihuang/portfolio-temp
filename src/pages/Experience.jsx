@@ -4,6 +4,7 @@ import { ArrowRight, ArrowUpRight } from '../components/Icons.jsx'
 import PageHeader from '../components/PageHeader.jsx'
 import { duration, experience, formatRange } from '../data/experience.js'
 import { usePageMeta, useSlidingPill } from '../lib/hooks.js'
+import { glow, sectionColors } from '../lib/theme.js'
 
 // "Cubic Builds" -> "CB". A single-word name keeps its own capitals, so
 // "GradientV LLC" -> "GV".
@@ -132,7 +133,7 @@ export default function Experience() {
 
   return (
     <>
-      <PageHeader index="02" title="Experience">
+      <PageHeader index="02" title="Experience" color={sectionColors['/experience']}>
         Where I’ve worked, in chronological order.
       </PageHeader>
 
@@ -233,10 +234,15 @@ export default function Experience() {
         style={{ '--i': 6 }}
       >
         <span>
-          <span className="eyebrow">Up next</span>
+          <span className="eyebrow" style={{ color: sectionColors['/projects'].light }}>
+            Up next
+          </span>
           <span className="mt-2 block text-3xl font-semibold tracking-tight">Projects</span>
         </span>
-        <span className="grid size-12 place-items-center rounded-full bg-snow text-void transition-transform duration-500 ease-out-expo group-hover:scale-110">
+        <span
+          className="grid size-12 place-items-center rounded-full text-white transition-transform duration-500 ease-out-expo group-hover:scale-110"
+          style={{ background: sectionColors['/projects'].fill, boxShadow: glow(sectionColors['/projects'].base) }}
+        >
           <ArrowRight size={18} className="transition-transform duration-500 ease-out-expo group-hover:-rotate-45" />
         </span>
       </Link>

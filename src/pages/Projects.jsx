@@ -3,12 +3,17 @@ import { useSearchParams } from 'react-router'
 import ContactCTA from '../components/ContactCTA.jsx'
 import PageHeader from '../components/PageHeader.jsx'
 import ProjectCard from '../components/ProjectCard.jsx'
-import { filterGroups, inFilter, projects, sorts } from '../data/projects.js'
+import { featuredOrder, filterGroups, inFilter, projects, sorts } from '../data/projects.js'
 import { usePageMeta, useSlidingPill } from '../lib/hooks.js'
+import { sectionColors } from '../lib/theme.js'
 
 // The filter takes the line colors from the home page map: Software is blue,
 // Hardware is orange, All is neutral.
 const pillColor = { All: 'var(--color-snow)', Software: 'var(--color-sw)', Hardware: 'var(--color-hw)' }
+
+// Featured projects lead the page in a set order; everything else is filterable below.
+const featured = featuredOrder.map((slug) => projects.find((p) => p.slug === slug)).filter(Boolean)
+const others = projects.filter((p) => !featuredOrder.includes(p.slug))
 
 const EASE = 'cubic-bezier(0.16, 1, 0.3, 1)'
 const filters = ['All', ...Object.keys(filterGroups)]
@@ -50,17 +55,33 @@ function SortMenu({ value, onChange }) {
   return (
     <label className="rise flex items-center gap-2.5 text-sm text-fog" style={{ '--i': 4 }}>
       Sort by
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="h-11 rounded-full border border-white/15 bg-coal px-4 text-sm font-medium text-mist transition-colors hover:border-white/25"
-      >
-        {sortNames.map((n) => (
-          <option key={n} value={n}>
-            {n}
-          </option>
-        ))}
-      </select>
+      {/* The browser's own arrow is cramped against the edge, so it is hidden and
+          a chevron is drawn with room around it. */}
+      <span className="relative">
+        <select
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="h-11 min-w-36 appearance-none rounded-full border border-white/15 bg-coal pl-5 pr-11 text-sm font-medium text-mist transition-colors hover:border-white/25"
+        >
+          {sortNames.map((n) => (
+            <option key={n} value={n}>
+              {n}
+            </option>
+          ))}
+        </select>
+        <svg
+          aria-hidden
+          viewBox="0 0 24 24"
+          className="pointer-events-none absolute right-4 top-1/2 size-4 -translate-y-1/2 text-fog"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </span>
     </label>
   )
 }
@@ -70,9 +91,7 @@ export default function Projects() {
   const [params, setParams] = useSearchParams()
   const active = filters.includes(params.get('filter')) ? params.get('filter') : 'All'
   const sort = sortNames.includes(params.get('sort')) ? params.get('sort') : 'Newest'
-  // Featured projects are in this list too, marked on their cards, so the filter
-  // and sort always apply to everything on the page.
-  const list = useMemo(() => projects.filter((p) => inFilter(p, active)).sort(sorts[sort]), [active, sort])
+  const list = useMemo(() => others.filter((p) => inFilter(p, active)).sort(sorts[sort]), [active, sort])
 
   // FLIP: remember where each card was, change the filter, then animate
   // every card from its old spot to its new one.
@@ -117,18 +136,41 @@ export default function Projects() {
 
   return (
     <>
-      <PageHeader index="03" title="Projects">
-        From full-stack applications and local AI experiments to robotics and hardware design, these are projects where
-        I’ve turned my random ideas into actual working systems.
-      </PageHeader>
+      <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
+        <div className="lg:col-span-7">
+          <PageHeader index="03" title="Projects" color={sectionColors['/projects']}>
+            From full-stack applications and local AI experiments to robotics and hardware design, these are projects
+            where I’ve turned my random ideas into actual working systems.
+          </PageHeader>
+        </div>
+        <div className="lg:col-span-5">
+          <ContactCTA index={3} />
+        </div>
+      </div>
 
-      <section className="mt-12" aria-label="All projects">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+      <section className="mt-12" aria-labelledby="featured-title">
+        <h2 id="featured-title" className="text-2xl font-semibold tracking-tight sm:text-3xl">
+          Featured
+        </h2>
+        <ul className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {featured.map((p, i) => (
+            <li key={p.slug}>
+              <ProjectCard project={p} index={i + 1} />
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="mt-16" aria-labelledby="more-title">
+        <h2 id="more-title" className="text-2xl font-semibold tracking-tight sm:text-3xl">
+          More projects
+        </h2>
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
           <FilterBar active={active} onChange={(filter) => update({ filter })} />
           <SortMenu value={sort} onChange={(s) => update({ sort: s })} />
         </div>
         <p className="rise mt-4 font-mono text-xs text-steel" style={{ '--i': 5 }} aria-live="polite">
-          Showing {list.length} of {projects.length}
+          Showing {list.length} of {others.length}
         </p>
 
         <ul className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -145,11 +187,6 @@ export default function Projects() {
           ))}
         </ul>
       </section>
-
-      {/* Contact comes after the work, so the page opens on the projects. */}
-      <div className="mt-20 max-w-xl">
-        <ContactCTA index={3} />
-      </div>
     </>
   )
 }

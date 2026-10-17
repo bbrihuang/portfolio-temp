@@ -40,7 +40,7 @@ export default function Nav() {
   const listRef = useRef(null)
   // White pill that slides under whichever link is current.
   const pill = useSlidingPill(listRef, '[aria-current="page"]', pathname)
-  // The pill is white on every page.
+  // The pill takes the section's color (blue Experience, violet Projects); Home stays white.
   const accent = sectionColor(pathname)
 
   return (
@@ -63,7 +63,7 @@ export default function Nav() {
               }`}
               style={{
                 ...pill.style,
-                background: accent?.base ?? 'var(--color-snow)',
+                background: accent?.fill ?? 'var(--color-snow)',
                 
               }}
             />

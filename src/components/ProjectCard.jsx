@@ -27,9 +27,9 @@ export default function ProjectCard({ project: p, index = 0 }) {
         <span className="absolute right-4 top-4 font-mono text-xs uppercase tracking-[0.14em]" style={{ color: p.accent }}>
           {p.label}
         </span>
-        {(p.status === 'in-progress' || p.featured) && (
+        {p.status === 'in-progress' && (
           <span className="absolute left-4 top-4 rounded-full border border-white/20 bg-void/70 px-2.5 py-1 font-mono text-xs uppercase tracking-[0.14em] text-mist">
-            {p.status === 'in-progress' ? 'In progress' : '★ Featured'}
+            In progress
           </span>
         )}
 

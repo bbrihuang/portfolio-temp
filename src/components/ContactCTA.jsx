@@ -24,9 +24,9 @@ export default function ContactCTA({ index = 3 }) {
   const { copied, copy } = useCopyEmail()
   const field = useCycle(fields.length)
   return (
-    <aside className="glass rise rounded-3xl p-5 sm:p-6" style={{ '--i': index }} aria-label="Get in touch">
+    <aside className="glass rise rounded-3xl p-4" style={{ '--i': index }} aria-label="Get in touch">
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-        <span className="inline-flex items-center gap-2 rounded-full border border-ok/35 bg-ok/10 px-3 py-1 font-mono text-xs uppercase tracking-[0.14em] text-ok">
+        <span className="inline-flex items-center gap-2 rounded-full border border-ok/35 bg-ok/10 px-2.5 py-1 font-mono text-xs uppercase tracking-[0.12em] text-ok">
           <span aria-hidden className="size-2 rounded-full bg-ok" />
           Open to internships
         </span>
@@ -37,15 +37,14 @@ export default function ContactCTA({ index = 3 }) {
           </span>
         </span>
       </div>
-      <p className="mt-4 text-[15px] leading-relaxed text-mist">
-        Always up for a new problem. If you’re building something interesting, I’d love to help, and learn a lot along the
-        way.
+      <p className="mt-2.5 text-sm leading-snug text-mist">
+        Always up for a new problem. Building something interesting? I’d love to help.
       </p>
-      <div className="mt-5 flex flex-wrap gap-2">
+      <div className="mt-3 flex flex-wrap gap-2">
         {/* Both labels share one grid cell, so the button is always as wide as the
             email and doesn't shrink when it says "Copied!". */}
-        <button type="button" onClick={copy} className="btn btn-light h-11 px-4 text-sm" aria-live="polite">
-          {copied ? <Check size={15} className="pop-in text-ok" /> : <MailPlus size={15} />}
+        <button type="button" onClick={copy} className="btn btn-light h-9 px-3 text-[13px]" aria-live="polite">
+          {copied ? <Check size={14} className="pop-in text-ok" /> : <MailPlus size={14} />}
           <span className="grid">
             <span className={`col-start-1 row-start-1 transition-opacity duration-200 ${copied ? 'opacity-0' : ''}`} aria-hidden={copied}>
               {site.email}
@@ -58,13 +57,13 @@ export default function ContactCTA({ index = 3 }) {
             </span>
           </span>
         </button>
-        <a href={site.linkedin} target="_blank" rel="noreferrer" className="btn btn-glass h-11 px-4 text-sm">
-          <LinkedIn size={15} />
+        <a href={site.linkedin} target="_blank" rel="noreferrer" className="btn btn-glass h-9 px-3 text-[13px]">
+          <LinkedIn size={14} />
           LinkedIn
         </a>
         {site.resume && (
-          <a href={site.resume} target="_blank" rel="noreferrer" className="btn btn-glass h-11 px-4 text-sm">
-            <FileText size={15} />
+          <a href={site.resume} target="_blank" rel="noreferrer" className="btn btn-glass h-9 px-3 text-[13px]">
+            <FileText size={14} />
             Resume
           </a>
         )}

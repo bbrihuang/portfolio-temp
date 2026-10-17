@@ -9,6 +9,7 @@ import { projects } from '../data/projects.js'
 import { stack } from '../data/skills.js'
 import { itemColor } from '../lib/color.js'
 import { useCopyEmail, usePageMeta } from '../lib/hooks.js'
+import { glow, sectionColors } from '../lib/theme.js'
 import { useEffect, useState } from 'react'
 
 // Clubs. The first three are engineering or leadership roles and get rows;
@@ -103,10 +104,20 @@ function Hero({ wide }) {
               Resume
             </a>
           )}
-          <Link to="/projects" className="btn btn-glass">
-            All projects
-            <ArrowRight size={16} />
-          </Link>
+          {[
+            ['/projects', 'All projects'],
+            ['/experience', 'Experience'],
+          ].map(([to, label]) => (
+            <Link
+              key={to}
+              to={to}
+              className="btn border border-white/10 text-white hover:brightness-110"
+              style={{ background: sectionColors[to].fill, boxShadow: glow(sectionColors[to].base) }}
+            >
+              {label}
+              <ArrowRight size={16} />
+            </Link>
+          ))}
         </div>
         <Status />
       </div>

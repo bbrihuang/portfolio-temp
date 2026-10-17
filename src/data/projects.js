@@ -245,6 +245,7 @@ export const projects = [
     year: '2026',
     categories: ['Software', 'AI/ML'],
     label: 'Software (AI/ML)',
+    featured: true,
     art: 'attention',
     short: 'Research on running large language models locally, with BU AI Society’s Local LLM Division.',
     summary:
@@ -350,7 +351,6 @@ export const projects = [
     year: '2026',
     categories: ['Hardware'],
     label: 'Hardware',
-    featured: true,
     art: 'board',
     image: '/projects/temperature-sensor/cover.jpg',
     short: 'An Arduino monitor in a 3D-printed case that shows the room temperature and sounds an alarm outside 60–80°F.',
@@ -449,8 +449,7 @@ export const projects = [
 ]
 
 // The Featured section at the top of the Projects page, in this order.
-// Only projects with a finished write-up belong here. LLM Research goes back in once it has one.
-export const featuredOrder = ['setup', 'bu-dining-meal-planner', 'temperature-sensor']
+export const featuredOrder = ['llm-research', 'setup', 'bu-dining-meal-planner']
 
 // Sort options on the Projects page, kept apart from the filters. Projects with
 // no `start` yet go last; ties keep their order in the list above.

@@ -7,7 +7,10 @@ export default function PageHeader({ index, title, count, color, children }) {
           className="rise-blur text-[clamp(3rem,9vw,6rem)] font-bold leading-[0.92] tracking-[-0.035em]"
           style={{ '--i': 1 }}
         >
-          <span style={color ? { color: color.light } : undefined}>
+          <span
+            className={color ? 'text-gradient' : undefined}
+            style={color ? { backgroundImage: `linear-gradient(100deg, ${color.light}, ${color.base})` } : undefined}
+          >
             {title}
           </span>
           {count != null && (

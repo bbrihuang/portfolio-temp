@@ -107,6 +107,20 @@
   color: var(--color-fog);
 }
 
+/* Gradient-filled text (section titles). A background only paints inside the
+   text's box, and tight tracking lets the first and last letters (and
+   descenders) poke out of it, so padding grows the painted area and the
+   matching negative margin keeps the spacing unchanged. */
+@utility text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  padding: 0 0.12em 0.12em;
+  margin-inline: -0.12em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
 @layer components {
   /* Pill chip for skills and tags. Matches the pippipi tech-stack chip. */
   .chip {
