@@ -65,39 +65,3 @@ export function useCopyEmail() {
 
   return { copied, copy }
 }
-
-// Tilt an element toward the pointer and track a highlight under it.
-// Writes --rx, --ry (degrees) and --gx, --gy (percent) on the element.
-export function useTilt(max = 5) {
-  const ref = useRef(null)
-  useEffect(() => {
-    const el = ref.current
-    if (!el || !matchMedia('(hover: hover) and (prefers-reduced-motion: no-preference)').matches) return
-    let frame = 0
-    const onMove = (e) => {
-      cancelAnimationFrame(frame)
-      frame = requestAnimationFrame(() => {
-        const r = el.getBoundingClientRect()
-        const x = (e.clientX - r.left) / r.width
-        const y = (e.clientY - r.top) / r.height
-        el.style.setProperty('--rx', `${((0.5 - y) * max).toFixed(2)}deg`)
-        el.style.setProperty('--ry', `${((x - 0.5) * max).toFixed(2)}deg`)
-        el.style.setProperty('--gx', `${(x * 100).toFixed(1)}%`)
-        el.style.setProperty('--gy', `${(y * 100).toFixed(1)}%`)
-      })
-    }
-    const onLeave = () => {
-      cancelAnimationFrame(frame)
-      el.style.setProperty('--rx', '0deg')
-      el.style.setProperty('--ry', '0deg')
-    }
-    el.addEventListener('pointermove', onMove)
-    el.addEventListener('pointerleave', onLeave)
-    return () => {
-      cancelAnimationFrame(frame)
-      el.removeEventListener('pointermove', onMove)
-      el.removeEventListener('pointerleave', onLeave)
-    }
-  }, [max])
-  return ref
-}

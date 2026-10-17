@@ -11,7 +11,7 @@ import { Code, Cpu, Glyph, Prompt } from './Icons.jsx'
 // (help, projects, stack, experience, setup, contact, clear).
 
 const intro = [
-  { icon: Prompt, color: 'text-emerald-400', cmd: 'whoami', out: [{ text: 'Brian Huang', strong: true, typed: true }] },
+  { icon: Prompt, color: 'text-ok', cmd: 'whoami', out: [{ text: 'Brian Huang', strong: true, typed: true }] },
   { icon: Code, color: 'text-sky-400', cmd: 'cat current-role.txt', out: [{ text: 'GradientV · Lead Software Engineer' }] },
   {
     icon: Cpu,
@@ -141,6 +141,11 @@ export default function Terminal({ startIndex = 0, compact = false }) {
   return (
     <div className="glass rise overflow-hidden rounded-3xl" style={{ '--i': startIndex }}>
       <div className="flex items-center justify-between border-b border-white/[0.07] px-5 py-3.5">
+        <div aria-hidden className="flex gap-2">
+          <span className="size-3 rounded-full bg-[#ff5f57]/85" />
+          <span className="size-3 rounded-full bg-[#febc2e]/85" />
+          <span className="size-3 rounded-full bg-[#28c840]/85" />
+        </div>
         <span className="font-mono text-xs text-fog">brian@portfolio ~</span>
       </div>
 
@@ -183,7 +188,7 @@ export default function Terminal({ startIndex = 0, compact = false }) {
         <div aria-live="polite" className="space-y-4 empty:hidden">
           {history.map((h, i) => (
             <div key={i}>
-              <p className="flex items-center gap-2.5 text-emerald-400">
+              <p className="flex items-center gap-2.5 text-ok">
                 <Prompt size={16} />
                 <span>$ {h.cmd}</span>
               </p>
@@ -196,7 +201,7 @@ export default function Terminal({ startIndex = 0, compact = false }) {
           ))}
         </div>
 
-        <form ref={form} onSubmit={submit} className="flex items-center gap-2.5 text-emerald-400">
+        <form ref={form} onSubmit={submit} className="flex items-center gap-2.5 text-ok">
           <Prompt size={16} />
           <span aria-hidden>$</span>
           <input
@@ -210,7 +215,7 @@ export default function Terminal({ startIndex = 0, compact = false }) {
             autoCapitalize="off"
             spellCheck={false}
             enterKeyHint="send"
-            className="min-h-11 min-w-0 flex-1 bg-transparent text-[16px] text-snow caret-emerald-400 outline-none placeholder:text-steel sm:text-[13px]"
+            className="min-h-11 min-w-0 flex-1 bg-transparent text-[16px] text-snow caret-ok outline-none placeholder:text-steel sm:text-[13px]"
           />
         </form>
       </div>

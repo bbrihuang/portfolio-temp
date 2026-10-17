@@ -1,12 +1,12 @@
-// Section colors: Experience is blue, Projects is purple. Shared by the
-// homepage buttons, the nav pill, each page's header and the projects filter.
-//   base   button and pill fill (white text sits on it)
+// Color means one thing on this site: blue is the Software line and orange is the
+// Hardware line (see the tokens in index.css). Experience and Projects have no
+// color of their own, so the nav pill and page headers stay neutral there.
+// Only the Setup page keeps an accent, the same orange as "hardware" in the
+// homepage headline.
+//   base   button and pill fill
 //   hover  base, a step lighter
 //   light  for text and gradients on the dark background
 export const sectionColors = {
-  '/experience': { base: '#2f7cf6', hover: '#4a8ef8', light: '#8ab8ff' },
-  '/projects': { base: '#8b45f5', hover: '#9b5cf7', light: '#c3a0ff' },
-  // The Setup page (/projects/setup) matches "hardware" in the homepage headline.
   '/setup': { base: '#f97316', hover: '#fb8a3c', light: '#fcd38d' },
 }
 

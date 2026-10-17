@@ -1,7 +1,7 @@
 // UI sounds, synthesized with Web Audio: soft sine tones only (no noise or
 // clicks) and no audio files. Each is shaped to match the motion it accompanies.
-// On by default and quiet; the speaker button in the nav turns it off, and that
-// choice is remembered.
+// Off until a visitor turns it on with the speaker button (in the nav, or in the
+// footer on phones); that choice is remembered. Quiet when it is on.
 //
 // Nothing plays until the visitor's first click or keypress (browsers require
 // a gesture before audio can start, and it means nothing plays on page load).
@@ -11,13 +11,13 @@ const VOLUME = 0.22 // master level: quiet
 
 let ctx = null
 let master = null
-let enabled = true
+let enabled = false
 const listeners = new Set()
 
 try {
-  enabled = localStorage.getItem(KEY) !== 'off'
+  enabled = localStorage.getItem(KEY) === 'on'
 } catch {
-  // Storage blocked (private mode etc.): fall back to on.
+  // Storage blocked (private mode etc.): stay off.
 }
 
 // On iPhone, "ambient" respects the silent switch and won't pause the

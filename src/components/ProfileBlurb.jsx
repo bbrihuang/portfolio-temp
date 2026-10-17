@@ -8,7 +8,7 @@ function Avatar() {
   const [failed, setFailed] = useState(false)
   if (failed || !site.avatar) {
     return (
-      <div className="grid size-20 shrink-0 place-items-center rounded-2xl border border-white/15 bg-gradient-to-br from-graphite to-ash text-2xl font-semibold tracking-tight text-mist">
+      <div className="grid size-16 shrink-0 place-items-center rounded-xl border border-white/15 bg-gradient-to-br from-graphite to-ash text-2xl font-semibold tracking-tight text-mist">
         BH
       </div>
     )
@@ -17,10 +17,10 @@ function Avatar() {
     <img
       src={site.avatar}
       alt={`Photo of ${site.name}`}
-      width="80"
-      height="80"
+      width="64"
+      height="64"
       onError={() => setFailed(true)}
-      className="size-20 shrink-0 rounded-2xl border border-white/15 object-cover"
+      className="size-16 shrink-0 rounded-xl border border-white/15 object-cover object-top"
     />
   )
 }
@@ -37,7 +37,7 @@ function CopyEmail() {
     >
       <span className="link-line truncate">{site.email}</span>
       {copied ? (
-        <Check size={14} className="shrink-0 text-emerald-400" />
+        <Check size={14} className="shrink-0 text-ok" />
       ) : (
         <Copy size={14} className="shrink-0 text-steel transition-colors group-hover:text-snow" />
       )}
@@ -52,15 +52,18 @@ function CopyEmail() {
 // `startIndex` continues the page's entrance stagger.
 export function ProfileCard({ startIndex = 0, className = '' }) {
   return (
-    <div className={`glass rise flex items-center gap-5 rounded-3xl p-5 ${className}`} style={{ '--i': startIndex }}>
-        <Avatar />
-        <div className="min-w-0">
-          <p className="text-xl font-semibold tracking-tight">{site.name}</p>
-          <CopyEmail />
-          <p className="mt-0.5 text-sm text-fog">
-            {site.school} · Class of ’{String(site.classOf).slice(2)}
-          </p>
-        </div>
+    <div
+      className={`glass rise flex items-center gap-4 rounded-3xl p-4 ${className}`}
+      style={{ '--i': startIndex }}
+    >
+      <Avatar />
+      <div className="min-w-0">
+        <p className="text-lg font-semibold tracking-tight">{site.name}</p>
+        <CopyEmail />
+        <p className="mt-0.5 text-sm text-fog">
+          {site.school} · Class of ’{String(site.classOf).slice(2)}
+        </p>
+      </div>
     </div>
   )
 }

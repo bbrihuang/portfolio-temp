@@ -4,7 +4,6 @@ import { ArrowRight, ArrowUpRight } from '../components/Icons.jsx'
 import PageHeader from '../components/PageHeader.jsx'
 import { duration, experience, formatRange } from '../data/experience.js'
 import { usePageMeta, useSlidingPill } from '../lib/hooks.js'
-import { glow, sectionColors } from '../lib/theme.js'
 
 // "Cubic Builds" -> "CB". A single-word name keeps its own capitals, so
 // "GradientV LLC" -> "GV".
@@ -77,7 +76,7 @@ function RoleDetail({ role: r, compact = false }) {
       <dl className="mt-6 grid grid-cols-3 gap-px overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.07]">
         {facts.map(([k, v]) => (
           <div key={k} className="bg-coal/70 px-3 py-3 sm:px-4">
-            <dt className="eyebrow text-[10px]">{k}</dt>
+            <dt className="eyebrow">{k}</dt>
             <dd className="mt-1 text-sm text-mist">{v}</dd>
           </div>
         ))}
@@ -133,7 +132,7 @@ export default function Experience() {
 
   return (
     <>
-      <PageHeader index="02" title="Experience" color={sectionColors['/experience']}>
+      <PageHeader index="02" title="Experience">
         Where I’ve worked, in chronological order.
       </PageHeader>
 
@@ -180,12 +179,12 @@ export default function Experience() {
                     <OrgLogo role={e} size="size-11" />
                     <span className="min-w-0 flex-1">
                       <span className="flex items-center justify-between gap-3">
-                        <span className="font-mono text-[11px] uppercase tracking-wider text-steel">
+                        <span className="font-mono text-xs uppercase tracking-wider text-steel">
                           {formatRange(e.start, e.end)}
                         </span>
                         {current && e.badge !== false && (
-                          <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/35 bg-emerald-400/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-emerald-300">
-                            <span className="size-1.5 rounded-full bg-emerald-400" />
+                          <span className="inline-flex items-center gap-1.5 rounded-full border border-ok/35 bg-ok/10 px-2 py-0.5 font-mono text-xs uppercase tracking-wider text-ok">
+                            <span className="size-1.5 rounded-full bg-ok" />
                             Current
                           </span>
                         )}
@@ -234,15 +233,10 @@ export default function Experience() {
         style={{ '--i': 6 }}
       >
         <span>
-          <span className="eyebrow" style={{ color: sectionColors['/projects'].light }}>
-            Up next · 03
-          </span>
+          <span className="eyebrow">Up next</span>
           <span className="mt-2 block text-3xl font-semibold tracking-tight">Projects</span>
         </span>
-        <span
-          className="grid size-12 place-items-center rounded-full text-white transition-transform duration-500 ease-out-expo group-hover:scale-110"
-          style={{ background: sectionColors['/projects'].base, boxShadow: glow(sectionColors['/projects'].base) }}
-        >
+        <span className="grid size-12 place-items-center rounded-full bg-snow text-void transition-transform duration-500 ease-out-expo group-hover:scale-110">
           <ArrowRight size={18} className="transition-transform duration-500 ease-out-expo group-hover:-rotate-45" />
         </span>
       </Link>

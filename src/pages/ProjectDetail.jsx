@@ -35,7 +35,7 @@ export default function ProjectDetail() {
             <ProjectArt project={p} live />
           </div>
           {p.featured && (
-            <span className="absolute left-4 top-4 rounded-full bg-snow px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-void">
+            <span className="absolute left-4 top-4 rounded-full bg-snow px-2.5 py-1 font-mono text-xs font-semibold uppercase tracking-[0.14em] text-void">
               ★ Featured
             </span>
           )}
@@ -46,6 +46,7 @@ export default function ProjectDetail() {
         <div className="lg:col-span-8">
           <p className="eyebrow rise-blur" style={{ '--i': 2, color: p.accent }}>
             {p.label}
+            {p.status === 'in-progress' && ' · In progress'}
           </p>
           <h1
             className="rise-blur mt-3 text-[clamp(2.5rem,5.5vw,4.25rem)] font-bold leading-[1] tracking-[-0.04em]"
@@ -62,7 +63,7 @@ export default function ProjectDetail() {
 
           {p.gallery?.length ? (
             <Gallery key={p.slug} items={p.gallery} />
-          ) : (
+          ) : p.status === 'in-progress' ? null : (
             // Same frame as the carousel, so every project page has the same layout.
             <section className="mt-8" aria-label="Project photos">
               <div className="glass rounded-3xl p-1.5">

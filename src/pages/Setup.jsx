@@ -148,7 +148,7 @@ function PcPlaceholder() {
         <circle cx="124" cy="161" r="10" {...s} strokeOpacity="0.6" />
         <path d="M42 196h116" {...s} strokeOpacity="0.4" />
       </svg>
-      <p className="absolute bottom-4 font-mono text-[11px] uppercase tracking-[0.14em] text-steel">Photo coming soon</p>
+      <p className="absolute bottom-4 font-mono text-xs uppercase tracking-[0.14em] text-steel">Photo coming soon</p>
     </div>
   )
 }
@@ -173,12 +173,12 @@ function ThePC() {
               <li key={p.kind + p.name} className="flex items-center gap-4 py-3">
                 <IconTile name={p.icon} />
                 <div className="min-w-0 flex-1">
-                  <p className="eyebrow text-[10px]">{p.kind}</p>
+                  <p className="eyebrow">{p.kind}</p>
                   <p className="text-[15px] font-medium leading-snug text-snow">{p.name}</p>
-                  {p.spec && <p className="mt-0.5 font-mono text-[11px] text-fog sm:hidden">{p.spec}</p>}
+                  {p.spec && <p className="mt-0.5 font-mono text-xs text-fog sm:hidden">{p.spec}</p>}
                 </div>
                 {p.spec && (
-                  <p className="hidden max-w-[40%] text-right font-mono text-[11px] leading-relaxed text-fog sm:block">{p.spec}</p>
+                  <p className="hidden max-w-[40%] text-right font-mono text-xs leading-relaxed text-fog sm:block">{p.spec}</p>
                 )}
               </li>
             ))}
@@ -224,7 +224,7 @@ function Diagram({ layers }) {
       <p className="text-[15px] font-semibold tracking-tight" style={l.hardware ? { color: orange.light } : undefined}>
         {l.title}
       </p>
-      <p className="mt-0.5 font-mono text-[11px] leading-relaxed text-fog">{l.detail}</p>
+      <p className="mt-0.5 font-mono text-xs leading-relaxed text-fog">{l.detail}</p>
     </div>
   )
   return (
@@ -235,7 +235,7 @@ function Diagram({ layers }) {
             <div className="flex h-7 items-center justify-center gap-2">
               <span className="h-full w-px bg-white/15" />
               {layers[i - 1].note && (
-                <span className="font-mono text-[10px] uppercase tracking-wider text-steel">{layers[i - 1].note}</span>
+                <span className="font-mono text-xs uppercase tracking-wider text-steel">{layers[i - 1].note}</span>
               )}
             </div>
           )}
@@ -249,7 +249,7 @@ function Diagram({ layers }) {
 function Chip({ children }) {
   return (
     <span
-      className="rounded-full border px-2 py-0.5 font-mono text-[10px]"
+      className="rounded-full border px-2 py-0.5 font-mono text-xs"
       style={{ color: orange.light, borderColor: `${orange.base}44`, background: `${orange.base}12` }}
     >
       {children}
@@ -294,7 +294,7 @@ function Architecture() {
         <div className="glass rise rounded-3xl p-5 sm:p-6 lg:col-span-7" style={{ '--i': 3 }}>
           <div className="flex items-baseline gap-2">
             <h3 className="text-lg font-semibold tracking-tight">Self-hosted services</h3>
-            <span className="font-mono text-[11px] text-fog">each in its own Docker container</span>
+            <span className="font-mono text-xs text-fog">each in its own Docker container</span>
           </div>
           <ul className="mt-3 grid gap-x-6 gap-y-3 sm:grid-cols-2">
             {services.map((s) => (

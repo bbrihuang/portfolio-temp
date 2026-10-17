@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Link } from 'react-router'
-import { useTilt } from '../lib/hooks.js'
 import { ArrowRight, Plus } from './Icons.jsx'
 import ProjectArt from './ProjectArt.jsx'
 
@@ -9,13 +8,11 @@ import ProjectArt from './ProjectArt.jsx'
 // slides up a quick-look panel instead. The label at the top right is `label`.
 export default function ProjectCard({ project: p, index = 0 }) {
   const [open, setOpen] = useState(false)
-  const tilt = useTilt(4)
   const href = `/projects/${p.slug}`
 
   return (
     <article
-      ref={tilt}
-      className="glass rise group relative flex h-full flex-col overflow-hidden rounded-3xl transition-[transform,border-color] duration-500 ease-out-expo [transform:perspective(1100px)_rotateX(var(--rx,0deg))_rotateY(var(--ry,0deg))] hover:border-white/20"
+      className="glass rise group relative flex h-full flex-col overflow-hidden rounded-3xl transition-colors duration-300 hover:border-white/25"
       style={{ '--i': index + 3 }}
     >
       <div className="relative aspect-[16/10] overflow-hidden">
@@ -27,9 +24,14 @@ export default function ProjectCard({ project: p, index = 0 }) {
         </div>
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#141416] to-transparent" />
 
-        <span className="absolute right-4 top-4 font-mono text-[10px] uppercase tracking-[0.14em]" style={{ color: p.accent }}>
+        <span className="absolute right-4 top-4 font-mono text-xs uppercase tracking-[0.14em]" style={{ color: p.accent }}>
           {p.label}
         </span>
+        {(p.status === 'in-progress' || p.featured) && (
+          <span className="absolute left-4 top-4 rounded-full border border-white/20 bg-void/70 px-2.5 py-1 font-mono text-xs uppercase tracking-[0.14em] text-mist">
+            {p.status === 'in-progress' ? 'In progress' : '★ Featured'}
+          </span>
+        )}
 
         {/* Quick look */}
         <div
@@ -51,12 +53,6 @@ export default function ProjectCard({ project: p, index = 0 }) {
         </div>
       </div>
 
-      {/* Sheen that follows the pointer (position from useTilt). */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 [background:radial-gradient(420px_circle_at_var(--gx,50%)_var(--gy,50%),rgb(255_255_255/0.07),transparent_45%)]"
-      />
-
       <div className="p-5">
         <div
           className="h-0.5 w-10 rounded-full transition-[width] duration-500 ease-out-expo group-hover:w-20"
@@ -73,15 +69,18 @@ export default function ProjectCard({ project: p, index = 0 }) {
             onClick={() => setOpen((o) => !o)}
             aria-expanded={open}
             aria-controls={`peek-${p.slug}`}
-            aria-label={open ? `Close quick look at ${p.title}` : `Quick look at ${p.title}`}
-            className="relative z-10 grid size-8 shrink-0 place-items-center rounded-full border border-white/10 text-fog transition-colors hover:border-white/25 hover:text-snow aria-expanded:border-transparent aria-expanded:bg-snow aria-expanded:text-void"
+            aria-label={open ? `Close preview of ${p.title}` : `Preview ${p.title}`}
+            className="relative z-10 inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border border-white/10 pl-2.5 pr-3 text-xs font-medium text-fog transition-colors hover:border-white/25 hover:text-snow aria-expanded:border-transparent aria-expanded:bg-snow aria-expanded:text-void"
           >
-            <Plus size={16} className={`transition-transform duration-500 ease-out-expo ${open ? 'rotate-45' : ''}`} />
+            <Plus size={14} className={`transition-transform duration-500 ease-out-expo ${open ? 'rotate-45' : ''}`} />
+            {open ? 'Close' : 'Preview'}
           </button>
         </div>
         <p className="mt-1 font-mono text-xs text-fog">{p.date}</p>
         <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-fog">{p.short}</p>
-        <p className="mt-3 line-clamp-1 font-mono text-[11px] text-steel">{p.stack.join(' · ')}</p>
+        {p.stack.length > 0 && (
+          <p className="mt-3 line-clamp-1 font-mono text-xs text-steel">{p.stack.join(' · ')}</p>
+        )}
       </div>
     </article>
   )

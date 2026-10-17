@@ -3,7 +3,6 @@ import { siGithub } from 'simple-icons'
 import BrandIcon from '../components/BrandIcon.jsx'
 import { ArrowRight, ArrowUpRight, Check, Copy, FileText, Glyph, LinkedIn, MapPin } from '../components/Icons.jsx'
 import { ProfileCard } from '../components/ProfileBlurb.jsx'
-import ProjectArt from '../components/ProjectArt.jsx'
 import Terminal from '../components/Terminal.jsx'
 import { site } from '../config.js'
 import { projects } from '../data/projects.js'
@@ -69,7 +68,7 @@ function useWide() {
 
 function Status() {
   return (
-    <p className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-fog">
+    <p className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-fog lg:text-base">
       <span className="inline-flex items-center gap-2 font-medium text-snow">
         <span aria-hidden className="size-2.5 rounded-full bg-ok" />
         Open to internships
@@ -84,20 +83,20 @@ function Status() {
 
 function Hero({ wide }) {
   return (
-    <section aria-labelledby="hero-title" className="grid items-start gap-x-12 gap-y-6 lg:grid-cols-12">
-      <div className="flex flex-col gap-6 lg:col-span-7 lg:self-center">
+    <section aria-labelledby="hero-title" className="grid items-start gap-x-12 gap-y-6 lg:grid-cols-12 lg:items-center">
+      <div className="flex flex-col gap-7 lg:col-span-7">
         <h1
           id="hero-title"
-          className="rise-blur max-w-4xl text-balance text-[clamp(2.25rem,4.6vw,4rem)] font-bold leading-[0.98] tracking-[-0.03em] [font-stretch:90%]"
+          className="rise-blur max-w-4xl text-balance text-[clamp(2.5rem,5.4vw,4.875rem)] font-bold leading-[0.98] tracking-[-0.03em] [font-stretch:90%]"
           style={{ '--i': 0 }}
         >
           I build where <span className="text-sw-light">software</span> meets <span className="text-hw">hardware.</span>
         </h1>
-        <p className="rise-blur max-w-[62ch] text-[17px] leading-relaxed text-mist" style={{ '--i': 1 }}>
+        <p className="rise-blur max-w-[58ch] text-lg leading-relaxed text-mist lg:text-xl lg:leading-relaxed" style={{ '--i': 1 }}>
           Computer Engineering at Boston University. I do local LLM and robotics work with BU AI Society, lead software at
           GradientV for small businesses, and run Cubic Builds, my custom PC building business.
         </p>
-        <div className="rise flex flex-wrap items-center gap-3" style={{ '--i': 3 }}>
+        <div className="rise flex flex-wrap items-center gap-3 lg:pt-1" style={{ '--i': 3 }}>
           {site.resume && (
             <a href={site.resume} target="_blank" rel="noreferrer" className="btn btn-light">
               <FileText size={16} />
@@ -107,9 +106,6 @@ function Hero({ wide }) {
           <Link to="/projects" className="btn btn-glass">
             All projects
             <ArrowRight size={16} />
-          </Link>
-          <Link to="/experience" className="btn btn-glass">
-            Experience
           </Link>
         </div>
         <Status />
@@ -232,38 +228,6 @@ function Work({ wide }) {
           <Terminal startIndex={1} />
         </div>
       )}
-    </section>
-  )
-}
-
-// Three projects shown with their art or photo and one real line each:
-// one hardware, one hybrid, one software.
-const featured = ['temperature-sensor', 'jethexa', 'bu-dining-meal-planner'].map((slug) => bySlug[slug]).filter(Boolean)
-
-function SelectedWork() {
-  return (
-    <section className="mt-20 sm:mt-24" aria-labelledby="selected-title">
-      <h2 id="selected-title" className="text-4xl font-bold tracking-[-0.03em] [font-stretch:90%] sm:text-5xl">
-        Selected work
-      </h2>
-      <ul className="mt-8 grid gap-6 md:grid-cols-3">
-        {featured.map((p) => (
-          <li key={p.slug}>
-            <Link to={`/projects/${p.slug}`} className="group block">
-              <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-coal">
-                <ProjectArt project={p} className="transition-transform duration-700 ease-out-expo group-hover:scale-[1.04]" />
-              </div>
-              <p className="mt-4 text-lg font-semibold leading-snug group-hover:underline group-hover:underline-offset-4">
-                {p.title}
-              </p>
-              <p className="mt-1 text-sm leading-relaxed text-fog">{p.short}</p>
-              <p className="mt-2 text-xs text-steel">
-                {p.label} · {p.date}
-              </p>
-            </Link>
-          </li>
-        ))}
-      </ul>
     </section>
   )
 }
@@ -412,7 +376,12 @@ function Contact() {
           <div className="mt-6 flex flex-wrap gap-3">
             <button type="button" onClick={copy} className="btn btn-light" aria-live="polite">
               {copied ? <Check size={16} className="text-ok" /> : <Copy size={16} />}
-              <span>{copied ? 'Email copied' : site.email}</span>
+              <span className="grid">
+                <span className={`col-start-1 row-start-1 ${copied ? 'invisible' : ''}`}>{site.email}</span>
+                <span aria-hidden className={`col-start-1 row-start-1 text-center ${copied ? '' : 'invisible'}`}>
+                  Email copied
+                </span>
+              </span>
             </button>
             {site.resume && (
               <a href={site.resume} target="_blank" rel="noreferrer" className="btn btn-glass">
@@ -442,7 +411,6 @@ export default function Home() {
     <>
       <Hero wide={wide} />
       <Work wide={wide} />
-      <SelectedWork />
       <About />
       <Contact />
     </>

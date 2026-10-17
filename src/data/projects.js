@@ -235,6 +235,7 @@ export const projects = [
   {
     // Details to come.
     slug: 'llm-research',
+    status: 'in-progress',
     start: '2026-09',
     accent: '#a78bfa',
     title: 'LLM Research',
@@ -244,10 +245,10 @@ export const projects = [
     year: '2026',
     categories: ['Software', 'AI/ML'],
     label: 'Software (AI/ML)',
-    featured: true,
     art: 'attention',
-    short: 'Research on running large language models locally. Write-up coming soon.',
-    summary: 'Research on running large language models locally with BU AI Society. A full write-up is coming soon.',
+    short: 'Research on running large language models locally, with BU AI Society’s Local LLM Division.',
+    summary:
+      'I’m a researcher in BU AI Society’s Local LLM Division, studying how large language models run on local hardware. The full write-up is still being written.',
     highlights: [],
     stack: ['llama.cpp', 'Ollama', 'Python'],
     links: [],
@@ -349,6 +350,7 @@ export const projects = [
     year: '2026',
     categories: ['Hardware'],
     label: 'Hardware',
+    featured: true,
     art: 'board',
     image: '/projects/temperature-sensor/cover.jpg',
     short: 'An Arduino monitor in a 3D-printed case that shows the room temperature and sounds an alarm outside 60–80°F.',
@@ -426,18 +428,19 @@ export const projects = [
   {
     // Details to come: dates (set `start` so it sorts), what it does, stack and links.
     slug: 'finance-dashboard',
+    status: 'in-progress',
     start: null,
     accent: '#4ade80',
     title: 'Finance Dashboard / Paycheck Splitter',
     org: 'Personal project',
     role: 'Developer',
-    date: 'Coming soon',
+    date: 'In progress',
     year: '',
     categories: ['Software'],
     label: 'Software',
     art: 'sites',
-    short: 'Write-up coming soon.',
-    summary: 'A full write-up is coming soon.',
+    short: 'A personal finance dashboard with a paycheck splitter.',
+    summary: 'A personal finance dashboard with a paycheck splitter. The full write-up is still being written.',
     highlights: [],
     stack: [],
     links: [],
@@ -446,7 +449,8 @@ export const projects = [
 ]
 
 // The Featured section at the top of the Projects page, in this order.
-export const featuredOrder = ['llm-research', 'setup', 'bu-dining-meal-planner']
+// Only projects with a finished write-up belong here. LLM Research goes back in once it has one.
+export const featuredOrder = ['setup', 'bu-dining-meal-planner', 'temperature-sensor']
 
 // Sort options on the Projects page, kept apart from the filters. Projects with
 // no `start` yet go last; ties keep their order in the list above.
@@ -456,10 +460,13 @@ const byStart = (dir) => (a, b) => {
   if (!b.start) return -1
   return a.start < b.start ? dir : -dir
 }
+// Projects marked status: 'in-progress' always come after finished ones.
+const finishedFirst = (order) => (a, b) =>
+  (a.status === 'in-progress') - (b.status === 'in-progress') || order(a, b)
 export const sorts = {
-  Newest: byStart(1),
-  Oldest: byStart(-1),
-  'A–Z': (a, b) => a.title.localeCompare(b.title),
+  Newest: finishedFirst(byStart(1)),
+  Oldest: finishedFirst(byStart(-1)),
+  'A–Z': finishedFirst((a, b) => a.title.localeCompare(b.title)),
 }
 
 // The filters on the Projects page, and which `categories` each one includes.

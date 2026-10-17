@@ -17,7 +17,7 @@ function Flow({ steps }) {
         return (
           <li key={label} className="relative">
             <div className="h-full rounded-2xl border border-white/[0.08] bg-white/[0.04] px-3.5 py-2.5">
-              <span className="font-mono text-[10px] text-steel">{String(k + 1).padStart(2, '0')}</span>
+              <span className="font-mono text-xs text-steel">{String(k + 1).padStart(2, '0')}</span>
               <p className="text-sm font-medium text-snow">{label}</p>
               {note && <p className="mt-0.5 text-xs text-fog">{note}</p>}
             </div>
