@@ -1,7 +1,7 @@
 import { Link } from 'react-router'
 import { siGithub } from 'simple-icons'
 import BrandIcon from '../components/BrandIcon.jsx'
-import { ArrowRight, ArrowUpRight, Check, Copy, FileText, Glyph, LinkedIn, MapPin } from '../components/Icons.jsx'
+import { ArrowUpRight, Briefcase, Check, Copy, FileText, Glyph, Layers, LinkedIn, MapPin } from '../components/Icons.jsx'
 import { ProfileCard } from '../components/ProfileBlurb.jsx'
 import Terminal from '../components/Terminal.jsx'
 import { site } from '../config.js'
@@ -105,17 +105,17 @@ function Hero({ wide }) {
             </a>
           )}
           {[
-            ['/projects', 'Projects'],
-            ['/experience', 'Experience'],
-          ].map(([to, label]) => (
+            ['/projects', 'Projects', Layers],
+            ['/experience', 'Experience', Briefcase],
+          ].map(([to, label, Icon]) => (
             <Link
               key={to}
               to={to}
               className="btn border border-white/10 text-white hover:brightness-110"
               style={{ background: sectionColors[to].fill, boxShadow: glow(sectionColors[to].base) }}
             >
+              <Icon size={16} />
               {label}
-              <ArrowRight size={16} />
             </Link>
           ))}
         </div>
