@@ -4,11 +4,3 @@ dist
 *.local
 .DS_Store
 .claude/
-
-# Impeccable design tool: generated files. PRODUCT.md, DESIGN.md,
-# .impeccable/design.json and .impeccable/surfaces/ stay committed.
-.impeccable/review/
-.impeccable/critique/
-.impeccable/live/
-.impeccable/questions/
-.impeccable/hook.cache.json
