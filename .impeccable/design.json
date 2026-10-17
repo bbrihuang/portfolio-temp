@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-16T00:00:00Z",
+  "title": "Design System: Brian Huang Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "void": { "role": "neutral", "displayName": "Void Ink", "canonical": "#0e1218", "tonalRamp": ["#0e1218", "#121821", "#18202b", "#222b38", "#3a4555", "#8793a5", "#d3dae4", "#f4f6f8"] },
+      "snow": { "role": "neutral", "displayName": "Signage White", "canonical": "#f4f6f8", "tonalRamp": ["#222b38", "#3a4555", "#5d6a7d", "#8793a5", "#aab4c2", "#d3dae4", "#e6ebf1", "#f4f6f8"] },
+      "software-line": { "role": "primary", "displayName": "Software Line Blue", "canonical": "#2f7de1", "tonalRamp": ["oklch(25% 0.09 258)", "oklch(34% 0.13 258)", "oklch(43% 0.16 258)", "oklch(52% 0.18 258)", "oklch(60% 0.18 258)", "oklch(72% 0.13 258)", "oklch(83% 0.07 258)", "oklch(93% 0.025 258)"] },
+      "hardware-line": { "role": "secondary", "displayName": "Hardware Line Orange", "canonical": "#f28c28", "tonalRamp": ["oklch(28% 0.07 63)", "oklch(38% 0.1 63)", "oklch(48% 0.13 63)", "oklch(60% 0.15 63)", "oklch(74% 0.16 63)", "oklch(82% 0.11 63)", "oklch(90% 0.06 63)", "oklch(96% 0.02 63)"] },
+      "service-ok": { "role": "tertiary", "displayName": "Service Green", "canonical": "#3fb97a", "tonalRamp": ["oklch(25% 0.06 155)", "oklch(34% 0.09 155)", "oklch(44% 0.12 155)", "oklch(56% 0.14 155)", "oklch(70% 0.15 155)", "oklch(80% 0.11 155)", "oklch(90% 0.06 155)", "oklch(96% 0.02 155)"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Homepage h1 only." },
+      "headline": { "displayName": "Headline", "purpose": "Section h2s: About, Get in touch." },
+      "title": { "displayName": "Title", "purpose": "Sub-section headings in About." },
+      "body": { "displayName": "Body", "purpose": "Paragraphs in mist, 48 to 62ch." },
+      "station-label": { "displayName": "Station Label", "purpose": "Project titles on the map and rails." },
+      "mono": { "displayName": "Mono", "purpose": "Terminal and email." }
+    },
+    "shadows": [
+      { "name": "interchange-ring", "value": "0 0 0 3px #0e1218, 0 0 0 5px #f4f6f8", "purpose": "Double ring on interchange stations." },
+      { "name": "copied-ring", "value": "0 0 0 14px rgb(52 211 153 / 0)", "purpose": "Transient green ring when email is copied." }
+    ],
+    "motion": [
+      { "name": "ease-out-expo", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Entrances, hovers, station pop-in." },
+      { "name": "ease-in-out-quint", "value": "cubic-bezier(0.83, 0, 0.17, 1)", "purpose": "Route line draw-in (1.6s)." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Single filled action: Resume, copy email.",
+      "html": "<button class=\"ds-btn-primary\">Resume</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; height: 44px; padding: 0 20px; border: 0; border-radius: 6px; background: var(--color-snow, #f4f6f8); color: var(--color-void, #0e1218); font-size: 15px; font-weight: 500; transition: transform .3s cubic-bezier(.16,1,.3,1), background-color .2s; } .ds-btn-primary:hover { background: #fff; } .ds-btn-primary:active { transform: scale(.97); } .ds-btn-primary:focus-visible { outline: 2px solid #f4f6f8; outline-offset: 3px; }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary actions on a hairline.",
+      "html": "<button class=\"ds-btn-outline\">All projects</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; height: 44px; padding: 0 20px; border-radius: 6px; background: rgb(255 255 255 / .06); border: 1px solid rgb(255 255 255 / .1); color: #f4f6f8; font-size: 15px; font-weight: 500; transition: background-color .2s, border-color .2s; } .ds-btn-outline:hover { background: rgb(255 255 255 / .11); border-color: rgb(255 255 255 / .18); } .ds-btn-outline:focus-visible { outline: 2px solid #f4f6f8; outline-offset: 3px; }"
+    },
+    {
+      "name": "Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Skill tag.",
+      "html": "<span class=\"ds-chip\">TypeScript</span>",
+      "css": ".ds-chip { display: inline-flex; align-items: center; height: 28px; padding: 0 10px; border-radius: 6px; background: rgb(255 255 255 / .04); border: 1px solid rgb(255 255 255 / .1); color: #d3dae4; font-size: 12px; font-weight: 450; transition: background-color .2s, border-color .2s, color .2s; } .ds-chip:hover { background: rgb(255 255 255 / .1); border-color: rgb(255 255 255 / .16); color: #f4f6f8; }"
+    },
+    {
+      "name": "Panel",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "Flat enamel panel: one fill, one hairline.",
+      "html": "<div class=\"ds-panel\"><p class=\"ds-panel-name\">Brian Huang</p><p class=\"ds-panel-sub\">Boston University</p></div>",
+      "css": ".ds-panel { background: #121821; border: 1px solid rgb(255 255 255 / .1); border-radius: 10px; padding: 20px; color: #f4f6f8; } .ds-panel-name { margin: 0; font-size: 20px; font-weight: 600; letter-spacing: -.025em; } .ds-panel-sub { margin: 2px 0 0; font-size: 14px; color: #aab4c2; }"
+    },
+    {
+      "name": "Navigation Bar",
+      "kind": "nav",
+      "refersTo": "panel-strong",
+      "description": "Inset ash bar with a sliding white pill on the current link.",
+      "html": "<nav class=\"ds-nav\"><span class=\"ds-nav-cur\">Home</span><a class=\"ds-nav-link\" href=\"#\">Experience</a><a class=\"ds-nav-link\" href=\"#\">Projects</a></nav>",
+      "css": ".ds-nav { display: inline-flex; align-items: center; height: 56px; padding: 0 8px; background: #18202b; border: 1px solid rgb(255 255 255 / .12); border-radius: 6px; } .ds-nav-cur, .ds-nav-link { display: inline-flex; align-items: center; height: 44px; padding: 0 16px; border-radius: 6px; font-size: 14px; font-weight: 500; text-decoration: none; } .ds-nav-cur { background: #f4f6f8; color: #0e1218; } .ds-nav-link { color: #aab4c2; transition: color .3s; } .ds-nav-link:hover { color: #f4f6f8; } .ds-nav-link:focus-visible { outline: 2px solid #f4f6f8; outline-offset: 3px; }"
+    },
+    {
+      "name": "Station",
+      "kind": "custom",
+      "refersTo": "panel",
+      "description": "Map station: white ring dot with title and date; the interchange has a double ring.",
+      "html": "<div class=\"ds-stations\"><a class=\"ds-station\" href=\"#\"><span class=\"ds-dot\"></span><span class=\"ds-st-title\">Temperature Sensor</span><span class=\"ds-st-date\">2025</span></a><a class=\"ds-station\" href=\"#\"><span class=\"ds-dot ds-dot-x\"></span><span class=\"ds-st-title\">JetHexa</span><span class=\"ds-st-date\">2025</span></a></div>",
+      "css": ".ds-stations { display: flex; gap: 48px; padding: 16px; } .ds-station { display: grid; justify-items: center; gap: 6px; text-decoration: none; text-align: center; } .ds-dot { width: 22px; height: 22px; border-radius: 9999px; background: #0e1218; border: 4px solid #f4f6f8; transition: transform .3s cubic-bezier(.16,1,.3,1), background-color .2s; } .ds-dot-x { width: 28px; height: 28px; box-shadow: 0 0 0 3px #0e1218, 0 0 0 5px #f4f6f8; } .ds-station:hover .ds-dot, .ds-station:focus-visible .ds-dot { transform: scale(1.18); background: #f4f6f8; } .ds-st-title { font-size: 15px; font-weight: 600; line-height: 1.2; color: #f4f6f8; } .ds-station:hover .ds-st-title { text-decoration: underline; text-underline-offset: 3px; } .ds-st-date { font-size: 12px; color: #aab4c2; }"
+    },
+    {
+      "name": "Route Lines",
+      "kind": "custom",
+      "refersTo": "panel",
+      "description": "Software and Hardware route strokes: thick, round-joined, 45-degree bends.",
+      "html": "<svg class=\"ds-route\" viewBox=\"0 0 400 120\" fill=\"none\"><path d=\"M10 25 H140 L200 60 H390\" stroke=\"#2f7de1\" stroke-width=\"9\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><path d=\"M10 95 H140 L200 60\" stroke=\"#f28c28\" stroke-width=\"9\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/></svg>",
+      "css": ".ds-route { width: 320px; height: auto; background: #0e1218; border-radius: 6px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Line Diagram",
+    "overview": "The homepage is one transit system map. A Software line (blue) and a Hardware line (orange) run in from the left, share a trunk through the interchange stations (JetHexa, Setup) where both disciplines are needed, and part again. Everything else is built from the grammar of signage: an ink-blue-black ground, signage-white type in a slightly condensed grotesque (Archivo at 90% width), flat enamel panels on 1px hairlines, tight 6px corners. Two line colors carry meaning everywhere; neither is used as decoration.\n\nDensity is calm and skimmable: a left-aligned headline, the map directly below, then About (clubs and stack as hairline-divided lists) and a contact section ending on the terminal. On phones and tablets the map becomes the same lines as vertical rails.\n\nThe restored animated background (parallax shapes, drafting grid, grain) was a user-approved adaptation, retinted blue and white. It sits behind the flat panels and does not change the panel rules below.",
+    "keyCharacteristics": [
+      "Two line colors with fixed meaning: blue is Software, orange is Hardware.",
+      "Flat panels: one fill, one 1px white-alpha hairline, no blur.",
+      "Line strokes are thick (9 units on a 1000 x 300 plane), round-joined, with 45-degree bends only.",
+      "Stations are white-ringed dots; interchanges are double rings.",
+      "One green dot, reserved for \"Open to internships\"."
+    ],
+    "rules": [
+      { "name": "The Two Lines Rule", "body": "Blue means Software, orange means Hardware, white means both or neither. Never use either line color for decoration, hover accents, or generic emphasis.", "section": "colors" },
+      { "name": "The One Green Rule", "body": "Green appears only as a status or confirmation signal.", "section": "colors" },
+      { "name": "The Signage Weight Rule", "body": "Hierarchy comes from weight (700 / 600 / 400) and size, not from letter-spaced caps or color.", "section": "typography" },
+      { "name": "The Flat Enamel Rule", "body": "A panel is one fill and one hairline. No blur, no glow, no gradient on panels or controls.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep blue for Software and orange for Hardware, using the -light tint for text on dark.",
+      "Do build panels from one fill and one white-alpha hairline at 6 to 10px radius.",
+      "Do bend lines at 45 degrees with round joins and rings for stations.",
+      "Do keep a visible 2px signage-white focus ring with 3px offset.",
+      "Do honor prefers-reduced-motion: drop slides, draws, typing and spins; keep fades.",
+      "Do use the ease-out-expo curve (cubic-bezier(0.16, 1, 0.3, 1)) for entrances and hover motion."
+    ],
+    "donts": [
+      "Don't use blur, glow or gradient fills on panels and controls.",
+      "Don't spend orange or blue on generic emphasis, and don't add orange shapes to the background.",
+      "Don't use hero + card-grid + glass SaaS patterns on the homepage."
+    ]
+  }
+}

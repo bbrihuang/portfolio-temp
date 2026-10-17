@@ -16,23 +16,35 @@
 
 /* ------------------------------------------------------------------
    Design tokens
-   A graphite ground, white type, frosted-glass surfaces. Greys do the
-   work; pure white is saved for emphasis and the active state.
+   A transit-signage system: ink-blue ground, signage white type, flat
+   panels on hairlines. Two line colors carry meaning everywhere:
+   blue is the Software line, orange is the Hardware line.
    ------------------------------------------------------------------ */
 @theme {
-  --font-sans: "Outfit Variable", "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Archivo Variable", "Archivo", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
   --font-serif: "Times New Roman", Times, serif;
 
-  --color-void: #0b0b0c;
-  --color-coal: #111113;
-  --color-ash: #19191c;
-  --color-graphite: #232327;
-  --color-slate: #3a3a40;
-  --color-steel: #6f6f78;
-  --color-fog: #a1a1aa;
-  --color-mist: #d4d4d8;
-  --color-snow: #f4f4f5;
+  --color-void: #0e1218;
+  --color-coal: #121821;
+  --color-ash: #18202b;
+  --color-graphite: #222b38;
+  --color-slate: #3a4555;
+  --color-steel: #8793a5;
+  --color-fog: #aab4c2;
+  --color-mist: #d3dae4;
+  --color-snow: #f4f6f8;
+
+  --color-sw: #2f7de1;
+  --color-sw-light: #7db2f5;
+  --color-hw: #f28c28;
+  --color-hw-light: #f7b36a;
+  --color-ok: #3fb97a;
+
+  /* Enamel signs have tight corners. */
+  --radius-xl: 0.375rem;
+  --radius-2xl: 0.5rem;
+  --radius-3xl: 0.625rem;
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
@@ -43,7 +55,7 @@
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
     color-scheme: dark;
-    scrollbar-color: #3a3a40 transparent;
+    scrollbar-color: #3a4555 transparent;
   }
   body {
     background: var(--color-void);
@@ -52,10 +64,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: clip;
-  }
-  ::selection {
-    background: var(--color-snow);
-    color: var(--color-void);
   }
   :focus-visible {
     outline: 2px solid var(--color-snow);
@@ -70,26 +78,15 @@
   }
 }
 
-/* Frosted glass, tuned from pippipi.com for a dark ground: a faint white
-   wash, heavy blur, a hairline rim, and a lit top edge. */
+/* Flat enamel panels: one fill, one hairline, no blur. */
 @utility glass {
-  background: linear-gradient(180deg, rgb(255 255 255 / 0.075), rgb(255 255 255 / 0.03));
-  -webkit-backdrop-filter: blur(28px) saturate(140%);
-  backdrop-filter: blur(28px) saturate(140%);
-  border: 1px solid rgb(255 255 255 / 0.085);
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.07),
-    0 18px 40px -18px rgb(0 0 0 / 0.7);
+  background: var(--color-coal);
+  border: 1px solid rgb(255 255 255 / 0.1);
 }
 
 @utility glass-strong {
-  background: linear-gradient(180deg, rgb(28 28 31 / 0.72), rgb(20 20 22 / 0.62));
-  -webkit-backdrop-filter: blur(24px) saturate(150%);
-  backdrop-filter: blur(24px) saturate(150%);
-  border: 1px solid rgb(255 255 255 / 0.09);
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.06),
-    0 12px 32px -12px rgb(0 0 0 / 0.75);
+  background: var(--color-ash);
+  border: 1px solid rgb(255 255 255 / 0.12);
 }
 
 @utility shell {
@@ -104,24 +101,10 @@
 
 @utility eyebrow {
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.14em;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--color-fog);
-}
-
-/* Gradient-filled text. A background only paints inside the text's box, and
-   tight tracking lets the first and last letters (and descenders) poke out
-   of it, so they'd be cut off. Padding grows the painted area; the matching
-   negative margin keeps the spacing around the word unchanged. */
-@utility text-gradient {
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  padding: 0 0.12em 0.12em;
-  margin-inline: -0.12em;
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
 }
 
 @layer components {
@@ -132,10 +115,9 @@
     gap: 0.5rem;
     height: 2.125rem;
     padding-inline: 0.75rem 0.875rem;
-    border-radius: 9999px;
-    background: rgb(255 255 255 / 0.055);
-    border: 1px solid rgb(255 255 255 / 0.08);
-    box-shadow: 0 4px 12px -6px rgb(0 0 0 / 0.6);
+    border-radius: 0.375rem;
+    background: rgb(255 255 255 / 0.04);
+    border: 1px solid rgb(255 255 255 / 0.1);
     font-size: 0.8125rem;
     font-weight: 450;
     color: var(--color-mist);
@@ -147,7 +129,6 @@
       color 0.2s;
   }
   .chip:hover {
-    transform: translateY(-1px) scale(1.04);
     background: rgb(255 255 255 / 0.1);
     border-color: rgb(255 255 255 / 0.16);
     color: var(--color-snow);
@@ -165,7 +146,7 @@
     gap: 0.5rem;
     height: 2.75rem;
     padding-inline: 1.25rem;
-    border-radius: 9999px;
+    border-radius: 0.375rem;
     font-size: 0.9375rem;
     font-weight: 500;
     white-space: nowrap;
@@ -182,18 +163,14 @@
   .btn-light {
     background: var(--color-snow);
     color: var(--color-void);
-    box-shadow: 0 8px 24px -10px rgb(255 255 255 / 0.45);
   }
   .btn-light:hover {
     background: #fff;
-    box-shadow: 0 10px 30px -8px rgb(255 255 255 / 0.55);
   }
   .btn-glass {
     background: rgb(255 255 255 / 0.06);
     border: 1px solid rgb(255 255 255 / 0.1);
     color: var(--color-snow);
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
   }
   .btn-glass:hover {
     background: rgb(255 255 255 / 0.11);
@@ -494,6 +471,127 @@
   ::view-transition-group(*),
   ::view-transition-old(*),
   ::view-transition-new(*) {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+   The system map (homepage)
+   Lines are SVG strokes on a 1000 x 440 plane; stations are real links
+   placed over it by percentage so they stay focusable and readable.
+   ------------------------------------------------------------------ */
+@keyframes draw-line {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+@keyframes station-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.6);
+  }
+}
+.route {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  animation: draw-line 1.6s var(--ease-in-out-quint) backwards;
+  animation-delay: 0.15s;
+}
+.route-hw {
+  animation-delay: 0.35s;
+}
+.station {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  transform: translate(-50%, -50%);
+  animation: station-in 0.6s var(--ease-out-expo) backwards;
+  animation-delay: calc(0.9s + var(--n, 0) * 80ms);
+}
+.station-dot {
+  display: block;
+  width: 1.375rem;
+  height: 1.375rem;
+  border-radius: 9999px;
+  background: var(--color-void);
+  border: 4px solid var(--color-snow);
+  transition: transform 0.3s var(--ease-out-expo), background-color 0.2s;
+}
+.station-dot.is-interchange {
+  width: 1.75rem;
+  height: 1.75rem;
+  box-shadow: 0 0 0 3px var(--color-void), 0 0 0 5px var(--color-snow);
+}
+.station:hover .station-dot,
+.station:focus-visible .station-dot {
+  transform: scale(1.18);
+  background: var(--color-snow);
+}
+.station-label {
+  position: absolute;
+  left: 50%;
+  width: 10rem;
+  transform: translateX(-50%);
+  text-align: center;
+  text-wrap: balance;
+  line-height: 1.2;
+  pointer-events: none;
+}
+.station-label.above {
+  bottom: calc(100% - 0.25rem);
+}
+.station-label.below {
+  top: calc(100% - 0.25rem);
+}
+.station:hover .station-title,
+.station:focus-visible .station-title {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Phone and tablet: the same lines as vertical rails. */
+.rail {
+  position: relative;
+  padding-left: 2.25rem;
+}
+.rail::before {
+  content: "";
+  position: absolute;
+  left: 0.5rem;
+  top: 0.75rem;
+  bottom: 0.75rem;
+  width: 0.5rem;
+  border-radius: 9999px;
+  background: var(--rail, var(--color-snow));
+}
+.rail-split::before {
+  background: linear-gradient(90deg, var(--color-sw) 0 45%, transparent 45% 55%, var(--color-hw) 55% 100%);
+}
+.rail .station-dot {
+  position: absolute;
+  left: -2.1875rem;
+  top: 50%;
+  translate: 0 -50%;
+}
+.rail .station-dot.is-interchange {
+  left: -2.375rem;
+}
+
+/* Browser surfaces */
+input,
+textarea {
+  caret-color: var(--color-hw);
+}
+::selection {
+  background: var(--color-sw);
+  color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route,
+  .station {
     animation: none;
   }
 }

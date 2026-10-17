@@ -2,18 +2,12 @@
 export default function PageHeader({ index, title, count, color, children }) {
   return (
     <header className="max-w-3xl">
-      <p className="eyebrow rise-blur" style={{ '--i': 0, color: color?.light }}>
-        {index} / {title}
-      </p>
-      <div className="mt-4">
+      <div>
         <h1
-          className="rise-blur text-[clamp(3.25rem,9vw,6.5rem)] font-bold leading-[0.92] tracking-[-0.05em]"
+          className="rise-blur text-[clamp(3rem,9vw,6rem)] font-bold leading-[0.92] tracking-[-0.035em]"
           style={{ '--i': 1 }}
         >
-          <span
-            className={color ? 'text-gradient' : undefined}
-            style={color ? { backgroundImage: `linear-gradient(90deg, ${color.light}, ${color.base})` } : undefined}
-          >
+          <span style={color ? { color: color.light } : undefined}>
             {title}
           </span>
           {count != null && (

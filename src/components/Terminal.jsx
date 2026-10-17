@@ -86,7 +86,7 @@ function Block({ icon: Icon, color, cmd, children }) {
   )
 }
 
-export default function Terminal({ startIndex = 0 }) {
+export default function Terminal({ startIndex = 0, compact = false }) {
   const [history, setHistory] = useState([])
   const [value, setValue] = useState('')
   const [recall, setRecall] = useState(-1)
@@ -102,8 +102,8 @@ export default function Terminal({ startIndex = 0 }) {
   useLayoutEffect(() => {
     const measure = () => {
       if (!introRef.current || !form.current) return
-      const gap = 16 // space-y-4 between the intro and the prompt
-      const padding = 40 // py-5
+      const gap = compact ? 12 : 16 // space-y-3 / space-y-4 between the intro and the prompt
+      const padding = compact ? 32 : 40 // py-4 / py-5
       setHeight(introRef.current.offsetHeight + form.current.offsetHeight + gap + padding)
     }
     measure()
@@ -141,24 +141,21 @@ export default function Terminal({ startIndex = 0 }) {
   return (
     <div className="glass rise overflow-hidden rounded-3xl" style={{ '--i': startIndex }}>
       <div className="flex items-center justify-between border-b border-white/[0.07] px-5 py-3.5">
-        <div className="flex gap-2" aria-hidden>
-          <span className="size-3 rounded-full bg-[#ff5f57]/85" />
-          <span className="size-3 rounded-full bg-[#febc2e]/85" />
-          <span className="size-3 rounded-full bg-[#28c840]/85" />
-        </div>
-        <span className="font-mono text-xs text-steel">brian@portfolio ~</span>
+        <span className="font-mono text-xs text-fog">brian@portfolio ~</span>
       </div>
 
       <div
         ref={body}
-        className="space-y-4 overflow-y-auto overscroll-contain px-5 py-5 font-mono text-[13px] leading-relaxed [scrollbar-width:thin]"
+        className={`overflow-y-auto overscroll-contain px-5 font-mono leading-relaxed [scrollbar-width:thin] ${
+          compact ? 'space-y-3 py-4 text-[12px]' : 'space-y-4 py-5 text-[13px]'
+        }`}
         style={height ? { height } : undefined}
         onClick={(e) => {
           // Clicking empty space focuses the prompt (on devices with a mouse).
           if (e.target === e.currentTarget && matchMedia('(hover: hover)').matches) input.current?.focus()
         }}
       >
-        <div ref={introRef} className="space-y-4">
+        <div ref={introRef} className={compact ? 'space-y-3' : 'space-y-4'}>
           {intro.map((b, i) => (
             <div key={b.cmd} className="rise" style={{ '--i': startIndex + 1 + i }}>
               <Block {...b}>
@@ -213,7 +210,7 @@ export default function Terminal({ startIndex = 0 }) {
             autoCapitalize="off"
             spellCheck={false}
             enterKeyHint="send"
-            className="min-w-0 flex-1 bg-transparent text-[16px] text-snow caret-emerald-400 outline-none placeholder:text-steel sm:text-[13px]"
+            className="min-h-11 min-w-0 flex-1 bg-transparent text-[16px] text-snow caret-emerald-400 outline-none placeholder:text-steel sm:text-[13px]"
           />
         </form>
       </div>

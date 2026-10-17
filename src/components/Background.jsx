@@ -4,10 +4,10 @@ import { useLocation } from 'react-router'
 // Each shape has two wrappers so its motions stay independent:
 //   outer - pointer and scroll parallax (scaled by `depth`)
 //   inner - the per-page layout below, which eases when the route changes
-// Behind the glass panels these shapes blur into soft light, which is what
-// makes the frosted surfaces read as glass. Nothing here animates while the
-// page is idle: every glass panel re-blurs whenever the shapes move, so
-// constant motion would keep the GPU busy on every frame.
+// The shapes take the two line colors, blue for software and orange for
+// hardware, and drift behind the flat panels. They only move with the
+// pointer, the scroll and page changes, never on their own, so an idle page
+// costs nothing.
 const shapes = [
   { id: 'orb', depth: 28, size: [54, 54] },
   { id: 'ring', depth: 14, size: [82, 82] },
@@ -23,9 +23,9 @@ const layouts = {
   home: {
     orb: { x: 60, y: 6, r: 0, s: 1 },
     ring: { x: -22, y: 34, r: 0, s: 1 },
-    diamond: { x: 82, y: 64, r: 45, s: 1 },
+    diamond: { x: 86, y: 6, r: 45, s: 1 },
     triangle: { x: 4, y: -4, r: 14, s: 1 },
-    capsule: { x: 34, y: 82, r: -18, s: 1 },
+    capsule: { x: -6, y: 4, r: -18, s: 1 },
     dots: { x: 90, y: 16, r: 0, s: 1 },
     axis: { x: 92, y: 86, r: 0, s: 1 },
   },
@@ -65,7 +65,9 @@ function layoutFor(pathname) {
   return layouts.home
 }
 
-const W = { stroke: '#fff', fill: 'none', vectorEffect: 'non-scaling-stroke' }
+const SW = '#4f93ee'
+const HW = '#f28c28'
+const W = (c) => ({ stroke: c, fill: 'none', vectorEffect: 'non-scaling-stroke' })
 
 function Shape({ id }) {
   switch (id) {
@@ -74,20 +76,20 @@ function Shape({ id }) {
         <svg viewBox="0 0 100 100" className="size-full">
           <defs>
             <radialGradient id="bg-orb" cx="34%" cy="28%" r="78%">
-              <stop offset="0" stopColor="#fff" stopOpacity="0.3" />
-              <stop offset="0.45" stopColor="#fff" stopOpacity="0.085" />
-              <stop offset="1" stopColor="#fff" stopOpacity="0" />
+              <stop offset="0" stopColor="#4f93ee" stopOpacity="0.38" />
+              <stop offset="0.45" stopColor="#4f93ee" stopOpacity="0.085" />
+              <stop offset="1" stopColor="#4f93ee" stopOpacity="0" />
             </radialGradient>
           </defs>
           <circle cx="50" cy="50" r="50" fill="url(#bg-orb)" />
-          <circle cx="50" cy="50" r="49.8" {...W} strokeOpacity="0.08" />
+          <circle cx="50" cy="50" r="49.8" {...W(SW)} strokeOpacity="0.08" />
         </svg>
       )
     case 'ring':
       return (
         <svg viewBox="0 0 100 100" className="size-full overflow-visible">
-          <circle cx="50" cy="50" r="50" {...W} strokeOpacity="0.1" />
-          <circle cx="50" cy="50" r="41" {...W} strokeOpacity="0.07" strokeDasharray="2 6" />
+          <circle cx="50" cy="50" r="50" {...W('#fff')} strokeOpacity="0.1" />
+          <circle cx="50" cy="50" r="41" {...W('#fff')} strokeOpacity="0.07" strokeDasharray="2 6" />
         </svg>
       )
     case 'diamond':
@@ -95,12 +97,12 @@ function Shape({ id }) {
         <svg viewBox="0 0 100 100" className="size-full overflow-visible">
           <defs>
             <linearGradient id="bg-sq" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stopColor="#fff" stopOpacity="0.2" />
-              <stop offset="1" stopColor="#fff" stopOpacity="0.015" />
+              <stop offset="0" stopColor="#ffffff" stopOpacity="0.26" />
+              <stop offset="1" stopColor="#ffffff" stopOpacity="0.015" />
             </linearGradient>
           </defs>
           <rect x="0" y="0" width="100" height="100" fill="url(#bg-sq)" />
-          <rect x="-12" y="-12" width="124" height="124" {...W} strokeOpacity="0.08" />
+          <rect x="-12" y="-12" width="124" height="124" {...W('#fff')} strokeOpacity="0.08" />
         </svg>
       )
     case 'triangle':
@@ -108,12 +110,12 @@ function Shape({ id }) {
         <svg viewBox="0 0 100 100" className="size-full overflow-visible">
           <defs>
             <linearGradient id="bg-tri" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stopColor="#fff" stopOpacity="0.16" />
-              <stop offset="1" stopColor="#fff" stopOpacity="0" />
+              <stop offset="0" stopColor="#4f93ee" stopOpacity="0.16" />
+              <stop offset="1" stopColor="#4f93ee" stopOpacity="0" />
             </linearGradient>
           </defs>
           <polygon points="50,4 96,88 4,88" fill="url(#bg-tri)" />
-          <polygon points="50,-8 108,96 -8,96" {...W} strokeOpacity="0.09" />
+          <polygon points="50,-8 108,96 -8,96" {...W(SW)} strokeOpacity="0.09" />
         </svg>
       )
     case 'capsule':
@@ -121,8 +123,8 @@ function Shape({ id }) {
         <svg viewBox="0 0 100 28" preserveAspectRatio="none" className="size-full">
           <defs>
             <linearGradient id="bg-cap" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0" stopColor="#fff" stopOpacity="0.14" />
-              <stop offset="1" stopColor="#fff" stopOpacity="0" />
+              <stop offset="0" stopColor="#ffffff" stopOpacity="0.14" />
+              <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
             </linearGradient>
           </defs>
           <rect x="0" y="0" width="100" height="28" rx="14" fill="url(#bg-cap)" />
@@ -132,7 +134,7 @@ function Shape({ id }) {
       return (
         <svg viewBox="0 0 70 70" className="size-full">
           {Array.from({ length: 49 }, (_, i) => (
-            <circle key={i} cx={5 + (i % 7) * 10} cy={5 + Math.floor(i / 7) * 10} r="1" fill="#fff" fillOpacity="0.28" />
+            <circle key={i} cx={5 + (i % 7) * 10} cy={5 + Math.floor(i / 7) * 10} r="1" fill="#ffffff" fillOpacity="0.28" />
           ))}
         </svg>
       )
@@ -190,7 +192,7 @@ export default function Background() {
   return (
     <div ref={ref} aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-void">
       {/* Lift the top of the page so the ground reads as grey, not black. */}
-      <div className="absolute inset-0 bg-[radial-gradient(120%_80%_at_50%_-10%,#26262b_0%,#141416_48%,#0b0b0c_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(120%_80%_at_50%_-10%,#1a2433_0%,#121821_48%,#0e1218_100%)]" />
 
       {shapes.map((s) => {
         const p = layout[s.id]
@@ -222,7 +224,7 @@ export default function Background() {
       {/* Film grain keeps the large flat greys from banding. */}
       <div className="absolute inset-0 opacity-[0.035] [background-image:url('data:image/svg+xml;utf8,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%22160%22%20height=%22160%22%3E%3Cfilter%20id=%22n%22%3E%3CfeTurbulence%20type=%22fractalNoise%22%20baseFrequency=%220.9%22%20numOctaves=%222%22%20stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect%20width=%22100%25%22%20height=%22100%25%22%20filter=%22url(%23n)%22/%3E%3C/svg%3E')]" />
 
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgb(0_0_0/0.55)_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgb(0_0_0/0.3)_100%)]" />
     </div>
   )
 }

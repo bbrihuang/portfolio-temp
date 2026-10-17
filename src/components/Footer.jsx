@@ -10,7 +10,7 @@ export default function Footer() {
           © {new Date().getFullYear()} {site.name}
         </p>
         <p className="font-mono text-xs">Built with React, Vite & Tailwind</p>
-        <a href={`mailto:${site.email}`} className="link-line transition-colors hover:text-snow md:hidden">
+        <a href={`mailto:${site.email}`} className="link-line inline-flex min-h-11 items-center px-2 transition-colors hover:text-snow md:hidden">
           Email
         </a>
       </div>

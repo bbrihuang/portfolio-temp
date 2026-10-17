@@ -1,9 +1,7 @@
 import { useState } from 'react'
-import { siGithub } from 'simple-icons'
 import { site } from '../config.js'
 import { useCopyEmail } from '../lib/hooks.js'
-import BrandIcon from './BrandIcon.jsx'
-import { Check, Copy, LinkedIn } from './Icons.jsx'
+import { Check, Copy } from './Icons.jsx'
 import Terminal from './Terminal.jsx'
 
 function Avatar() {
@@ -35,7 +33,7 @@ function CopyEmail() {
       type="button"
       onClick={copy}
       title="Copy email"
-      className="group inline-flex max-w-full items-center gap-1.5 font-mono text-sm text-mist transition-colors hover:text-snow"
+      className="group inline-flex min-h-11 max-w-full items-center gap-1.5 font-mono text-sm text-mist transition-colors hover:text-snow"
     >
       <span className="link-line truncate">{site.email}</span>
       {copied ? (
@@ -50,28 +48,11 @@ function CopyEmail() {
   )
 }
 
-// GitHub and LinkedIn icons at the right edge of the profile card.
-function SocialLinks() {
-  const cls =
-    'grid size-9 place-items-center rounded-full border border-white/10 bg-white/[0.04] text-fog transition-colors hover:bg-white/10 hover:text-snow'
-  return (
-    <div className="ml-auto flex shrink-0 flex-col gap-2">
-      <a href={site.github} target="_blank" rel="noreferrer" aria-label="GitHub" title="GitHub" className={cls}>
-        <BrandIcon icon={siGithub} size={17} />
-      </a>
-      <a href={site.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" title="LinkedIn" className={cls}>
-        <LinkedIn size={16} />
-      </a>
-    </div>
-  )
-}
-
 // The profile card and the terminal (Terminal.jsx), stacked on the homepage.
 // `startIndex` continues the page's entrance stagger.
-export default function ProfileBlurb({ startIndex = 0 }) {
+export function ProfileCard({ startIndex = 0, className = '' }) {
   return (
-    <div className="flex flex-col gap-4">
-      <div className="glass rise flex items-center gap-5 rounded-3xl p-5" style={{ '--i': startIndex }}>
+    <div className={`glass rise flex items-center gap-5 rounded-3xl p-5 ${className}`} style={{ '--i': startIndex }}>
         <Avatar />
         <div className="min-w-0">
           <p className="text-xl font-semibold tracking-tight">{site.name}</p>
@@ -80,9 +61,14 @@ export default function ProfileBlurb({ startIndex = 0 }) {
             {site.school} · Class of ’{String(site.classOf).slice(2)}
           </p>
         </div>
-        <SocialLinks />
-      </div>
+    </div>
+  )
+}
 
+export default function ProfileBlurb({ startIndex = 0 }) {
+  return (
+    <div className="flex flex-col gap-4">
+      <ProfileCard startIndex={startIndex} />
       <Terminal startIndex={startIndex + 1} />
     </div>
   )
