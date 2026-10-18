@@ -180,6 +180,19 @@ const projectList = [
     categories: ['Robotics', 'Software'],
     label: 'Robotics · Software',
     art: 'hexapod',
+    image: '/projects/jethexa/cover.png',
+    gallery: [
+      {
+        src: '/projects/jethexa/robot.png',
+        alt: 'The green and black JetHexa hexapod robot with six jointed legs, a lidar on top, and an RGB-D camera on the front.',
+        caption: 'The JetHexa hexapod the simulation models',
+      },
+      {
+        src: '/projects/jethexa/ik-demo.png',
+        alt: 'Gazebo window showing the simulated hexapod standing on a flat grid, next to a terminal log of the inverse-kinematics demo running six stages from stand to wave, each reporting commanded versus measured joint error.',
+        caption: 'The IK demo running in Gazebo: six stages from stand to wave, with commanded joints tracked to within a few degrees',
+      },
+    ],
     short: 'A ROS 2 and Gazebo simulation of an 18-DOF hexapod robot for training a walking gait.',
     summary:
       'A full simulation of the JetHexa hexapod so an 8-person team can train a reinforcement-learning walking gait before it ever touches hardware. The sim carries the real robot’s sensors and joint limits, so what works there should transfer.',
@@ -231,7 +244,6 @@ const projectList = [
         text: 'Both controllers come up active, all 18 joints track their commanded positions, and the lidar and IMU publish through the bridge. Next: fold the real robot’s link geometry into the model and bring a PPO-trained walking gait over from MuJoCo.',
       },
     ],
-    gallery: [],
   },
   {
     slug: 'llm-research',
