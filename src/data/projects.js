@@ -14,6 +14,9 @@
 //   text    a paragraph, or an array of paragraphs
 //   flow    steps drawn as a pipeline diagram: 'Label' or { label, note }
 //   points  a list: 'Plain text' or { title, text }
+//   stats   figures as tiles: { label, value, unit? }
+//   gallery photos and videos that back up this step (same format as below)
+// When the case study carries the media, leave the project's own `gallery` out.
 //
 // `gallery` (optional) shows photos and videos at the bottom of the page. Put the
 // files in public/projects/<slug>/ and list them in order:
@@ -99,11 +102,11 @@ const projectList = [
     gallery: [],
   },
   {
-    // Lives at /projects/setup, which is the Setup page rather than a ProjectDetail page.
-    slug: 'setup',
+    // Lives at /projects/homelab, which is the Setup page component rather than a ProjectDetail page.
+    slug: 'homelab',
     start: '2026-01',
     accent: '#f97316',
-    title: 'Setup',
+    title: 'Homelab',
     org: 'Personal project',
     role: 'Builder & admin',
     date: 'Ongoing',
@@ -112,6 +115,7 @@ const projectList = [
     label: 'Hardware · Software',
     featured: true,
     art: 'homelab',
+    image: '/projects/homelab/cover.webp',
     short: 'My daily drivers, and the gaming PC that doubles as a homelab: self-hosted services, local LLMs and remote access.',
     summary:
       'Everything I use day to day, plus one Mini-ITX PC that games, builds and serves. It runs self-hosted services in Docker on WSL2, local LLMs on the RTX 5070, and streams to my laptop and phone, all reachable from anywhere over Tailscale.',
@@ -124,49 +128,193 @@ const projectList = [
     slug: 'burpg-hip',
     start: '2026-01',
     accent: '#fb923c',
-    title: 'BURPG HIP',
-    org: 'BU Rocket Propulsion Group · Project HIP',
-    role: 'Nozzle Design Engineer',
+    title: 'BURPG HIP: Rocket Nozzle Design',
+    // TODO(me): confirm BURPG's full name for this line.
+    org: 'BURPG · Hybrid Intro Project',
+    role: 'Nozzle design (CAD, FEA, 3D printing)',
+    team: [
+      { name: 'Brian Huang', href: 'https://linkedin.com/in/bbrihuang' },
+      { name: 'Jacob Knight', href: 'https://www.linkedin.com/in/jacobknight2/' },
+      { name: 'Hikaru Uribe', href: 'https://www.linkedin.com/in/hikaru-uribe-613118366/' },
+    ],
     date: 'Jan 2026 – May 2026',
     year: '2026',
     categories: ['Hardware', 'Aerospace'],
     label: 'Hardware (Aerospace)',
     art: 'nozzle',
-    short: 'Nozzle geometry for a student-built hybrid rocket engine, headed for a static fire.',
+    image: '/projects/burpg-hip/cover.webp',
+    short: 'Designed, analyzed, printed and hot-fire tested an 80% bell nozzle for a small hybrid rocket motor.',
     summary:
-      'Project HIP is BURPG’s student-built hybrid rocket engine. I design the nozzle: sizing the converging–diverging contour for the target altitude, modeling it in SOLIDWORKS, and refining geometry and materials through design reviews before fabrication.',
+      'A converging–diverging nozzle for a small hybrid rocket motor, taken from chamber conditions to hand calculations, CAD, FEA, a 3D print and a hot-fire test. Critical Design Review presented 3/4/26.',
     highlights: [
-      'Designed nozzle geometry for a student-built hybrid rocket engine in SOLIDWORKS, sized for target altitude.',
-      'Refined nozzle geometry and materials through team design reviews ahead of fabrication and testing.',
-      'Integrated nozzle and electrical systems with the team toward engine fabrication and a static-fire test.',
+      'Sized a de Laval nozzle from the chamber conditions: 7.22 mm throat, 18.45 mm exit, area ratio 6.52.',
+      'Chose an 80% bell over a cone and a 100% bell for near-maximum thrust efficiency at much lower length and weight.',
+      'Ran FEA in SOLIDWORKS Simulation: peak von Mises stress of about 1.5 MPa against a 37.5 MPa yield strength, minimum factor of safety about 25.',
+      '3D printed the nozzle in ABS-type resin and hot-fire tested it.',
     ],
-    stack: ['SOLIDWORKS', 'MATLAB', 'Python', 'Propulsion', 'Thermal analysis'],
-    links: [],
-    // Worth adding as the design firms up: the chamber conditions and target altitude
-    // you sized for, the throat and exit dimensions, the material choice and why,
-    // and CAD renders and drawings in the gallery.
+    stack: ['SOLIDWORKS', 'SOLIDWORKS Simulation (FEA)', 'Resin 3D printing'],
+    links: [{ label: 'Wikifactory project', href: 'https://wikifactory.com/+burpg/hybrid-intro-project' }],
     caseStudy: [
       {
-        title: 'The problem',
-        text: 'A nozzle turns the hot, high-pressure gas in the combustion chamber into thrust. Its converging–diverging shape has to match the engine’s chamber conditions and the altitude the rocket is designed for, and it has to survive the heat of the burn long enough to do its job.',
+        title: 'Overview',
+        text: 'I designed, analyzed, printed and hot-fire tested a converging–diverging (de Laval) nozzle for a small hybrid rocket motor. This was BURPG’s intro project, done with Jacob Knight and Hikaru Uribe, and we presented the Critical Design Review on 3/4/26.',
       },
       {
-        title: 'Design process',
-        flow: [
-          { label: 'Requirements', note: 'Engine and target altitude' },
-          { label: 'Size the contour', note: 'Converging–diverging' },
-          { label: 'CAD model', note: 'SOLIDWORKS' },
-          { label: 'Design review', note: 'Geometry and materials' },
-          { label: 'Build and test', note: 'Fabrication, static fire' },
+        title: 'Design inputs',
+        stats: [
+          { label: 'Chamber pressure', value: '551.6', unit: 'kPa' },
+          { label: 'Chamber temperature', value: '3250', unit: 'K' },
+          { label: 'Mass flow rate', value: '0.013', unit: 'kg/s' },
+          { label: 'Specific heat ratio, k', value: '1.13' },
+          { label: 'Molar mass', value: '0.022195', unit: 'kg/mol' },
+          { label: 'Optimized exit pressure', value: '14.479', unit: 'kPa' },
+          { label: 'Ambient pressure', value: '101.35', unit: 'kPa' },
         ],
-        text: 'I size the converging–diverging contour for the target altitude, model it in SOLIDWORKS, and bring it to team design reviews, where the geometry and materials get refined before anything is machined. I also work with the team on integrating the nozzle and electrical systems toward fabrication and a static-fire test.',
       },
       {
-        title: 'Status',
-        text: 'The nozzle is in design, heading toward fabrication. The next milestone for Project HIP is a static-fire test of the full engine.',
+        title: 'Calculations',
+        stats: [
+          { label: 'Throat diameter', value: '7.22', unit: 'mm' },
+          { label: 'Exit diameter', value: '18.45', unit: 'mm' },
+          { label: 'Area ratio', value: '6.52' },
+          { label: 'Exit velocity', value: '2691', unit: 'm/s' },
+          { label: 'Critical pressure ratio', value: '0.578' },
+          { label: 'Specific impulse', value: '274.4', unit: 's' },
+          { label: 'Optimal thrust', value: '34.98', unit: 'N' },
+          { label: 'Sea-level thrust', value: '11.77', unit: 'N' },
+          { label: '80% bell length', value: '16.75', unit: 'mm' },
+        ],
+      },
+      {
+        title: 'Nozzle shape decision',
+        text: [
+          'I compared a cone, a 100% bell and an 80% bell. A cone’s sharper angle sends the exhaust out wider, and only the velocity along the nozzle’s axis makes thrust, so it gives less axial thrust. A 100% bell is theoretically best but slightly longer and heavier.',
+          'I chose the 80% bell. Its exhaust isn’t quite as aligned with the axis as the 100% bell’s, but it gets near-maximum thrust efficiency at much lower length and weight, and that saving is worth more than the small loss in velocity.',
+        ],
+        gallery: [
+          {
+            src: '/projects/burpg-hip/nozzle-contour.webp',
+            alt: 'Two reference diagrams. Top: a rocket chamber and converging-diverging nozzle with pressures and the converging section, throat, diverging section and exit labeled. Bottom: 60% and 80% bell contours from the throat, with the 80% bell’s length marked.',
+            caption: 'Reference diagrams: converging–diverging nozzle (top) and 60% and 80% bell contours (bottom)',
+          },
+        ],
+      },
+      {
+        title: 'CAD',
+        text: 'Modeled in SOLIDWORKS: the nozzle sits on a flange with six bolt holes, shown below from several views, exploded, and as the dimensioned drawing.',
+        gallery: [
+          {
+            src: '/projects/burpg-hip/cad-overall.webp',
+            alt: 'Isometric CAD view of the nozzle on its round flange with six bolt holes.',
+            caption: 'Overall view',
+          },
+          {
+            src: '/projects/burpg-hip/cad-front.webp',
+            alt: 'Side view of the nozzle’s flared bell sitting on a flat flange.',
+            caption: 'Front view',
+          },
+          {
+            src: '/projects/burpg-hip/cad-section.webp',
+            alt: 'Cross-section of the nozzle showing the wall thickness and the narrowing to the throat.',
+            caption: 'Section view',
+          },
+          {
+            src: '/projects/burpg-hip/cad-top.webp',
+            alt: 'Top-down CAD view of the flange with six bolt holes around the central nozzle bore.',
+            caption: 'Top view',
+          },
+          {
+            src: '/projects/burpg-hip/cad-exploded.webp',
+            alt: 'Exploded CAD view: the nozzle on its six-hole flange, separated from a matching flange and the part behind it.',
+            caption: 'Exploded view: the nozzle on a six-hole bolted flange',
+          },
+          {
+            src: '/projects/burpg-hip/drawing.webp',
+            alt: 'Dimensioned engineering drawing of the nozzle with side, top and isometric views, showing throat, exit and flange diameters and the 16.75 mm bell length.',
+            caption: 'Dimensioned drawing',
+          },
+        ],
+      },
+      {
+        title: 'Simulation',
+        text: 'I ran a static FEA in SOLIDWORKS Simulation. The part is ABS resin with a tetrahedral mesh, a pressure load on the internal surface, and the flange bolt holes held fixed. Stress peaks at the throat/nozzle fillet, still far below yield.',
+        stats: [
+          { label: 'Peak von Mises stress', value: '~1.5', unit: 'MPa' },
+          { label: 'Yield strength', value: '37.5', unit: 'MPa' },
+          { label: 'Minimum factor of safety', value: '~25' },
+        ],
+        gallery: [
+          {
+            src: '/projects/burpg-hip/fea-mesh.webp',
+            alt: 'Tetrahedral mesh on the nozzle and flange, with the internal pressure load in purple and fixed bolt holes in green.',
+            caption: 'Mesh and boundary conditions',
+          },
+          {
+            src: '/projects/burpg-hip/fea-mesh-top.webp',
+            alt: 'Top view of the mesh with the internal pressure load in purple and the six fixed bolt holes.',
+            caption: 'Mesh and boundary conditions, top view',
+          },
+          {
+            src: '/projects/burpg-hip/fea-stress.webp',
+            alt: 'Von Mises stress plot, mostly blue with a green-to-red band at the throat, peaking at 1.496e6 N/m² against a 3.751e7 yield strength.',
+            caption: 'Von Mises stress: peak about 1.5 MPa near the throat',
+          },
+          {
+            src: '/projects/burpg-hip/fea-stress-top.webp',
+            alt: 'Top view of the von Mises stress plot, blue across the flange with a green-yellow ring around the nozzle bore.',
+            caption: 'Von Mises stress, top view',
+          },
+          {
+            src: '/projects/burpg-hip/fea-fos.webp',
+            alt: 'Factor of safety plot, uniformly red, meaning the lowest values on the scale across the whole part.',
+            caption: 'Factor of safety: minimum about 25',
+          },
+          {
+            src: '/projects/burpg-hip/fea-fos-top.webp',
+            alt: 'Top view of the factor of safety plot, uniformly red.',
+            caption: 'Factor of safety, top view',
+          },
+        ],
+      },
+      {
+        title: 'Build and test',
+        // TODO(me): propellant, burn duration, measured results, and what I'd change.
+        text: [
+          'The nozzle was 3D printed in ABS-type resin and hot-fire tested. Photos of the printed part and two hot-fire clips are below.',
+          'TODO: propellant, burn duration, measured results, and what I would change.',
+        ],
+        gallery: [
+          // TODO(me): say which photo is pre-fire and which is post-fire.
+          {
+            src: '/projects/burpg-hip/nozzle-photo-1.webp',
+            alt: 'The 3D-printed amber resin nozzle on its flange, sitting on a lab bench.',
+            caption: 'Printed nozzle',
+          },
+          {
+            src: '/projects/burpg-hip/nozzle-photo-2.webp',
+            alt: 'A second view of the 3D-printed amber resin nozzle and flange on a lab bench.',
+            caption: 'Printed nozzle',
+          },
+          {
+            src: '/projects/burpg-hip/hotfire-short.mp4',
+            poster: '/projects/burpg-hip/hotfire-short-poster.webp',
+            alt: 'Close-up of a flame coming out of the nozzle on the test stand during a hot-fire test.',
+            caption: 'Hot-fire test, short clip (about 4 s)',
+          },
+          {
+            src: '/projects/burpg-hip/hotfire-long.mp4',
+            poster: '/projects/burpg-hip/hotfire-long-poster.webp',
+            alt: 'Wide view of the test stand with a flame coming out of the nozzle during a hot-fire test.',
+            caption: 'Hot-fire test, longer clip (about 29 s)',
+          },
+        ],
+      },
+      {
+        title: 'What I learned',
+        // TODO(me): write this.
+        text: 'TODO: what I learned.',
       },
     ],
-    gallery: [],
   },
   {
     slug: 'jethexa',
@@ -181,18 +329,6 @@ const projectList = [
     label: 'Robotics · Software',
     art: 'hexapod',
     image: '/projects/jethexa/cover.png',
-    gallery: [
-      {
-        src: '/projects/jethexa/robot.png',
-        alt: 'The green and black JetHexa hexapod robot with six jointed legs, a lidar on top, and an RGB-D camera on the front.',
-        caption: 'The JetHexa hexapod the simulation models',
-      },
-      {
-        src: '/projects/jethexa/ik-demo.png',
-        alt: 'Gazebo window showing the simulated hexapod standing on a flat grid, next to a terminal log of the inverse-kinematics demo running six stages from stand to wave, each reporting commanded versus measured joint error.',
-        caption: 'The IK demo running in Gazebo: six stages from stand to wave, with commanded joints tracked to within a few degrees',
-      },
-    ],
     short: 'A ROS 2 and Gazebo simulation of an 18-DOF hexapod robot for training a walking gait.',
     summary:
       'A full simulation of the JetHexa hexapod so an 8-person team can train a reinforcement-learning walking gait before it ever touches hardware. The sim carries the real robot’s sensors and joint limits, so what works there should transfer.',
@@ -207,6 +343,13 @@ const projectList = [
       {
         title: 'The problem',
         text: 'The JetHexa is a six-legged robot with 18 servos and a Jetson Nano onboard. Teaching it to walk by trial and error on the real robot is slow and hard on the hardware, so the team needed a simulation faithful enough to develop and check a gait first. Training itself happens in MuJoCo on the same robot model; Gazebo is where a policy gets checked against the full ROS 2 stack and sensors.',
+        gallery: [
+          {
+            src: '/projects/jethexa/robot.png',
+            alt: 'The green and black JetHexa hexapod robot with six jointed legs, a lidar on top, and an RGB-D camera on the front.',
+            caption: 'The JetHexa hexapod the simulation models',
+          },
+        ],
       },
       {
         title: 'How it works',
@@ -242,6 +385,13 @@ const projectList = [
       {
         title: 'Where it stands',
         text: 'Both controllers come up active, all 18 joints track their commanded positions, and the lidar and IMU publish through the bridge. Next: fold the real robot’s link geometry into the model and bring a PPO-trained walking gait over from MuJoCo.',
+        gallery: [
+          {
+            src: '/projects/jethexa/ik-demo.png',
+            alt: 'Gazebo window showing the simulated hexapod standing on a flat grid, next to a terminal log of the inverse-kinematics demo running six stages from stand to wave, each reporting commanded versus measured joint error.',
+            caption: 'The IK demo running in Gazebo: six stages from stand to wave, with commanded joints tracked to within a few degrees',
+          },
+        ],
       },
     ],
   },
@@ -283,100 +433,113 @@ const projectList = [
         text: 'Local models are easy to run and hard to judge. How fast are they, what does shrinking them cost, which tricks actually help on my hardware, and how much should a benchmark score be trusted? I worked through twelve tasks for BU AI Society’s Local LLM Division, each with a measurement and a write-up.',
       },
       {
-        title: 'What I found',
-        points: [
+        title: 'Reading a prompt is far faster than writing an answer',
+        text: 'On Qwen3-1.7B, prefill ran at about 17,300 tokens per second and decode at about 220, because decode reads every weight from GPU memory for each new token. The cache costs 112 KiB per token.',
+      },
+      {
+        title: 'Compression is free until it is not',
+        text: '8 bits cost nothing measurable and 4 bits a little; plain 2 bits broke Qwen3.5-4B (its top guess matched the full model only 57% of the time); an importance matrix cut that damage about 4x at the same file size, and tool calling went from 47% right at plain 2 bits to 80% with the matrix and 95% at 4 bits.',
+        gallery: [
           {
-            title: 'Reading a prompt is far faster than writing an answer',
-            text: 'On Qwen3-1.7B, prefill ran at about 17,300 tokens per second and decode at about 220, because decode reads every weight from GPU memory for each new token. The cache costs 112 KiB per token.',
+            src: '/projects/llm-research/size_vs_kld.png',
+            alt: 'Line chart of how far each compression level drifts from the full 16-bit model, on a log scale, against file size. Plain quantization goes from 0.003 at Q8_0 (4.3 GiB) to 0.043 at Q4_K_M and 1.052 at Q2_K (1.8 GiB); with an importance matrix, Q4_K_M is 0.026 and Q2_K is 0.251.',
+            caption: 'File size against how far each compression level drifts from the full model',
           },
           {
-            title: 'Compression is free until it is not',
-            text: '8 bits cost nothing measurable and 4 bits a little; plain 2 bits broke Qwen3.5-4B (its top guess matched the full model only 57% of the time); an importance matrix cut that damage about 4x at the same file size, and tool calling went from 47% right at plain 2 bits to 80% with the matrix and 95% at 4 bits.',
+            src: '/projects/llm-research/size_vs_speed.png',
+            alt: 'Line chart of generation speed in tokens per second against file size, on an RTX 5070. Speed rises as the file shrinks: 65 for F16 (8 GiB), 109 for Q8_0, 151 for Q4_K_M and 181 for Q2_K (1.8 GiB).',
+            caption: 'File size against generation speed on the RTX 5070',
           },
           {
-            title: 'Popular speed-ups do not always help',
-            text: 'Speculative decoding never beat 0.96x on this GPU, and on a Colab T4 llama.cpp matched vLLM for 1 to 4 users and led from 8 users up.',
+            src: '/projects/llm-research/tools_scores.png',
+            alt: 'Bar chart of correct tries (%) in tool calling for Qwen3.5-4B, comparing q2_k, q2_k_imat and q4_k_m. Overall: 47%, 80% and 95%. One call: 31%, 83% and 89%. Several calls: 0%, 67% and 100%. No tool needed: 96%, 84% and 100%.',
+            caption: 'Tool calling accuracy at plain 2 bits, 2 bits with the matrix, and 4 bits',
+          },
+        ],
+      },
+      {
+        title: 'Where attention goes',
+        text: 'In Qwen3-0.6B, the first token gets almost no attention in layers 0 to 2, then about 55% at layer 3 and 65% to 75% in the last layers. Heads differ a lot: some cover 90% of their attention with about one past token, and a few need more than 1,000.',
+        gallery: [
+          {
+            src: '/projects/llm-research/sink_and_local.png',
+            alt: 'Line chart across the 28 layers of Qwen3-0.6B of the share of attention going to the last 128 tokens and to the first token alone. The first token gets almost none in layers 0 to 2, jumps to about 55% at layer 3 and is near 65% to 75% in the last layers, while the last-128 share falls to about 13% to 21%.',
+            caption: 'Most attention goes to the first token and the most recent ones',
           },
           {
-            title: 'Scores depend on the setup',
-            text: 'Qwen3.5-4B scored 95% to 96% on ARC-Challenge, 70% to 74% on MMLU-Pro against the 79.1% Qwen reports (part of the gap was replies cut off before an answer, counted as wrong), and 83.5% on HumanEval.',
+            src: '/projects/llm-research/k90_heatmap.png',
+            alt: 'Heatmap for Qwen3-0.6B with 28 layers down the side and 16 query heads across the top. Each cell is the median number of past tokens needed to cover 90% of that head’s attention, on a log scale from 1 to over 1,000. Some heads need about one token and a few need more than 1,000.',
+            caption: 'How many past tokens each attention head needs to cover 90% of its attention',
+          },
+        ],
+      },
+      {
+        title: 'Popular speed-ups do not always help',
+        text: 'Speculative decoding never beat 0.96x on this GPU, and on a Colab T4 llama.cpp matched vLLM for 1 to 4 users and led from 8 users up.',
+        gallery: [
+          {
+            src: '/projects/llm-research/total_throughput.png',
+            alt: 'Line chart of total tokens per second against the number of users sending requests at once, from 1 to 32. llama.cpp on an RTX 5070 reaches 543 at 16 users. On a Colab T4, llama.cpp and vLLM are close until about 4 users, then llama.cpp leads, reaching 281 against 236 at 32 users.',
+            caption: 'llama.cpp against vLLM on a Colab T4, total speed by number of users',
+          },
+        ],
+      },
+      {
+        title: 'What agent frameworks cost',
+        text: 'On Qwen3-8B, LangGraph, the OpenAI Agents SDK and PydanticAI sent 1,385 to 1,570 prompt tokens per question against 1,032 with no framework, all in about a second. smolagents sent 22,128 and took 52.9 seconds.',
+        gallery: [
+          {
+            src: '/projects/llm-research/cost_per_question.png',
+            alt: 'Two bar charts comparing agent frameworks on Qwen3-8B, both on a log scale. Prompt tokens sent per question: no framework 1,032, LangGraph 1,385, OpenAI Agents SDK 1,570, PydanticAI 1,422 and smolagents 22,128. Median seconds per question: 1.0, 1.0, 1.1, 0.9 and 52.9 for smolagents.',
+            caption: 'What each agent framework costs per question, in tokens sent and seconds taken',
+          },
+        ],
+      },
+      {
+        title: 'Scores depend on the setup',
+        text: 'Qwen3.5-4B scored 95% to 96% on ARC-Challenge, 70% to 74% on MMLU-Pro against the 79.1% Qwen reports (part of the gap was replies cut off before an answer, counted as wrong), and 83.5% on HumanEval.',
+        gallery: [
+          {
+            src: '/projects/llm-research/harness_scores.png',
+            alt: 'Dot chart with error bars of Qwen3.5-4B scores: about 95% and 96% on ARC-Challenge, and 70.0%, 72.4% and 73.8% on MMLU-Pro. A dashed line marks Qwen’s official MMLU-Pro score of 79.1%. Hollow diamonds show scores counting only the questions it finished, which sit closer to that line.',
+            caption: 'Qwen3.5-4B on ARC-Challenge and MMLU-Pro, with error bars',
           },
           {
-            title: 'Diffusion language models are fast but behind',
-            text: 'DiffusionGemma wrote 3.7x to 8.6x faster than regular Gemma 4 on the same GPU; my baseline was probably slow, so those ratios are generous, and Google’s own results table shows it trailing on hard reasoning.',
+            src: '/projects/llm-research/benchmark_timeline.png',
+            alt: 'Timeline from 2018 to 2026 of how long each benchmark took to be maxed out, from its release (circle) to when top models came close to the ceiling (diamond). ARC-Challenge took 5.0 years, HellaSwag 3.8, WinoGrande 2.6, MMLU 3.2, GPQA-Diamond 2.0, IFEval 1.1 and MMLU-Pro 1.4. RULER had high scores from the start. SimpleQA (best so far 74.0%) and Humanity’s Last Exam (60.9%) are not maxed out yet.',
+            caption: 'How long each benchmark took to be maxed out by top models',
+          },
+        ],
+      },
+      {
+        title: 'Diffusion language models are fast but behind',
+        text: 'DiffusionGemma wrote 3.7x to 8.6x faster than regular Gemma 4 on the same GPU; my baseline was probably slow, so those ratios are generous, and Google’s own results table shows it trailing on hard reasoning.',
+        gallery: [
+          {
+            src: '/projects/llm-research/bench_speed.png',
+            alt: 'Bar chart of tokens per second on six prompts (coffee-page, todo-app, pomodoro, explain, python-fn, summary). DiffusionGemma writes about 145 to 340 tokens per second, while regular Gemma 4 26B-A4B stays near 40 on every prompt.',
+            caption: 'DiffusionGemma against regular Gemma 4 on the same GPU',
+          },
+          {
+            src: '/projects/llm-research/demo_todo.png',
+            alt: 'Screenshot of the diffusion demo page. A status line reads “Done: 1141 tokens in 4.36 s = 261.5 tokens/s (5 canvases)”. On the left is a panel of the generated page code, showing styles for the text box and the add button. On the right is the finished to-do app, titled “My Tasks”, with an add box and four items, each with a checkbox and a Delete button.',
+            caption: 'The demo page, with the code on the left and the finished to-do app on the right',
+          },
+          {
+            src: '/projects/llm-research/flow_steps.png',
+            alt: 'Four scatter plots titled “Same model, fewer Euler steps”, for 1, 2, 8 and 100 steps. Grey dots are real data in two interlocking crescents. The blue dots are the model’s output: a small clump at 1 step, a loose blob at 2 steps, and close to the two crescents at 8 and 100 steps.',
+            caption: 'The same tiny model run with 1, 2, 8 and 100 steps',
+          },
+          {
+            src: '/projects/llm-research/flow_animation.gif',
+            alt: 'Animation titled “Following the learned field”, with a time counter. A round cloud of about two thousand blue dots, over a grid of grey arrows showing the learned field, is moved step by step into a shape.',
+            caption: 'A tiny model turning noise into a shape, step by step',
           },
         ],
       },
       {
         title: 'Who did what',
         text: 'I ran every command and measurement myself. Claude helped write and explain the scripts, drafted the reports and slide decks, and summarized the reading material; the READMEs say where that applies. Where a result is unexplained or unverified, the write-up says so.',
-      },
-    ],
-    gallery: [
-      {
-        src: '/projects/llm-research/size_vs_kld.png',
-        alt: 'Line chart of how far each compression level drifts from the full 16-bit model, on a log scale, against file size. Plain quantization goes from 0.003 at Q8_0 (4.3 GiB) to 0.043 at Q4_K_M and 1.052 at Q2_K (1.8 GiB); with an importance matrix, Q4_K_M is 0.026 and Q2_K is 0.251.',
-        caption: 'File size against how far each compression level drifts from the full model',
-      },
-      {
-        src: '/projects/llm-research/size_vs_speed.png',
-        alt: 'Line chart of generation speed in tokens per second against file size, on an RTX 5070. Speed rises as the file shrinks: 65 for F16 (8 GiB), 109 for Q8_0, 151 for Q4_K_M and 181 for Q2_K (1.8 GiB).',
-        caption: 'File size against generation speed on the RTX 5070',
-      },
-      {
-        src: '/projects/llm-research/sink_and_local.png',
-        alt: 'Line chart across the 28 layers of Qwen3-0.6B of the share of attention going to the last 128 tokens and to the first token alone. The first token gets almost none in layers 0 to 2, jumps to about 55% at layer 3 and is near 65% to 75% in the last layers, while the last-128 share falls to about 13% to 21%.',
-        caption: 'Most attention goes to the first token and the most recent ones',
-      },
-      {
-        src: '/projects/llm-research/k90_heatmap.png',
-        alt: 'Heatmap for Qwen3-0.6B with 28 layers down the side and 16 query heads across the top. Each cell is the median number of past tokens needed to cover 90% of that head’s attention, on a log scale from 1 to over 1,000. Some heads need about one token and a few need more than 1,000.',
-        caption: 'How many past tokens each attention head needs to cover 90% of its attention',
-      },
-      {
-        src: '/projects/llm-research/total_throughput.png',
-        alt: 'Line chart of total tokens per second against the number of users sending requests at once, from 1 to 32. llama.cpp on an RTX 5070 reaches 543 at 16 users. On a Colab T4, llama.cpp and vLLM are close until about 4 users, then llama.cpp leads, reaching 281 against 236 at 32 users.',
-        caption: 'llama.cpp against vLLM on a Colab T4, total speed by number of users',
-      },
-      {
-        src: '/projects/llm-research/cost_per_question.png',
-        alt: 'Two bar charts comparing agent frameworks on Qwen3-8B, both on a log scale. Prompt tokens sent per question: no framework 1,032, LangGraph 1,385, OpenAI Agents SDK 1,570, PydanticAI 1,422 and smolagents 22,128. Median seconds per question: 1.0, 1.0, 1.1, 0.9 and 52.9 for smolagents.',
-        caption: 'What each agent framework costs per question, in tokens sent and seconds taken',
-      },
-      {
-        src: '/projects/llm-research/harness_scores.png',
-        alt: 'Dot chart with error bars of Qwen3.5-4B scores: about 95% and 96% on ARC-Challenge, and 70.0%, 72.4% and 73.8% on MMLU-Pro. A dashed line marks Qwen’s official MMLU-Pro score of 79.1%. Hollow diamonds show scores counting only the questions it finished, which sit closer to that line.',
-        caption: 'Qwen3.5-4B on ARC-Challenge and MMLU-Pro, with error bars',
-      },
-      {
-        src: '/projects/llm-research/benchmark_timeline.png',
-        alt: 'Timeline from 2018 to 2026 of how long each benchmark took to be maxed out, from its release (circle) to when top models came close to the ceiling (diamond). ARC-Challenge took 5.0 years, HellaSwag 3.8, WinoGrande 2.6, MMLU 3.2, GPQA-Diamond 2.0, IFEval 1.1 and MMLU-Pro 1.4. RULER had high scores from the start. SimpleQA (best so far 74.0%) and Humanity’s Last Exam (60.9%) are not maxed out yet.',
-        caption: 'How long each benchmark took to be maxed out by top models',
-      },
-      {
-        src: '/projects/llm-research/tools_scores.png',
-        alt: 'Bar chart of correct tries (%) in tool calling for Qwen3.5-4B, comparing q2_k, q2_k_imat and q4_k_m. Overall: 47%, 80% and 95%. One call: 31%, 83% and 89%. Several calls: 0%, 67% and 100%. No tool needed: 96%, 84% and 100%.',
-        caption: 'Tool calling accuracy at plain 2 bits, 2 bits with the matrix, and 4 bits',
-      },
-      {
-        src: '/projects/llm-research/bench_speed.png',
-        alt: 'Bar chart of tokens per second on six prompts (coffee-page, todo-app, pomodoro, explain, python-fn, summary). DiffusionGemma writes about 145 to 340 tokens per second, while regular Gemma 4 26B-A4B stays near 40 on every prompt.',
-        caption: 'DiffusionGemma against regular Gemma 4 on the same GPU',
-      },
-      {
-        src: '/projects/llm-research/demo_todo.png',
-        alt: 'Screenshot of the diffusion demo page. A status line reads “Done: 1141 tokens in 4.36 s = 261.5 tokens/s (5 canvases)”. On the left is a panel of the generated page code, showing styles for the text box and the add button. On the right is the finished to-do app, titled “My Tasks”, with an add box and four items, each with a checkbox and a Delete button.',
-        caption: 'The demo page, with the code on the left and the finished to-do app on the right',
-      },
-      {
-        src: '/projects/llm-research/flow_steps.png',
-        alt: 'Four scatter plots titled “Same model, fewer Euler steps”, for 1, 2, 8 and 100 steps. Grey dots are real data in two interlocking crescents. The blue dots are the model’s output: a small clump at 1 step, a loose blob at 2 steps, and close to the two crescents at 8 and 100 steps.',
-        caption: 'The same tiny model run with 1, 2, 8 and 100 steps',
-      },
-      {
-        src: '/projects/llm-research/flow_animation.gif',
-        alt: 'Animation titled “Following the learned field”, with a time counter. A round cloud of about two thousand blue dots, over a grid of grey arrows showing the learned field, is moved step by step into a shape.',
-        caption: 'A tiny model turning noise into a shape, step by step',
       },
     ],
   },
@@ -520,6 +683,20 @@ const projectList = [
             text: 'Twist nut caps bundle the shared 5V and ground wires, spade connectors hold the switch terminals, and direct solder joints carry 5V, data and ground on the pins.',
           },
         ],
+        gallery: [
+          { src: '/projects/temperature-sensor/build-wiring.jpg', alt: 'Top-down view of the wiring inside the enclosure', caption: 'Wiring inside the case: twist nut caps, spade connectors and soldered joints' },
+        ],
+      },
+      {
+        title: 'Enclosure',
+        text: 'I designed the case in Onshape and printed it in ABS: 160.5 × 117 × 57.4 mm, with cutouts for the display, switch, USB, DC jack and LEDs, plus a holder for the 9V battery.',
+        gallery: [
+          { src: '/projects/temperature-sensor/cad-closed.png', alt: 'CAD model of the closed enclosure with the LCD window on top', caption: 'Enclosure design in CAD' },
+          { src: '/projects/temperature-sensor/cad-open.png', alt: 'CAD model with the lid off, showing the Arduino and the 9V battery holder', caption: 'Inside: Arduino UNO and the battery holder' },
+          { src: '/projects/temperature-sensor/cad-top.png', alt: 'Top-down CAD view of the Arduino and battery layout', caption: 'Component layout from above' },
+          { src: '/projects/temperature-sensor/cad-front.png', alt: 'Front panel with the power switch, green LED, USB port and DC jack', caption: 'Front panel: switch, power LED, USB and DC jack' },
+          { src: '/projects/temperature-sensor/cad-side.png', alt: 'Side panel with the buzzer, red alarm LED and sensor opening', caption: 'Side panel: buzzer, alarm LED and sensor' },
+        ],
       },
       {
         title: 'What went wrong',
@@ -537,17 +714,11 @@ const projectList = [
       {
         title: 'Results and next steps',
         text: 'The monitor worked as designed and was demonstrated live. A 9V battery lasts about 7.8 hours, so a wall adapter is the better choice for long-term monitoring. A future version would drop the battery for AC power and could drop the LCD for an LED-only display to shrink the enclosure.',
+        gallery: [
+          { src: '/projects/temperature-sensor/build-closed.jpg', alt: 'The finished monitor in its black enclosure with the LCD on top', caption: 'The finished monitor' },
+          { src: '/projects/temperature-sensor/build-open.jpg', alt: 'The enclosure open with the LCD lid set beside the Arduino and battery', caption: 'Lid off: LCD on the lid, Arduino and 9V battery in the base' },
+        ],
       },
-    ],
-    gallery: [
-      { src: '/projects/temperature-sensor/build-closed.jpg', alt: 'The finished monitor in its black enclosure with the LCD on top', caption: 'The finished monitor' },
-      { src: '/projects/temperature-sensor/build-open.jpg', alt: 'The enclosure open with the LCD lid set beside the Arduino and battery', caption: 'Lid off: LCD on the lid, Arduino and 9V battery in the base' },
-      { src: '/projects/temperature-sensor/build-wiring.jpg', alt: 'Top-down view of the wiring inside the enclosure', caption: 'Wiring inside the case: twist nut caps, spade connectors and soldered joints' },
-      { src: '/projects/temperature-sensor/cad-closed.png', alt: 'CAD model of the closed enclosure with the LCD window on top', caption: 'Enclosure design in CAD' },
-      { src: '/projects/temperature-sensor/cad-open.png', alt: 'CAD model with the lid off, showing the Arduino and the 9V battery holder', caption: 'Inside: Arduino UNO and the battery holder' },
-      { src: '/projects/temperature-sensor/cad-top.png', alt: 'Top-down CAD view of the Arduino and battery layout', caption: 'Component layout from above' },
-      { src: '/projects/temperature-sensor/cad-front.png', alt: 'Front panel with the power switch, green LED, USB port and DC jack', caption: 'Front panel: switch, power LED, USB and DC jack' },
-      { src: '/projects/temperature-sensor/cad-side.png', alt: 'Side panel with the buzzer, red alarm LED and sensor opening', caption: 'Side panel: buzzer, alarm LED and sensor' },
     ],
   },
   {
@@ -574,7 +745,7 @@ const projectList = [
 ]
 
 // The Featured section at the top of the Projects page, in this order.
-export const featuredOrder = ['local-llm-research', 'setup', 'bu-dining-meal-planner']
+export const featuredOrder = ['local-llm-research', 'homelab', 'bu-dining-meal-planner']
 
 // Sort options on the Projects page, kept apart from the filters. Projects with
 // no `start` yet go last; ties keep their order in the list above.

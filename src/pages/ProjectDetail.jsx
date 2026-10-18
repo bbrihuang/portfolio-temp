@@ -17,6 +17,8 @@ export default function ProjectDetail() {
   const n = projects.length
   const prev = projects[(index - 1 + n) % n]
   const next = projects[(index + 1) % n]
+  // Photos can live inside the case study instead of in the main gallery.
+  const mediaInCaseStudy = p.caseStudy?.some((s) => s.gallery?.length)
 
   return (
     <article>
@@ -63,7 +65,7 @@ export default function ProjectDetail() {
 
           {p.gallery?.length ? (
             <Gallery key={p.slug} items={p.gallery} />
-          ) : p.status === 'in-progress' ? null : (
+          ) : p.status === 'in-progress' || mediaInCaseStudy ? null : (
             // Same frame as the carousel, so every project page has the same layout.
             <section className="mt-8" aria-label="Project photos">
               <div className="glass rounded-3xl p-1.5">
@@ -109,6 +111,30 @@ export default function ProjectDetail() {
                 <dt className="eyebrow">Timeline</dt>
                 <dd className="mt-1.5 text-[15px] text-mist">{p.date}</dd>
               </div>
+              {p.team?.length > 0 && (
+                <div>
+                  <dt className="eyebrow">Team</dt>
+                  <dd className="mt-1.5 text-[15px] text-mist">
+                    {p.team.map(({ name, href }, k) => (
+                      <span key={name}>
+                        {k > 0 && ', '}
+                        {href ? (
+                          <a
+                            href={href}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="underline decoration-white/25 underline-offset-4 transition-colors hover:text-snow hover:decoration-snow"
+                          >
+                            {name}
+                          </a>
+                        ) : (
+                          name
+                        )}
+                      </span>
+                    ))}
+                  </dd>
+                </div>
+              )}
               {p.stack.length > 0 && (
                 <div>
                   <dt className="eyebrow">Stack</dt>

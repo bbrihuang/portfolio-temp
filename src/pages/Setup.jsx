@@ -21,6 +21,8 @@ import {
   Tower,
 } from '../components/Icons.jsx'
 import PageHeader from '../components/PageHeader.jsx'
+import ProjectArt from '../components/ProjectArt.jsx'
+import { projects } from '../data/projects.js'
 import { setup } from '../data/setup.js'
 import { usePageMeta, useSlidingPill } from '../lib/hooks.js'
 import { glow, sectionColors } from '../lib/theme.js'
@@ -70,11 +72,11 @@ function SectionHead({ title, note }) {
   )
 }
 
-// The two views, switched with buttons and kept in the URL (?view=pc), so a
-// link can open straight to the homelab.
+// The two views, switched with buttons and kept in the URL (?view=daily; the
+// homelab is the default), so a link can open straight to either one.
 const views = [
-  { id: 'daily', label: 'Daily Drivers', icon: 'phone' },
   { id: 'pc', label: 'The PC / Homelab', icon: 'server' },
+  { id: 'daily', label: 'Daily Drivers', icon: 'phone' },
 ]
 
 function ViewSwitch({ active, onChange }) {
@@ -356,14 +358,15 @@ function WhyNot() {
 }
 
 export default function Setup() {
-  usePageMeta('Setup', 'The devices Brian Huang uses daily, and the custom PC that’s both his gaming rig and homelab.')
+  usePageMeta('Homelab', 'The devices Brian Huang uses daily, and the custom PC that’s both his gaming rig and homelab.')
   const [params, setParams] = useSearchParams()
-  const view = params.get('view') === 'pc' ? 'pc' : 'daily'
-  const choose = (v) => setParams(v === 'daily' ? {} : { view: v }, { replace: true, preventScrollReset: true })
+  const view = params.get('view') === 'daily' ? 'daily' : 'pc'
+  const choose = (v) => setParams(v === 'pc' ? {} : { view: v }, { replace: true, preventScrollReset: true })
+  const p = projects.find((q) => q.slug === 'homelab')
 
   return (
     <>
-      {/* Setup is one of the projects now, so it gets the same way back as a project page. */}
+      {/* The homelab is one of the projects, so it gets the same way back and the same cover as a project page. */}
       <Link
         to="/projects"
         viewTransition
@@ -372,7 +375,21 @@ export default function Setup() {
         <ArrowLeft size={16} className="transition-transform duration-300 group-hover:-translate-x-0.5" />
         All projects
       </Link>
-      <PageHeader title="Setup" color={orange}>
+      {p && (
+        <div className="glass rise mb-10 rounded-3xl p-1.5" style={{ '--i': 1 }}>
+          <div className="relative aspect-[16/10] overflow-hidden rounded-[20px] sm:aspect-[21/9]">
+            <div className="absolute inset-0" style={{ viewTransitionName: `art-${p.slug}`, viewTransitionClass: 'art' }}>
+              <ProjectArt project={p} live />
+            </div>
+            {p.featured && (
+              <span className="absolute left-4 top-4 rounded-full bg-snow px-2.5 py-1 font-mono text-xs font-semibold uppercase tracking-[0.14em] text-void">
+                ★ Featured
+              </span>
+            )}
+          </div>
+        </div>
+      )}
+      <PageHeader title="Homelab" color={orange}>
         {setup.intro}
       </PageHeader>
       <ViewSwitch active={view} onChange={choose} />

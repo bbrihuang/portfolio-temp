@@ -1,3 +1,4 @@
+import Gallery from './Gallery.jsx'
 import { ArrowRight } from './Icons.jsx'
 
 // A project's write-up, from its `caseStudy` sections in data/projects.js.
@@ -5,6 +6,8 @@ import { ArrowRight } from './Icons.jsx'
 //   text    a paragraph, or an array of paragraphs
 //   flow    pipeline steps drawn as a diagram: strings, or { label, note }
 //   points  a list: strings, or { title, text }
+//   stats   figures as tiles: { label, value, unit? }
+//   gallery photos and videos for this section, same format as a project's gallery
 
 const asList = (v) => (v == null ? [] : Array.isArray(v) ? v : [v])
 
@@ -31,6 +34,22 @@ function Flow({ steps }) {
         )
       })}
     </ol>
+  )
+}
+
+function Stats({ items }) {
+  return (
+    <dl className="glass grid grid-cols-2 gap-2 rounded-3xl p-2 sm:grid-cols-3">
+      {items.map(({ label, value, unit }) => (
+        <div key={label} className="rounded-2xl border border-white/[0.08] bg-white/[0.04] px-3.5 py-3">
+          <dt className="text-xs text-fog">{label}</dt>
+          <dd className="mt-1 text-snow">
+            <span className="font-mono text-lg font-medium">{value}</span>
+            {unit && <span className="ml-1.5 text-xs text-fog">{unit}</span>}
+          </dd>
+        </div>
+      ))}
+    </dl>
   )
 }
 
@@ -64,7 +83,9 @@ export default function CaseStudy({ sections }) {
               {t}
             </p>
           ))}
+          {s.stats && <Stats items={s.stats} />}
           {s.points && <Points items={s.points} />}
+          {s.gallery?.length > 0 && <Gallery items={s.gallery} eager={false} auto={false} />}
         </section>
       ))}
     </div>

@@ -36,7 +36,7 @@ function run(input) {
     case '':
       return []
     case 'help':
-      return ['commands: projects · stack · experience · setup · contact · whoami · clear']
+      return ['commands: projects · stack · experience · homelab · contact · whoami · clear']
     case 'whoami':
       return ['Brian Huang · Computer Engineering @ Boston University']
     case 'projects':
@@ -54,10 +54,11 @@ function run(input) {
           → open Experience
         </Link>,
       ]
+    case 'homelab':
     case 'setup':
       return [
-        <Link key="s" to="/projects/setup" className={link}>
-          → open Setup (my PC & homelab)
+        <Link key="s" to="/projects/homelab" className={link}>
+          → open Homelab (my PC & daily drivers)
         </Link>,
       ]
     case 'contact':

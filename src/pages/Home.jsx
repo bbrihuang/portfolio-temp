@@ -48,7 +48,7 @@ const stations = [
   { slug: 'bu-dining-meal-planner', line: 'sw', x: 120, y: 130, side: 'above' },
   { slug: 'local-llm-research', line: 'sw', x: 300, y: 130, side: 'above' },
   { slug: 'jethexa', line: 'both', x: 520, y: 220, side: 'above' },
-  { slug: 'setup', line: 'both', x: 640, y: 220, side: 'below' },
+  { slug: 'homelab', line: 'both', x: 640, y: 220, side: 'below' },
   { slug: 'cubic-builds-storefront', line: 'sw', x: 860, y: 130, side: 'above' },
   { slug: 'temperature-sensor', line: 'hw', x: 120, y: 310, side: 'below' },
   { slug: 'pc-building-guide', line: 'hw', x: 300, y: 310, side: 'below' },
@@ -187,7 +187,7 @@ function SystemMap() {
       {/* The line names sit in the empty band between the two lines, under their own line. */}
       <p className="absolute left-0 top-[34%] text-sm font-semibold text-sw-light">Software line</p>
       <p className="absolute left-0 top-[63%] text-sm font-semibold text-hw">Hardware line</p>
-      {/* Under the interchange, below the Setup label. */}
+      {/* Under the interchange, below the Homelab label. */}
       <p className="absolute left-[58%] top-[86%] w-max -translate-x-1/2 text-sm text-fog">Interchange: work that needs both</p>
       {placed.map((s, i) => (
         <Station key={s.slug} s={s} n={i} />

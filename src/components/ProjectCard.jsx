@@ -5,7 +5,7 @@ import ProjectArt from './ProjectArt.jsx'
 
 // A project tile in the style of nikp.xyz: cover art, a short rule, title,
 // date and stack. The whole card links to the project page; the + button
-// slides up a quick-look panel instead. The label at the top right is `label`.
+// slides up a quick-look panel instead. The category tag next to the rule is `label`.
 export default function ProjectCard({ project: p, index = 0 }) {
   const [open, setOpen] = useState(false)
   const href = `/projects/${p.slug}`
@@ -24,11 +24,8 @@ export default function ProjectCard({ project: p, index = 0 }) {
         </div>
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#141416] to-transparent" />
 
-        <span className="absolute right-4 top-4 font-mono text-xs uppercase tracking-[0.14em]" style={{ color: p.accent }}>
-          {p.label}
-        </span>
         {p.status === 'in-progress' && (
-          <span className="absolute left-4 top-4 rounded-full border border-white/20 bg-void/70 px-2.5 py-1 font-mono text-xs uppercase tracking-[0.14em] text-mist">
+          <span className="absolute left-3 top-3 rounded-full border border-white/20 bg-void/85 px-2.5 py-1 font-mono text-xs uppercase tracking-[0.14em] text-mist">
             In progress
           </span>
         )}
@@ -54,10 +51,15 @@ export default function ProjectCard({ project: p, index = 0 }) {
       </div>
 
       <div className="p-5">
-        <div
-          className="h-0.5 w-10 rounded-full transition-[width] duration-500 ease-out-expo group-hover:w-20"
-          style={{ background: p.accent ?? '#f4f4f5' }}
-        />
+        <div className="flex items-center justify-between gap-3">
+          <div
+            className="h-0.5 w-10 rounded-full transition-[width] duration-500 ease-out-expo group-hover:w-20"
+            style={{ background: p.accent ?? '#f4f4f5' }}
+          />
+          <span className="font-mono text-xs uppercase tracking-[0.14em]" style={{ color: p.accent }}>
+            {p.label}
+          </span>
+        </div>
         <div className="mt-4 flex items-start justify-between gap-3">
           <h3 className="text-xl font-semibold leading-tight tracking-tight">
             <Link to={href} viewTransition className="outline-none after:absolute after:inset-0 after:rounded-3xl focus-visible:after:outline-2 focus-visible:after:outline-snow">

@@ -198,6 +198,17 @@
     background: rgb(255 255 255 / 0.11);
     border-color: rgb(255 255 255 / 0.18);
   }
+  /* A control that sits on top of photos: a near-opaque ink fill and a stronger
+     hairline, so it stays readable over white CAD renders as well as dark shots. */
+  .btn-scrim {
+    background: rgb(14 18 24 / 0.86);
+    border: 1px solid rgb(255 255 255 / 0.3);
+    color: var(--color-snow);
+  }
+  .btn-scrim:hover {
+    background: var(--color-void);
+    border-color: rgb(255 255 255 / 0.55);
+  }
 
   /* Underline that draws in from the left. */
   .link-line {
