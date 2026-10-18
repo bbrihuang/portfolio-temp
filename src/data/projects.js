@@ -121,7 +121,7 @@ const projectList = [
     gallery: [],
   },
   {
-    slug: 'burpg-nozzle',
+    slug: 'burpg-hip',
     start: '2026-01',
     accent: '#fb923c',
     title: 'BURPG HIP',
@@ -246,7 +246,7 @@ const projectList = [
     ],
   },
   {
-    slug: 'llm-research',
+    slug: 'local-llm-research',
     start: '2026-09',
     accent: '#a78bfa',
     title: 'Local LLM Research Project',
@@ -574,7 +574,7 @@ const projectList = [
 ]
 
 // The Featured section at the top of the Projects page, in this order.
-export const featuredOrder = ['llm-research', 'setup', 'bu-dining-meal-planner']
+export const featuredOrder = ['local-llm-research', 'setup', 'bu-dining-meal-planner']
 
 // Sort options on the Projects page, kept apart from the filters. Projects with
 // no `start` yet go last; ties keep their order in the list above.

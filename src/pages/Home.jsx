@@ -46,13 +46,13 @@ const memberships = [
 const MAP_H = 420
 const stations = [
   { slug: 'bu-dining-meal-planner', line: 'sw', x: 120, y: 130, side: 'above' },
-  { slug: 'llm-research', line: 'sw', x: 300, y: 130, side: 'above' },
+  { slug: 'local-llm-research', line: 'sw', x: 300, y: 130, side: 'above' },
   { slug: 'jethexa', line: 'both', x: 520, y: 220, side: 'above' },
   { slug: 'setup', line: 'both', x: 640, y: 220, side: 'below' },
   { slug: 'cubic-builds-storefront', line: 'sw', x: 860, y: 130, side: 'above' },
   { slug: 'temperature-sensor', line: 'hw', x: 120, y: 310, side: 'below' },
   { slug: 'pc-building-guide', line: 'hw', x: 300, y: 310, side: 'below' },
-  { slug: 'burpg-nozzle', line: 'hw', x: 860, y: 310, side: 'below' },
+  { slug: 'burpg-hip', line: 'hw', x: 860, y: 310, side: 'below' },
 ]
 
 const bySlug = Object.fromEntries(projects.map((p) => [p.slug, p]))
