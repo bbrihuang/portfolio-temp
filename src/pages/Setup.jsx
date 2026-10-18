@@ -52,13 +52,13 @@ function Icon({ name, size = 18 }) {
   return <C size={size} />
 }
 
-function IconTile({ name, size = 'size-9' }) {
+function IconTile({ name, size = 'size-9', iconSize }) {
   return (
     <span
       className={`grid ${size} shrink-0 place-items-center rounded-xl`}
       style={{ color: orange.light, background: `${orange.base}1f` }}
     >
-      <Icon name={name} />
+      <Icon name={name} size={iconSize} />
     </span>
   )
 }
@@ -150,7 +150,7 @@ function PcPlaceholder() {
         <circle cx="124" cy="161" r="10" {...s} strokeOpacity="0.6" />
         <path d="M42 196h116" {...s} strokeOpacity="0.4" />
       </svg>
-      <p className="absolute bottom-4 font-mono text-xs uppercase tracking-[0.14em] text-steel">Photo coming soon</p>
+      <p className="absolute bottom-3 font-mono text-xs uppercase tracking-[0.14em] text-steel">Photo coming soon</p>
     </div>
   )
 }
@@ -161,53 +161,56 @@ function ThePC() {
     <section aria-label="The PC / Homelab">
       <SectionHead title="The PC / Homelab" note="gaming rig and homelab in one" />
 
-      <div className="mt-6 grid gap-4 lg:grid-cols-12">
-        <div className="glass rise overflow-hidden rounded-3xl p-1.5 lg:col-span-5" style={{ '--i': 1 }}>
-          <div className="aspect-[4/5] overflow-hidden rounded-[20px] bg-coal/60 lg:aspect-auto lg:h-full">
-            {photo ? <img src={photo} alt="My PC" className="size-full object-cover" /> : <PcPlaceholder />}
+      {/* Kept compact: a square photo slot on the left, the parts list on the right
+          (set `photo` in data/setup.js). */}
+      <div className="mt-5 grid gap-3 md:grid-cols-12">
+        <div className="glass rise self-start overflow-hidden rounded-3xl p-1.5 md:col-span-4" style={{ '--i': 1 }}>
+          <div className="aspect-square overflow-hidden rounded-[20px] bg-coal/60">
+            {photo ? <img src={photo} alt="My PC: a white NZXT H200 case with a glass side panel showing the tower cooler, memory and graphics card, lit blue" loading="lazy" className="size-full object-cover" /> : <PcPlaceholder />}
           </div>
         </div>
 
-        <div className="glass rise flex flex-col rounded-3xl p-5 sm:p-6 lg:col-span-7" style={{ '--i': 2 }}>
-          <h3 className="text-xl font-semibold tracking-tight">Parts list</h3>
-          <ul className="mt-3 divide-y divide-white/[0.07]">
-            {parts.map((p) => (
-              <li key={p.kind + p.name} className="flex items-center gap-4 py-3">
-                <IconTile name={p.icon} />
+        <div className="glass rise rounded-3xl p-4 sm:p-5 md:col-span-8" style={{ '--i': 2 }}>
+          <div className="flex items-center justify-between gap-3">
+            <h3 className="text-lg font-semibold tracking-tight">Parts list</h3>
+            {pcpartpicker && (
+              <a
+                href={pcpartpicker}
+                target="_blank"
+                rel="noreferrer"
+                className="group inline-flex items-center gap-1.5 text-sm font-medium"
+                style={{ color: orange.light }}
+              >
+                Full build on PCPartPicker
+                <ArrowUpRight size={14} className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </a>
+            )}
+          </div>
+          <ul className="mt-2 grid gap-x-8 lg:grid-cols-2">
+            {parts.map((p, i) => (
+              <li
+                key={p.kind + p.name}
+                className={`flex items-center gap-3 border-white/[0.07] py-2 ${i > 0 ? 'border-t' : ''} ${i === 1 ? 'lg:border-t-0' : ''}`}
+              >
+                <IconTile name={p.icon} size="size-7" iconSize={15} />
                 <div className="min-w-0 flex-1">
                   <p className="eyebrow">{p.kind}</p>
-                  <p className="text-[15px] font-medium leading-snug text-snow">{p.name}</p>
-                  {p.spec && <p className="mt-0.5 font-mono text-xs text-fog sm:hidden">{p.spec}</p>}
+                  <p className="truncate text-sm font-medium leading-snug text-snow">{p.name}</p>
                 </div>
-                {p.spec && (
-                  <p className="hidden max-w-[40%] text-right font-mono text-xs leading-relaxed text-fog sm:block">{p.spec}</p>
-                )}
               </li>
             ))}
           </ul>
-          {pcpartpicker && (
-            <a
-              href={pcpartpicker}
-              target="_blank"
-              rel="noreferrer"
-              className="btn group mt-5 w-full text-white"
-              style={{ background: orange.base }}
-            >
-              Full build on PCPartPicker
-              <ArrowUpRight size={16} className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-            </a>
-          )}
         </div>
       </div>
 
-      <ul className="mt-4 grid gap-4 md:grid-cols-3">
+      <ul className="mt-3 grid gap-3 md:grid-cols-3">
         {uses.map((u, i) => (
-          <li key={u.title} className="glass rise rounded-3xl p-5" style={{ '--i': 3 + i }}>
-            <div className="flex items-center gap-3">
-              <IconTile name={u.icon} />
-              <h3 className="text-lg font-semibold tracking-tight">{u.title}</h3>
+          <li key={u.title} className="glass rise rounded-3xl p-4" style={{ '--i': 3 + i }}>
+            <div className="flex items-center gap-2.5">
+              <IconTile name={u.icon} size="size-7" iconSize={15} />
+              <h3 className="text-base font-semibold tracking-tight">{u.title}</h3>
             </div>
-            <p className="mt-3 text-[15px] leading-relaxed text-mist">{u.text}</p>
+            <p className="mt-2 text-sm leading-relaxed text-mist">{u.text}</p>
           </li>
         ))}
       </ul>
@@ -358,7 +361,7 @@ function WhyNot() {
 }
 
 export default function Setup() {
-  usePageMeta('Homelab', 'The devices Brian Huang uses daily, and the custom PC that’s both his gaming rig and homelab.')
+  usePageMeta('PC Homelab', 'The devices Brian Huang uses daily, and the custom PC that’s both his gaming rig and homelab.')
   const [params, setParams] = useSearchParams()
   const view = params.get('view') === 'daily' ? 'daily' : 'pc'
   const choose = (v) => setParams(v === 'pc' ? {} : { view: v }, { replace: true, preventScrollReset: true })
@@ -377,7 +380,7 @@ export default function Setup() {
       </Link>
       {p && (
         <div className="glass rise mb-10 rounded-3xl p-1.5" style={{ '--i': 1 }}>
-          <div className="relative aspect-[16/10] overflow-hidden rounded-[20px] sm:aspect-[21/9]">
+          <div className="relative aspect-video overflow-hidden rounded-[20px]">
             <div className="absolute inset-0" style={{ viewTransitionName: `art-${p.slug}`, viewTransitionClass: 'art' }}>
               <ProjectArt project={p} live />
             </div>
@@ -389,7 +392,7 @@ export default function Setup() {
           </div>
         </div>
       )}
-      <PageHeader title="Homelab" color={orange}>
+      <PageHeader title="PC Homelab" color={orange}>
         {setup.intro}
       </PageHeader>
       <ViewSwitch active={view} onChange={choose} />

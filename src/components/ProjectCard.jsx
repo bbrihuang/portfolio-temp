@@ -15,7 +15,7 @@ export default function ProjectCard({ project: p, index = 0 }) {
       className="glass rise group relative flex h-full flex-col overflow-hidden rounded-3xl transition-colors duration-300 hover:border-[color-mix(in_srgb,var(--section-light)_55%,transparent)]"
       style={{ '--i': index + 3 }}
     >
-      <div className="relative aspect-[16/10] overflow-hidden">
+      <div className="relative aspect-video overflow-hidden">
         <div className="absolute inset-0" style={{ viewTransitionName: `art-${p.slug}`, viewTransitionClass: 'art' }}>
           <ProjectArt
             project={p}

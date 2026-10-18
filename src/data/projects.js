@@ -6,8 +6,9 @@
 // categories, see `lineAccent` at the bottom; an `accent` written here is overridden.
 // `art` picks a geometric cover from ProjectArt.jsx. To use a photo instead,
 // put it in public/projects/<slug>/ and set `image: '/projects/<slug>/cover.jpg'`.
-// Covers crop to 16:10 on cards and 21:9 on the project page, so keep the subject
-// near the middle; landscape and at least 1600px wide works best.
+// Covers sit in a 16:9 frame everywhere (cards and the project page), so export them
+// 16:9, e.g. 1920 x 1080, and nothing gets cropped. Any other shape is cropped to fill
+// the frame around its center.
 //
 // `caseStudy` (optional) is the write-up under the highlights on a project's page.
 // Each section has a `title` and any of:
@@ -106,7 +107,7 @@ const projectList = [
     slug: 'homelab',
     start: '2026-01',
     accent: '#f97316',
-    title: 'Homelab',
+    title: 'PC Homelab',
     org: 'Personal project',
     role: 'Builder & admin',
     date: 'Ongoing',
@@ -115,7 +116,7 @@ const projectList = [
     label: 'Hardware · Software',
     featured: true,
     art: 'homelab',
-    image: '/projects/homelab/cover.webp',
+    image: '/projects/homelab/cover-169.webp',
     short: 'My daily drivers, and the gaming PC that doubles as a homelab: self-hosted services, local LLMs and remote access.',
     summary:
       'Everything I use day to day, plus one Mini-ITX PC that games, builds and serves. It runs self-hosted services in Docker on WSL2, local LLMs on the RTX 5070, and streams to my laptop and phone, all reachable from anywhere over Tailscale.',
@@ -142,7 +143,7 @@ const projectList = [
     categories: ['Hardware', 'Aerospace'],
     label: 'Hardware (Aerospace)',
     art: 'nozzle',
-    image: '/projects/burpg-hip/cover.webp',
+    image: '/projects/burpg-hip/cover-169.webp',
     short: 'Designed, analyzed, printed and hot-fire tested an 80% bell nozzle for a small hybrid rocket motor.',
     summary:
       'A converging–diverging nozzle for a small hybrid rocket motor, taken from chamber conditions to hand calculations, CAD, FEA, a 3D print and a hot-fire test. Critical Design Review presented 3/4/26.',
@@ -328,7 +329,7 @@ const projectList = [
     categories: ['Robotics', 'Software'],
     label: 'Robotics · Software',
     art: 'hexapod',
-    image: '/projects/jethexa/cover.png',
+    image: '/projects/jethexa/cover-169.webp',
     short: 'A ROS 2 and Gazebo simulation of an 18-DOF hexapod robot for training a walking gait.',
     summary:
       'A full simulation of the JetHexa hexapod so an 8-person team can train a reinforcement-learning walking gait before it ever touches hardware. The sim carries the real robot’s sensors and joint limits, so what works there should transfer.',
@@ -408,7 +409,7 @@ const projectList = [
     label: 'Software (AI/ML)',
     featured: true,
     art: 'attention',
-    image: '/projects/llm-research/cover.jpg',
+    image: '/projects/llm-research/cover-169.webp',
     short: 'Twelve experiments on running language models locally, for BU AI Society’s Local LLM Division.',
     summary:
       'As a researcher in BU AI Society’s Local LLM Division, I ran twelve hands-on experiments on running language models on my own PC (an RTX 5070 with 12 GB) and a few rented Colab GPUs: speed, compression, attention, inference engines, agents, benchmarks and diffusion. Each one asks a question, measures it, and says what the numbers do and do not show.',
@@ -607,6 +608,7 @@ const projectList = [
   },
   {
     slug: 'pc-building-guide',
+    status: 'in-progress',
     start: '2024-01',
     accent: '#a3e635',
     title: 'How to Build a PC',
@@ -640,7 +642,7 @@ const projectList = [
     categories: ['Hardware'],
     label: 'Hardware',
     art: 'board',
-    image: '/projects/temperature-sensor/cover.jpg',
+    image: '/projects/temperature-sensor/cover-169.webp',
     short: 'An Arduino monitor in a 3D-printed case that shows the room temperature and sounds an alarm outside 60–80°F.',
     summary:
       'A battery-powered monitor that reads the room temperature with a TMP36 sensor, shows it in °F on an LCD, and lights a red LED and sounds a buzzer when the room drops below 60°F or climbs above 80°F. I picked the parts, did the soldering and wiring, wrote the Arduino code, and designed the ABS enclosure in CAD.',

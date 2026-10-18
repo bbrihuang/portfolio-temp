@@ -32,7 +32,7 @@ export default function ProjectDetail() {
       </Link>
 
       <div className="glass rise mt-6 rounded-3xl p-1.5" style={{ '--i': 1 }}>
-        <div className="relative aspect-[16/10] overflow-hidden rounded-[20px] sm:aspect-[21/9]">
+        <div className="relative aspect-video overflow-hidden rounded-[20px]">
           <div className="absolute inset-0" style={{ viewTransitionName: `art-${p.slug}`, viewTransitionClass: 'art' }}>
             <ProjectArt project={p} live />
           </div>

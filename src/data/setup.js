@@ -1,10 +1,11 @@
-// The Setup page has two views, picked with the buttons at the top:
-//   Daily Drivers     daily: the devices I carry
-//   The PC / Homelab  pc: one photo, a PCPartPicker-style parts list and what
+// The PC Homelab page has two views, picked with the buttons at the top (the
+// homelab shows first; ?view=daily opens the other):
+//   The PC / Homelab  pc: one photo (shown square), a compact parts list and what
 //                     the machine does (uses); architecture: the layer diagram,
 //                     each decision and the tools behind it, the services and
 //                     the trade-offs; whyNot: what I don't self-host, and why
-// The PC Homelab project page reuses this data, so edit it here.
+//   Daily Drivers     daily: the devices I carry
+// The project's cover is set in projects.js; this file holds the page's content.
 //
 // `icon` names map to icons in Setup.jsx. Leave any `why` empty to hide it.
 
@@ -37,8 +38,8 @@ export const setup = {
   ],
 
   pc: {
-    // Drop a photo at public/setup/pc.jpg (portrait works best) and set it here.
-    photo: null,
+    // Shown square (1:1): put the photo in public/projects/homelab/ and set it here.
+    photo: '/projects/homelab/pc.webp',
     // Must be a PUBLIC list link (pcpartpicker.com/list/...). The saved-build
     // link asks visitors to sign in, so the button stays hidden until this is set.
     pcpartpicker: null,
